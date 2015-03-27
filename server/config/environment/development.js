@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/sfm-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };
