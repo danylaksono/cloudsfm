@@ -1,4 +1,4 @@
-# cloudsfm
+# Cloud-SfM
 Open source, online webservice Structure from Motion 
 
 
