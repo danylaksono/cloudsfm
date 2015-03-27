@@ -1,3 +1,56 @@
-<div class="col-md-12">
-This is the main view.
-</div>
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+
+<header class="jumbotron" id="banner">
+  <div class="container">
+    <img width="200" height="200" src="assets/images/pops.png" alt="POPS!">
+    <h1>POPS!</h1>
+    <p class="lead">An Open Source Photogrammetry Webservice</p>
+  </div>
+</header>
+
+
+<div class="container">
+   <div class="row row-full-height well" style="text-size:16">
+     <div class="col-md-4 col-xs-height">
+     <h3 class="text-center"> Comment </h3> <br>
+     <p> POPS! is an ongoing project, currently maintained in Department of Geodetic Engineering, Faculty of Engineering, Gadjah Mada University Yogyakarta. We would like to know about your opinion on the project. Your input is a valuable resource for us </p>
+     <br>
+     <br>
+     <p class="text-center">
+     <button id="whatever" class="btn btn-large btn-success" name="Continue" type="submit">
+     <i class="fa fa-comments-o fa-2x" style="font-size:30px; vertical-align: middle;"></i>
+        <span><strong>&nbsp; Leave Comment</strong></span>
+     </button>
+     </p>
+     </div>
+     
+     
+     <div class="col-md-4 col-xs-height">
+     <h3 class="text-center"> Upload </h3> <br>
+     <p> POPS!  aim to demonstrate the use of SfM algorithm to reconstruct 3D structure and camera motion. The focus is to provide an easy-to-use interface for non-technical user with limited knowledge to photogrammetric processes. The algorithm are designed to be fully automatic. Just grab your handheld camera and start uploading!     
+     </p>
+     <form action="/upload" method="get">
+     <p class="text-center">
+     <button id="whatever" class="btn btn-large btn-success" type="submit">
+     <i class="fa fa-camera fa-2x" style="font-size:30px; vertical-align: middle;"></i>
+        <span><strong>&nbsp; Upload Images</strong></span>
+     </button>
+     </form>
+     </p>
+     </div>
+    
+     <div class="col-md-4 col-xs-height">
+     <h3 class="text-center"> Get Help </h3> <br>
+     <p> POPS!: Online Photogrammetry Service use state-of-the-art Structure from Motion (SfM) algorithm to produce 3D point clouds from images. Visit the help page to learn more about the fundamental background of the technology used to make this project come to reality</p>
+     <br>
+     <p class="text-center">
+     <button id="whatever" class="btn btn-large btn-success" name="Continue" type="submit">
+     <i class="fa fa-question-circle fa-2x" style="font-size:30px; vertical-align: middle;"></i>
+        <span><strong>&nbsp; Get Help</strong></span>
+     </button>
+     </p>
+     </div>
+  </div>
+</div> 
+

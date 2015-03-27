@@ -1,0 +1,48 @@
+ .gallery-box {
+	width: 200px;
+	padding: 5px;
+	margin: 7px;
+	float: left;
+	min-height: 200px;
+	border: 1px solid #ddd;
+	overflow: hidden;
+
+}
+ 
+.gallery-box {
+ .title {
+	text-align: center;
+	height: 22px;
+	overflow: hidden;
+	display: block;
+  }
+
+  .thumbnail {
+	height: 188px;
+	width: 188px;
+
+  }
+}
+
+.thumbnail {
+	line-height:20px;
+	margin-bottom: 5px;
+	overflow: hidden;
+	word-break: normal;
+	
+	img {
+		display:block;
+		height: 100%;
+		min-width: 188px;
+	}
+
+	.btn-group {
+		padding:1px;
+	}
+}
+	
+
+  
+
+ 
+

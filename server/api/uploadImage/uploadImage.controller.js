@@ -11,6 +11,24 @@ exports.index = function(req, res) {
   });
 };
 
+
+
+
+//Express route to handle uploaded files
+exports.postUpload = function(req, res) {
+    var file = req.files.file;
+    console.log(file.name);
+    console.log(file.type);
+    return file.name
+}
+
+
+
+
+
+
+
+
 // Get a single uploadImage
 exports.show = function(req, res) {
   UploadImage.findById(req.params.id, function (err, uploadImage) {

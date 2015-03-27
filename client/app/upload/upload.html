@@ -1,3 +1,54 @@
-<div class="col-md-12">
-This is the upload view.
+<div ng-include="'components/navbar/navbar.html'"> </div>
+
+
+<div class="container">
+
+<div class="uploadButton">
+  <h3> Upload Photos </h3>
+  <hr/><br/>
+  <p> Use the button below to upload images, or to start capture images from your mobile phone </p>
+  <br/>
+
+  <!--button class="btn btn-primary" ng-file-select ng-file-change="upload($files)" ng-multiple="true"-->
+  <button class="btn btn-primary" ng-file-select ng-model="files" ng-multiple="true" accept="'image/*'">
+    Upload Photos
+  </button>
+  <br/>
+  <i ng-hide="files.length != 0"> Uploading... </i>
+  <p ng-show="files.length > 0"> Uploaded Images: {{files.length}} </p>
+  <br/>
 </div>
+
+
+<div class="displayThumbnail">
+<div class="well gallery-box" ng-repeat="f in files" ng-show="showThumb">
+  <span class="title"> {{f.name}} </span>
+  <div class="thumbnail" ng-show="files.length > 0">
+	<img ng-src="{{f.dataUrl}}" width="50" height="50"/>
+  </div>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle">
+	<span class="sr-only">{{progress}}% </span>
+    </div>
+  </div>
+  <div class="btn-group pull-right">
+	<!--button class="btn btn-danger" ng-click="showThumb=false"> Remove </button--> 
+	<button class="btn btn-danger" ng-click="f.upload.abort();f.upload.aborted=true;showThumb=false"> Remove </button> 
+  </div>
+</div>
+</div>
+
+
+</div> <!-- container -->
+
+<!--div class="row">
+<div class="col-md-3">
+  <ul ng-show="files.length > 0">
+	<li ng-repeat="f in files"> 
+		<p> {{f.name}} </p>
+		<img ng-src="{{f.dataUrl}}" style="width:50 height:50"/>
+	</li>
+  </ul>
+</div-->
+
+
