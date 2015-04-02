@@ -3,22 +3,27 @@
 
 <div class="container">
 
-<div class="uploadButton">
-  <h3> Upload Photos </h3>
+  <h2> Select - Review - Upload </h2>
   <hr/><br/>
-  <p> Use the button below to upload images, or to start capture images from your mobile phone </p>
-  <br/>
 
-  <!--button class="btn btn-primary" ng-file-select ng-file-change="upload($files)" ng-multiple="true"-->
-  <button class="btn btn-primary" ng-file-select ng-model="files" ng-multiple="true" accept="'image/*'">
-    Upload Photos
-  </button>
+
+<section>
+<div class="uploadButton">
+  <h3> Select Images</h3>
+  <p> Use the button below to select images, or to start capture images from your mobile phone </p>
   <br/>
-  <i ng-hide="files.length != 0"> Uploading... </i>
+  <button class="btn btn-success" ng-file-select ng-model="files" ng-capture="camera" ng-multiple="true" accept="'image/*'">
+  Select Photos
+  </button>
+  <!--button class="btn btn-primary" ng-file-select ng-file-change="upload($files)" ng-multiple="true"-->
+  <!--button class="btn btn-primary" ng-file-select ng-model="files" ng-capture="camera" ng-multiple="true" accept="'image/*'"-->
   <br/>
 </div>
+</section>
 
-
+<section ng-show="files.length>0" >
+  <h3> Review Images </h3>
+  <p> Review your selected images before uploading to server. Delete bad image(s) using 'remove' button </p>
 <div class="displayThumbnail">
 <div class="well gallery-box" ng-repeat="f in files" ng-show="showThumb">
   <span class="title"> {{f.name}} </span>
@@ -32,10 +37,25 @@
   </div>
   <div class="btn-group pull-right">
 	<!--button class="btn btn-danger" ng-click="showThumb=false"> Remove </button--> 
-	<button class="btn btn-danger" ng-click="f.upload.abort();f.upload.aborted=true;showThumb=false"> Remove </button> 
+	<button class="btn btn-danger" ng-click="f.upload.abort();f.upload.aborted=true;showThumb=false;files.splice($index,1)"> Remove </button> 
   </div>
 </div>
 </div>
+<br/>
+</section>
+
+<section ng-show="files.length>0">
+
+  <h3 ng-show="files.length>0"> Upload </h3>
+  <p> Click this button to upload and start processing </p>
+  <button class="btn btn-primary" ng-click="upload(files)" ng-show="files.length > 0"> 
+    Upload Now!
+  </button>
+  <span ng-show="uploaded"> Files Uploaded: {{files.length}} </span>
+
+
+</section>
+
 
 
 </div> <!-- container -->

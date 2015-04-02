@@ -3,47 +3,40 @@
 angular.module('sfmApp')
   .controller('UploadCtrl', function ($scope, $upload, $http) {
 
+    $scope.showThumb = true;
+    $scope.uploaded = false;
 
-    $scope.message = 'Hello';
-
-
+    // for GET request
     $http.get('/api/uploadImages').success(function(index) {
 	$scope.index = index;
       });
      
- 
-	$scope.showThumb = true;
 	
-	$scope.$watch('files', function(files) {
-		$scope.formUpload = false;
-		if (files != null) {
-			for (var i = 0; i < files.length; i++) {
-				$scope.errorMsg = null;
-				(function(file) {
-					imgThumbnail(file);
-				})(files[i]);
-			}
+    $scope.$watch('files', function(files) {
+ 	$scope.formUpload = false;
+	if (files != null) {
+		for (var i = 0; i < files.length; i++) {
+			$scope.errorMsg = null;
+			(function(file) {
+				imgThumbnail(file);
+			})(files[i]);
 		}
-	});
+	}
+    });
 
-
-
-/*
-     $scope.$watch('files', function () {
-        $scope.upload($scope.files);
-     });
-*/
-     $scope.upload = function(files) {
+     
+    $scope.upload = function(files) {
+        $scope.uploaded = true;
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 $upload.upload({
                     url: 'api/uploadImages',
                     fields: {'username': $scope.username},
-                    file: files
+                    file: file
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                    	console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 
 		    $scope.progress = progressPercentage;
   		    // bind progress bar style
@@ -65,11 +58,17 @@ angular.module('sfmApp')
 			
 		}
 	};
-*/
 
-   function imgThumbnail(file) {
+
+   var getReader = function(deferred, scope){
+	var reader = new FileReader();
+	return reader;
+   } */
+
+   var imgThumbnail = function(file, scope) {
+	//var deferred = $q.defer();
 	if (file != null) {
-		var reader = new FileReader();
+		var reader = new FileReader(); //getReader(deferred,scope);
 		reader.onload = function(e) {
 			file.dataUrl = e.target.result;
 		};
@@ -77,8 +76,10 @@ angular.module('sfmApp')
 		reader.readAsDataURL(file);
 
 		// call upload function
-		$scope.upload($scope.files);
+		//$scope.upload($scope.files);
 	}
+
+	//return deferred.promise;
   };
 
 

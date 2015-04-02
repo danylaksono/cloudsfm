@@ -1,4 +1,10 @@
- .gallery-box {
+section {
+ 	display:table;
+	padding: 25px 15px;
+	margin: 0 1.5% 24px 1.5%;
+}
+ 
+.gallery-box {
 	width: 200px;
 	padding: 5px;
 	margin: 7px;
