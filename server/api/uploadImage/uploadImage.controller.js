@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var UploadImage = require('./uploadImage.model');
 
+
 // Get list of uploadImages
 exports.index = function(req, res) {
   UploadImage.find(function (err, uploadImages) {
@@ -16,10 +17,8 @@ exports.index = function(req, res) {
 
 //Express route to handle uploaded files
 exports.postUpload = function(req, res) {
-    var file = req.files.file;
-    console.log(file.name);
-    console.log(file.type);
-    return file.name
+    var file = req.files;
+    console.log(file);
 }
 
 
