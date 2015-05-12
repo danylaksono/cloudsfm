@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sfmApp')
-  .controller('SettingsCtrl', function ($scope, User, Auth) {
+  .controller('SettingsCtrl', function ($scope, $http, User, Auth) {
     $scope.errors = {};
 
     $scope.changePassword = function(form) {
@@ -18,4 +18,10 @@ angular.module('sfmApp')
         });
       }
 		};
+	
+    $http.get('/api/uploadImages').success(function(project) {
+      $scope.projects = project;	
+      
+    });
+		
   });

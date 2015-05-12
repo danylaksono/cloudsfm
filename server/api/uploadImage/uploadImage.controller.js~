@@ -18,7 +18,6 @@ exports.index = function(req, res) {
 exports.postUpload = function(req, res) {
     var file = req.files;
     console.log(file);
-    console.log("Images successfully retrieved");
     delete req.body.date;
 
     var project = new UploadImage(_.merge({author:req.user._id}, req.body));

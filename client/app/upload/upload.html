@@ -6,29 +6,56 @@
   <h2> Select - Review - Upload </h2>
   <hr/><br/>
 
+<section class="well">
+<div class="col-md-6">
+<h3> Project </h3>
+<p> Give this project a name and an (optional) description </p>
+<br/>
+<form name="cloudsfm" class="form-horizontal">
+<fieldset>
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Project Name</label>  
+  <div class="col-md-8">
+  <input ng-model="projectName" name="projectName" type="text" placeholder="Project Name" class="form-control input-md" required>
+  <i ng-show="cloudsfm.projectName.$error.required">*required</i><br>
+  </div>
+</div>
 
-<section>
-<div class="uploadButton">
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Description</label>  
+  <div class="col-md-8">
+    <textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="4" name="projectdesc" placeholder="Description (optional)"></textarea>
+  </div>
+</div>
+
+</fieldset>
+</form>
+</div>
+
+<div class="uploadButton col-md-6">
   <h3> Select Images</h3>
   <p> Use the button below to select images, or to start capture images from your mobile phone </p>
   <br/>
-  <button class="btn btn-success" ng-file-select ng-model="files" ng-capture="camera" ng-multiple="true" accept="'image/*'">
+  <button class="btn btn-success" ngf-select ng-model="files" ngf-capture="camera" ngf-multiple="true" accept="'image/*'">
   Select Photos
   </button>
   <!--button class="btn btn-primary" ng-file-select ng-file-change="upload($files)" ng-multiple="true"-->
   <!--button class="btn btn-primary" ng-file-select ng-model="files" ng-capture="camera" ng-multiple="true" accept="'image/*'"-->
   <br/>
 </div>
+</div>
 </section>
 
-<section ng-show="files.length>0" >
+<section ng-show="files.length>0" class="well">
   <h3> Review Images </h3>
   <p> Review your selected images before uploading to server. Delete bad image(s) using 'remove' button </p>
 <div class="displayThumbnail">
 <div class="well gallery-box" ng-repeat="f in files" ng-show="showThumb">
   <span class="title"> {{f.name}} </span>
   <div class="thumbnail" ng-show="files.length > 0">
-	<img ng-src="{{f.dataUrl}}" width="50" height="50"/>
+	<img ngf-src="f" width="50" height="50"/> 
   </div>
   <div class="progress">
     <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle">
@@ -44,14 +71,14 @@
 <br/>
 </section>
 
-<section ng-show="files.length>0">
+<section ng-show="files.length>0" class="well">
 
   <h3 ng-show="files.length>0"> Upload </h3>
   <p> Click this button to upload and start processing </p>
   <button class="btn btn-primary" ng-click="upload(files)" ng-show="files.length > 0"> 
     Upload Now!
   </button>
-  <span ng-show="uploaded"> Files Uploaded: {{files.length}} </span>
+  <span ng-show="uploaded"> Files to Upload: {{files.length}} </span>
 
 
 </section>

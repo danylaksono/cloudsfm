@@ -16,7 +16,8 @@ exports.register = function(socket) {
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('uploadImage:save', doc);
+ UploadImage.populate(doc, {path:'author', select: 'name'}, function(err, project) {
+  socket.emit('uploadImage:save', project);
 }
 
 function onRemove(socket, doc, cb) {

@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
 <div class="panel-heading">
-    <h3 class="panel-title">Change Password</h3>
+    <h3 class="panel-title">Panel title</h3>
   </div>
   <div class="panel-body">
 <div class="container">
@@ -44,15 +44,10 @@
 </div>
 </div>
 
-<div class="panel panel-default">
-<div class="panel-heading">
-    <h3 class="panel-title">List of Projects</h3>
-  </div>
-  <div class="panel-body">
 <ul class="list-group">
-    <li class="list-group-item" ng-repeat="project in projects">
-        <p>{{projects}}</p><br>
-        <p> {{user}}</p>        
+    <li class="list-group-item" ng-repeat="user in users">
+        <strong>{{user.name}}</strong><br>
+        <span class="text-muted">{{user.email}}</span>
+        <a ng-click="delete(user)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
     </li>
   </ul>
-</div>

@@ -7,7 +7,7 @@ angular.module('sfmApp', [
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
-  'angularFileUpload'
+  'ngFileUpload'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

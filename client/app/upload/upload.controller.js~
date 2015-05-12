@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sfmApp')
-  .controller('UploadCtrl', function ($scope, Upload, $http) {
+  .controller('UploadCtrl', function ($scope, $upload, $http) {
 
     $scope.showThumb = true;
     $scope.uploaded = false;
@@ -11,10 +11,7 @@ angular.module('sfmApp')
 	$scope.index = index;
       });
      
-
-/*
- Latest version of anguoar file upload support img thumbnail, so we dont need this
- * 
+	
     $scope.$watch('files', function(files) {
  	$scope.formUpload = false;
 	if (files != null) {
@@ -27,29 +24,26 @@ angular.module('sfmApp')
 	}
     });
 
-*/   
+     
     $scope.upload = function(files) {
         $scope.uploaded = true;
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
-                Upload.upload({
+                $upload.upload({
                     url: 'api/uploadImages',
-                    method: 'POST',
-                    fields: {projectName: $scope.projectName,
-							 projectDescription: $scope.projectDescription
-							},
-                    file: file,
-                    fileFormDataName: 'cloudsfm'
+                    fields: {'username': $scope.username},
+                    file: file
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     	console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+
 		    $scope.progress = progressPercentage;
   		    // bind progress bar style
 		    $scope.progressStyle = {width: $scope.progress + '%'};
 			
 		}).success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                 });
             }
         }
@@ -70,8 +64,6 @@ angular.module('sfmApp')
 	var reader = new FileReader();
 	return reader;
    } */
-   
-   /*
 
    var imgThumbnail = function(file, scope) {
 	//var deferred = $q.defer();
@@ -89,6 +81,6 @@ angular.module('sfmApp')
 
 	//return deferred.promise;
   };
-*/
+
 
   });
