@@ -2,19 +2,39 @@
 
 <div class='container'>
 <h2> Manage Projects</h2>
-<br/>
+<hr/><br/>
 
-<p> Processing your project....</p><br/>
+<h5> Your last (active) project is:</h5><br/>
+<table>
+	<tr> 
+		<td> Owner </td>
+		<td> : </td>
+		<td> &nbsp; &nbsp; {{project.author.name}} </td>
+	</tr>
+	<tr> 
+		<td> Project Name </td>
+		<td> : </td>
+		<td> &nbsp; &nbsp; {{project.projectName}} </td>
+	</tr>
+	<tr> 
+		<td> Project Description </td>
+		<td> : </td>
+		<td> &nbsp; &nbsp; {{project.projectDescription}} </td>
+	</tr>
+	<tr> 
+		<td> Status </td>
+		<td> : </td>
+		<td> &nbsp; &nbsp; Processing... </td>
+	</tr>
+</table>
+<br/>
+<p> Project recorded on {{project.date}}</p>
+
 <p> You can close this page while we process your data. You can always 
 return to this page by signin in and select 'Manage' menu on the toolbar</p>
 
-<ul>
-    <li ng-repeat="project in projects">
-      <header>{{ project.author.name }}</header>
-      <p>{{ project.body.projectName }}</p>
-    </li>
-  </ul>
 
 
 
-</div>
+
+</div> <!-- main container -->

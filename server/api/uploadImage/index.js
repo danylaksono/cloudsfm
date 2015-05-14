@@ -12,7 +12,7 @@ var router = express.Router();
 var destination = multer({
 	dest:"./uploaded/",
 	changeDest: function(dest, req, res) {
-		var newDestination = dest + req.user.name + "/" + req.body.projectName + "/data/";
+		var newDestination = dest + req.user.name + "/" + req.body.projectName + "/images/";
 		fs.mkdirsSync(newDestination, function(err) {
 				console.log('Error creating directory ',err);				
 		});

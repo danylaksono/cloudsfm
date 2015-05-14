@@ -27,8 +27,9 @@ angular.module('sfmApp')
 	}
     });
 
-*/   
+*/  
     $scope.upload = function(files) {
+		$scope.numUploaded = 0; 
         $scope.uploaded = true;
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
@@ -50,7 +51,10 @@ angular.module('sfmApp')
 			
 		}).success(function (data, status, headers, config) {
                     console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
-                    $window.location.href='/manage';
+                    $scope.numUploaded += 1;
+                    if ($scope.numUploaded == files.length) {
+						$window.location.href='/manage';
+					}
                 });
             }
         }

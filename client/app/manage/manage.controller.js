@@ -5,8 +5,10 @@ angular.module('sfmApp')
     $scope.message = 'Hello';	
     
     
-    $http.get('/api/uploadImages').success(function(projects) {
-      $scope.projects = projects;
+    $http.get('/api/uploadImages').success(function(project) {
+      $scope.project = project[0];
+      
+      
     });
       
       

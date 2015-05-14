@@ -11,7 +11,8 @@ exports.index = function(req, res) {
   //UploadImage.find({}, function(err, uploadImages) {
   UploadImage.loadRecent(function (err, uploadImages) {
     if(err) { return handleError(res, err); }
-    return res.json(200, uploadImages);
+    //return res.json(200, uploadImages);
+    return res.json(uploadImages);
   });
 };
 
@@ -19,9 +20,12 @@ exports.index = function(req, res) {
 //Express route to handle uploaded files
 exports.postUpload = function(req, res) {
     var file = req.files;
+    var projectname = req.body.projectName;
     console.log(file);
+    console.log(projectname);
+    console.log(req.body)
     console.log("Images successfully retrieved");
-    delete req.body.date;
+    //delete req.body.date;
 	
 	console.log(shell.pwd());
 	//shell.exec('openMVG_main_CreateList');

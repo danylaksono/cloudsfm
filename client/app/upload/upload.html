@@ -2,99 +2,101 @@
 
 
 <div class="container">
+	<h2> Select - Review - Upload </h2>
+	<hr/><br/>
 
-  <h2> Select - Review - Upload </h2>
-  <hr/><br/>
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h4>Project Description</h4>
+	</div>
+	<div class="panel-body">
+		<div name="projectdefinition" class="col-md-6">
+			<h3> Project </h3>
+			<p> Give this project a name and an (optional) description </p>
+			<br/>
+			<form name="cloudsfm" class="form-horizontal">
+				<fieldset>
+					<!-- Text input-->
+					<div class="form-group">
+					  <label class="col-md-4 control-label" for="textinput">Project Name</label>  
+					  <div class="col-md-8">
+					  <input ng-model="projectName" name="projectName" type="text" placeholder="Project Name" class="form-control input-md" required>
+					  <i ng-show="cloudsfm.projectName.$error.required">*required</i><br>
+					  </div>
+					</div>
 
-<section class="well">
-<div class="col-md-6">
-<h3> Project </h3>
-<p> Give this project a name and an (optional) description </p>
-<br/>
-<form name="cloudsfm" class="form-horizontal">
-<fieldset>
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Project Name</label>  
-  <div class="col-md-8">
-  <input ng-model="projectName" name="projectName" type="text" placeholder="Project Name" class="form-control input-md" required>
-  <i ng-show="cloudsfm.projectName.$error.required">*required</i><br>
-  </div>
-</div>
+					<!-- Text input-->
+					<div class="form-group">
+					  <label class="col-md-4 control-label" for="textinput">Description</label>  
+					  <div class="col-md-8">
+						<textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="2" name="projectdesc" placeholder="Description (optional)"></textarea>
+					  </div>
+					</div>
+				</fieldset>
+			</form>
+		</div> 
+		<!-- projectdefinition-->
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Description</label>  
-  <div class="col-md-8">
-    <textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="4" name="projectdesc" placeholder="Description (optional)"></textarea>
-  </div>
-</div>
-
-</fieldset>
-</form>
-</div>
-
-<div class="uploadButton col-md-6">
-  <h3> Select Images</h3>
-  <p> Use the button below to select images, or to start capture images from your mobile phone </p>
-  <br/>
-  <button class="btn btn-success" ngf-select ng-model="files" ngf-capture="camera" ngf-multiple="true" accept="'image/*'">
-  Select Photos
-  </button>
-  <!--button class="btn btn-primary" ng-file-select ng-file-change="upload($files)" ng-multiple="true"-->
-  <!--button class="btn btn-primary" ng-file-select ng-model="files" ng-capture="camera" ng-multiple="true" accept="'image/*'"-->
-  <br/>
-</div>
-</div>
-</section>
-
-<section ng-show="files.length>0" class="well">
-  <h3> Review Images </h3>
-  <p> Review your selected images before uploading to server. Delete bad image(s) using 'remove' button </p>
-<div class="displayThumbnail">
-<div class="well gallery-box" ng-repeat="f in files" ng-show="showThumb">
-  <span class="title"> {{f.name}} </span>
-  <div class="thumbnail" ng-show="files.length > 0">
-	<img ngf-src="f" width="50" height="50"/> 
-  </div>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle">
-	<span class="sr-only">{{progress}}% </span>
-    </div>
-  </div>
-  <div class="btn-group pull-right">
-	<!--button class="btn btn-danger" ng-click="showThumb=false"> Remove </button--> 
-	<button class="btn btn-danger" ng-click="f.upload.abort();f.upload.aborted=true;showThumb=false;files.splice($index,1)"> Remove </button> 
-  </div>
-</div>
-</div>
-<br/>
-</section>
-
-<section ng-show="files.length>0" class="well">
-
-  <h3 ng-show="files.length>0"> Upload </h3>
-  <p> Click this button to upload and start processing </p>
-  <button class="btn btn-primary" ng-click="upload(files)" ng-show="files.length > 0"> 
-    Upload Now!
-  </button>
-  <span ng-show="uploaded"> Files to Upload: {{files.length}} </span>
+	<div class="uploadButton col-md-6">
+	  <h3> Select Images</h3>
+	  <p> Use the button below to select images, or to start capture images from your mobile phone. You can later 
+	  remove bad images (blurred, out-of-focus, etc) before uploading to our server
+	   </p>
+	  <br/>
+	  <button class="btn btn-lg btn-success center-block" ngf-select ng-model="files" 
+	  ngf-capture="camera" ngf-multiple="true" accept="'image/*'">
+	  Select Images
+	  </button>
+	  
+	  <br/>
+	</div>
+</div> <!-- panel body -->
+</div> <!-- panel -->
 
 
-</section>
+<div class="panel panel-info" ng-show="files.length>0">
+	<div class="panel-heading">
+		<h4> Review Images </h4>	
+	</div>	
+	<div class="panel-body">
+		<p> Review your selected images before uploading to server. Delete bad image(s) using 'remove' button </p>
+		<div class="displayThumbnail">
+		<div class="well gallery-box" ng-repeat="f in files" ng-show="showThumb">
+		  <span class="title"> {{f.name}} </span>
+		  <div class="thumbnail" ng-show="files.length > 0">
+			<img ngf-src="f" width="50" height="50"/> 
+		  </div>
+		  <div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle">
+			<span class="sr-only">{{progress}}% </span>
+			</div>
+		  </div>
+		  <div class="btn-group pull-right">
+			<!--button class="btn btn-danger" ng-click="showThumb=false"> Remove </button--> 
+			<button class="btn btn-danger" ng-click="f.upload.abort();f.upload.aborted=true;showThumb=false;files.splice($index,1)"> Remove </button> 
+		  </div>
+		</div>
+		</div> <!-- thumbnail -->
+		
+</div> <!-- panel body -->
+</div> <!-- panel -->
+
+<div class="panel panel-info" ng-show="files.length>0">
+	<div class="panel-heading">
+		<h4> Upload to Server </h4>	
+	</div>	
+	<div class="panel-body">
+	  <p> Click this button to upload and start processing </p>
+	  <button class="btn btn-lg btn-primary center-block" ng-click="upload(files)" ng-show="files.length > 0"> 
+		Upload Now!
+	  </button>
+	  <span ng-show="uploaded"> Files to Upload: {{files.length}} </span>
+
+</div> <!-- panel body -->
+</div> <!-- panel -->
 
 
 
 </div> <!-- container -->
-
-<!--div class="row">
-<div class="col-md-3">
-  <ul ng-show="files.length > 0">
-	<li ng-repeat="f in files"> 
-		<p> {{f.name}} </p>
-		<img ng-src="{{f.dataUrl}}" style="width:50 height:50"/>
-	</li>
-  </ul>
-</div-->
 
 
