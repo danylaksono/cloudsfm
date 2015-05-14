@@ -64,9 +64,9 @@ print ("Estimated camera focus 	: ", cam_focus)
 
 # Create the ouput/matches folder if not present
 if not os.path.exists(output_dir):
-  os.mkdir(output_dir)
+  os.mkdir(output_dir, 0755)
 if not os.path.exists(matches_dir):
-  os.mkdir(matches_dir)
+  os.mkdir(matches_dir, 0755)
 
 print ("1. Intrisics analysis") 
 # modified to include camera with unknown parameter
@@ -88,7 +88,7 @@ pMatches.wait()
 
 # Create the reconstruction if not present
 if not os.path.exists(reconstruction_dir):
-    os.mkdir(reconstruction_dir)
+    os.mkdir(reconstruction_dir, 0755)
 
 print ("4. Do Global reconstruction")
 pRecons = subprocess.Popen( [os.path.join(OPENMVG_SFM_BIN, "openMVG_main_IncrementalSfM"),  "-i", matches_dir+"/sfm_data.json", "-m", matches_dir, "-o", reconstruction_dir] )

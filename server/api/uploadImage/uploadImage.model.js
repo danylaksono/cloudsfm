@@ -18,8 +18,8 @@ UploadImageSchema.statics = {
   loadRecent: function(cb) {
     this.find({})
 	  .populate({path:'author', select: 'name'})
-	  .sort('-date')
-	  .limit(1)
+	  .sort('date')
+	  //.limit(1)
       .exec(cb);
   }
 };

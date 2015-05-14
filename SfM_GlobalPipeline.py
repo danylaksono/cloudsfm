@@ -22,7 +22,7 @@ OPENMVG_SFM_BIN = "/home/dany/github/openMVG_Build/software/SfM"
 CAMERA_SENSOR_WIDTH_DIRECTORY = "/home/dany/github/openMVG/src/software/SfM" + "/cameraSensorWidth"
 
 import commands
-import os
+import os, stat
 import subprocess
 import sys, getopt
 
@@ -37,7 +37,7 @@ cam_focus = ''
 
 
 try:
-  opts, args = getopt.getopt(sys.argv[1:],"hi:o:f:",["input=","output=", "focus=" ])
+  opts, args = getopt.getopt(sys.argv[1:],"hi:o:f:",["input=","output=","focus=" ])
 except getopt.GetoptError:
   print 'test.py -i <inputfile> -o <outputfile> -f <focuslength>'
   sys.exit(2)
@@ -67,11 +67,12 @@ print ("Using input dir  		: ", input_dir)
 print ("      output_dir 		: ", output_dir)
 print ("Estimated camera focus 	: ", cam_focus)
 
+
 # Create the ouput/matches folder if not present
 if not os.path.exists(output_dir):
-  os.mkdir(output_dir)
+  os.mkdir(output_dir, 0755)
 if not os.path.exists(matches_dir):
-  os.mkdir(matches_dir)
+  os.mkdir(matches_dir, 0755)
 
 print ("1. Intrisics analysis") 
 # modified to include camera with unknown parameter
@@ -93,7 +94,7 @@ pMatches.wait()
 
 # Create the reconstruction if not present
 if not os.path.exists(reconstruction_dir):
-    os.mkdir(reconstruction_dir)
+    os.mkdir(reconstruction_dir, 0755)
 
 print ("4. Do Global reconstruction")
 pRecons = subprocess.Popen( [os.path.join(OPENMVG_SFM_BIN, "openMVG_main_GlobalSfM"),  "-i", matches_dir+"/sfm_data.json", "-m", matches_dir, "-o", reconstruction_dir] )

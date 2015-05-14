@@ -45,11 +45,12 @@ angular.module('sfmApp')
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     	console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-		    $scope.progress = progressPercentage;
-  		    // bind progress bar style
-		    $scope.progressStyle = {width: $scope.progress + '%'};
+					$scope.progress = progressPercentage;
+					// bind progress bar style
+					$scope.progressStyle = {width: $scope.progress + '%'};
 			
-		}).success(function (data, status, headers, config) {
+				}).success(function (data, status, headers, config) {
+					console.log(headers);
                     console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
                     $scope.numUploaded += 1;
                     if ($scope.numUploaded == files.length) {

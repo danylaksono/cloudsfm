@@ -8,31 +8,34 @@
 <table>
 	<tr> 
 		<td> Owner </td>
-		<td> : </td>
-		<td> &nbsp; &nbsp; {{project.author.name}} </td>
+		<td> &nbsp;: </td>
+		<td> &nbsp; {{currentProject.author.name}} </td>
 	</tr>
 	<tr> 
 		<td> Project Name </td>
-		<td> : </td>
-		<td> &nbsp; &nbsp; {{project.projectName}} </td>
+		<td> &nbsp;: </td>
+		<td> &nbsp; {{currentProject.projectName}} </td>
 	</tr>
 	<tr> 
 		<td> Project Description </td>
-		<td> : </td>
-		<td> &nbsp; &nbsp; {{project.projectDescription}} </td>
+		<td> &nbsp;: </td>
+		<td> &nbsp; {{currentProject.projectDescription}} </td>
 	</tr>
 	<tr> 
 		<td> Status </td>
-		<td> : </td>
-		<td> &nbsp; &nbsp; Processing... </td>
+		<td> &nbsp;: </td>
+		<td> &nbsp; Processing... </td>
+		<td> {{message}} </td>
 	</tr>
 </table>
 <br/>
-<p> Project recorded on {{project.date}}</p>
+<p> Project recorded on {{currentProject.date}}</p>
 
 <p> You can close this page while we process your data. You can always 
 return to this page by signin in and select 'Manage' menu on the toolbar</p>
 
+<button class="btn btn-primary" ng-click="startsfm()"> Start Processing </button>
+<br/>
 
 
 

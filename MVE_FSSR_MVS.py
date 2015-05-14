@@ -15,7 +15,7 @@
 # 
 
 # Binary executable directory
-BIN_DIR = "/usr/local/bin"
+BIN_DIR = "/usr/local/bin/"
 
 # Indicate the openMVG camera sensor width directory
 #CAMERA_SENSOR_WIDTH_DIRECTORY = "/home/dany/github/openMVG/src/software/SfM" + "/cameraSensorWidth"
@@ -52,7 +52,7 @@ print ("      scene_dir : ", scene_dir)
 
 # Create the ouput/matches folder if not present
 if not os.path.exists(scene_dir):
-  os.mkdir(scene_dir)
+  os.mkdir(scene_dir, 0755)
 #if not os.path.exists(matches_dir):
  # os.mkdir(matches_dir)
 

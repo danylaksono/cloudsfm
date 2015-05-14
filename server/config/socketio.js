@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/startsfm/startsfm.socket').register(socket);
   require('../api/uploadImage/uploadImage.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
 }
