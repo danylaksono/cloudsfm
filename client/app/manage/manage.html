@@ -1,0 +1,20 @@
+<div ng-include="'components/navbar/navbar.html'"> </div>
+
+<div class='container'>
+<h2> Manage Projects</h2>
+<br/>
+
+<p> Processing your project....</p><br/>
+<p> You can close this page while we process your data. You can always 
+return to this page by signin in and select 'Manage' menu on the toolbar</p>
+
+<ul>
+    <li ng-repeat="project in projects">
+      <header>{{ project.author.name }}</header>
+      <p>{{ project.body.projectName }}</p>
+    </li>
+  </ul>
+
+
+
+</div>

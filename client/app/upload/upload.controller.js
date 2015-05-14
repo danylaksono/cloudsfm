@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sfmApp')
-  .controller('UploadCtrl', function ($scope, Upload, $http) {
+  .controller('UploadCtrl', function ($scope, $window, Upload, $http) {
 
     $scope.showThumb = true;
     $scope.uploaded = false;
@@ -50,6 +50,7 @@ angular.module('sfmApp')
 			
 		}).success(function (data, status, headers, config) {
                     console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
+                    $window.location.href='/manage';
                 });
             }
         }

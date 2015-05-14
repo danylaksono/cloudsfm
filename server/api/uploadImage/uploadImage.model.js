@@ -4,8 +4,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var UploadImageSchema = new Schema({
-  projectname: String,
-  projectdesc: String,
+  projectName: String,
+  projectDesc: String,
   date: { type: Date, default: Date.now },
   author: {
     type: Schema.Types.ObjectId,
@@ -18,6 +18,7 @@ UploadImageSchema.statics = {
     this.find({})
       .populate({path:'author', select: 'name'})
       .sort('-date')
+      .limit(5)
       .exec(cb);
   }
 };

@@ -2,11 +2,13 @@
 
 var _ = require('lodash');
 var UploadImage = require('./uploadImage.model');
+var shell = require('shelljs');
 
 
 
 // Get list of uploadImages
 exports.index = function(req, res) {
+  //UploadImage.find({}, function(err, uploadImages) {
   UploadImage.loadRecent(function (err, uploadImages) {
     if(err) { return handleError(res, err); }
     return res.json(200, uploadImages);
@@ -20,12 +22,16 @@ exports.postUpload = function(req, res) {
     console.log(file);
     console.log("Images successfully retrieved");
     delete req.body.date;
-
+	
+	console.log(shell.pwd());
+	//shell.exec('openMVG_main_CreateList');
+	
     var project = new UploadImage(_.merge({author:req.user._id}, req.body));
     project.save(function(err, project) {
       if(err) { return handleError(res, err); }
       return res.json(201, project);
-  });
+      console.log('project saved successfully');
+    });
 }
 
 
