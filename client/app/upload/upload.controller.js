@@ -13,7 +13,7 @@ angular.module('sfmApp')
      
 
 /*
- Latest version of anguoar file upload support img thumbnail, so we dont need this
+ Latest version of angular file upload support img thumbnail, so we dont need this
  * 
     $scope.$watch('files', function(files) {
  	$scope.formUpload = false;
