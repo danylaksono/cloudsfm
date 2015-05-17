@@ -24,8 +24,8 @@
 	<tr> 
 		<td> Status </td>
 		<td> &nbsp;: </td>
-		<td> &nbsp; Processing... </td>
-		<td> {{message}} </td>
+		<!--td> &nbsp; Processing... </td-->
+		<td> &nbsp; {{message}} </td>
 	</tr>
 </table>
 <br/>
@@ -35,9 +35,8 @@
 return to this page by signin in and select 'Manage' menu on the toolbar</p>
 
 <button class="btn btn-primary" ng-click="startsfm()"> Start Processing </button>
+<a href={{downloadUrl}} target="_blank" class="btn btn-primary" ng-show="downloadButton" > Download Here </a>
 <br/>
-
-
 
 
 </div> <!-- main container -->
