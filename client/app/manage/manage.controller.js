@@ -42,6 +42,7 @@ angular.module('sfmApp')
 		  		
 		$http(request).success(function(msg){
 			$scope.message = msg.msg;
+			$scope.report = msg.report;
 			}).error(function(err){
 				console.log('Error occured!', err)
 				});

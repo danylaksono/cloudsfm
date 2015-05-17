@@ -4,55 +4,67 @@ var _ = require('lodash');
 var Startsfm = require('./startsfm.model');
 var shell = require('shelljs');
 var fs = require('fs');
-var PythonShell = require('python-shell');
 var path = require('path');
 
 
-var sfmPipelines = function(uname, pname) {
-	return message;
-}
-
-
 // Whole processing route
-exports.startProcess = function(req, res) {
+exports.startProcess = function(req, res, next) {
 	var message = {};
-		
-	// Defining processing directories
-	var currentDir = shell.pwd();
-	var usernameDir = req.body.username;
-	var projectnameDir = req.body.projectname;
-	var workingDir = currentDir + '/uploaded' + '/' + usernameDir + '/' + projectnameDir;
+	
+	
+	// export variable as global
+	exports.currentDir = shell.pwd();
+	exports.usernameDir = req.body.username;
+	exports.projectnameDir= req.body.projectname;
+	exports.workingDir = exports.currentDir + '/uploaded' + '/' + exports.usernameDir + '/' + exports.projectnameDir;
+	
+	console.log(exports.usernameDir);
 	
 	// Defining SfM pipeline parameters
-	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images -o '+ workingDir + '/output -f 2000';
-	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images -o '+ workingDir + '/output -f 2000';
-	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images -o '+ workingDir + '/scene';
+	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + exports.workingDir + '/images -o '+ exports.workingDir + '/output -f 2000';
+	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + exports.workingDir + '/images -o '+ exports.workingDir + '/output -f 2000';
+	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + exports.workingDir + '/images -o '+ exports.workingDir + '/scene';
 	
-	//execute processing
-	//shell.exec(GlobalSfM);
+	
+	//Select SfM Method based on user input. Default is Global
+	var SfMmethod = 'Global';
+	
+	var global_sfm_dir = exports.workingDir + '/output/reconstruction_global/';
+	var sequential_sfm_dir = exports.workingDir + '/output/reconstruction_sequential/';
+	
+	var HTMLreport = '';
+	if(SfMmethod == 'Global') {
+		HTMLreport = global_sfm_dir + 'SfMReconstruction_Report.html';
+		//shell.exec(GlobalSfM);
+	} else {
+		HTMLreport = sequential_sfm_dir + 'SfMReconstruction_Report.html';
+		//shell.exec(SequentialSfM);
+		
+	}
+	//executing MVS
 	//shell.exec(MVS);
-			
-	//Check if download file is exist
-	var resultPLY = workingDir + '/output/reconstruction_global/colorized.ply';
-	//console.log(resultPLY);
-	
-	// next, find if the file is available
-	var stats = fs.lstatSync(resultPLY);
+	 
+		
+	// Check to see if the process has finished
+	var stats = fs.lstatSync(HTMLreport);
 	if (stats.isFile()) {
 		console.log('File found!');
 		message.msg='Completed';
-		message.path_to_file = resultPLY;
+		message.report = HTMLreport;
 	} else { 
 		console.log('Failed');
 		message.msg='Unknown error occured. Please try again';
 	}
+		
 	return res.json(message);
+	
 };
 
 // Download
 exports.download = function(req, res) {
-	var currentDir = shell.pwd();
-	var filepath = currentDir + '/uploaded/dany/theprambanan/output/reconstruction_global/colorized.ply';
+	console.log(exports.usernameDir);
+	var filepath = exports.currentDir + '/uploaded/' + exports.usernameDir +'/'
+	   + exports.projectnameDir + '/output/reconstruction_global/colorized.ply';
 	return res.download(filepath, 'colorized.ply');
 };
 
