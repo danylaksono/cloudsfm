@@ -47,7 +47,7 @@
 	type of output that you want, then click on 'Download'</p>
 	<br/>
 
-	<button class="btn btn-lg btn-primary center-block" data-loading-text="Loading..." ng-click="startsfm()"> 
+	<button class="btn btn-lg btn-primary center-block" ng-disabled='downloadReady' data-loading-text="Loading..." ng-click="startsfm()"> 
 		{{downloadReady? 'Download is Ready' : 'Start Processing'}}
 	</button>
 	</div>
