@@ -20,7 +20,7 @@ exports.index = function(req, res) {
 //Express route to handle uploaded files
 exports.postUpload = function(req, res) {
     var file = req.files;
-    var projectname = req.body.projectName;
+    exports.projectname = req.body.projectName;
     console.log(file);
     console.log(projectname);
     console.log(req.body)

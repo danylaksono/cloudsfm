@@ -45,8 +45,11 @@
 	return to this page by signin in and select 'Manage' menu on the toolbar.  
 	Upon completion, download links will be available below. Choose which 
 	type of output that you want, then click on 'Download'</p>
+	<br/>
 
-	<button class="btn btn-lg btn-primary center-block" ng-click="startsfm()"> Start Processing </button>
+	<button class="btn btn-lg btn-primary center-block" data-loading-text="Loading..." ng-click="startsfm()"> 
+		{{downloadReady? 'Download is Ready' : 'Start Processing'}}
+	</button>
 	</div>
 	
  </div> <!-- panel body -->
@@ -72,7 +75,7 @@
 		   </div>
 		   
 		   <div class="form-group">
-		    <button class="btn btn-primary center-block" ng-click="getfile()" > Download this </button>
+		    <button class="btn btn-lg btn-primary center-block" ng-click="getfile()" > Download this </button>
 		    </div> 
 		</fieldset> 
 		</form>

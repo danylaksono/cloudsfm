@@ -35,7 +35,7 @@ scene_dir = ''
 try:
   opts, args = getopt.getopt(sys.argv[1:],"hi:o:",["input=","scene="])
 except getopt.GetoptError:
-  print 'test.py -i <inputfile> -o <outputfile> '
+  print 'test.py -i <inputdir> -o <outputdir> '
   sys.exit(2)
 for opt, arg in opts:
   if opt == '-h':
@@ -70,21 +70,21 @@ print ("2. Depth Map reconstruction (images + camera parameters --> depth maps)"
 pDMrecon = subprocess.Popen( [os.path.join(BIN_DIR, "dmrecon"), "-s2", scene_dir])
 pDMrecon.wait()
 # Depth-map to point set
-pPointset = subprocess.Popen( [os.path.join(BIN_DIR, "scene2pset"), "-F2", scene_dir, "point-set.ply"])
+pPointset = subprocess.Popen( [os.path.join(BIN_DIR, "scene2pset"), "-F2", scene_dir, scene_dir+"point-set.ply"])
 pPointset.wait()
 
 print ("3. Surface reconstruction (depth maps + camera parameters --> 3D model)")
 # Floating-Scale Surface Reconstruction
-pFSSR = subprocess.Popen( [os.path.join(BIN_DIR, "fssrecon"), "point-set.ply", "surface.ply"])
+pFSSR = subprocess.Popen( [os.path.join(BIN_DIR, "fssrecon"), scene_dir+"point-set.ply", scene_dir+"surface.ply"])
 pFSSR.wait()
 
 # Clean Reconstruction Mesh
-pMeshclean = subprocess.Popen( [os.path.join(BIN_DIR, "meshclean"), "-t10", "-c10000", "surface.ply", "surface-clean.ply"])
+pMeshclean = subprocess.Popen( [os.path.join(BIN_DIR, "meshclean"), "-t10", "-c10000", scene_dir+"surface.ply", scene_dir+"surface-clean.ply"])
 pMeshclean.wait()
 
 print ("4. MVS-Texturing (3D model + images + camera parameters --> textured 3D model)")
 # MVS-Texturing
-pTexrecon = subprocess.Popen( [os.path.join(BIN_DIR, "texrecon"), "scene::undistorted", "surface-clean.ply", "./scene/out_textured"])
+pTexrecon = subprocess.Popen( [os.path.join(BIN_DIR, "texrecon"), scene_dir+"::undistorted", scene_dir+"surface-clean.ply", scene_dir +"out_textured"])
 pTexrecon.wait()
 
 print("Finished all process!")

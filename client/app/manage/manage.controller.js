@@ -15,8 +15,21 @@ angular.module('sfmApp')
 		  else {
 			  console.log('project not found')
 		  }
-	  } 
+	  };
+	  checkAvailability();	  
+	   
 	});
+	
+	var checkAvailability = function(){
+		var url = '/api/startsfms/' + '?name=' + $scope.currentUsername + '&project=' + $scope.currentProject.projectName;
+		console.log(url);
+		$http.get(url).success(function(msg){
+			$scope.message = msg;
+		});
+		if ($scope.message = 'Completed') {
+			$scope.downloadReady = true;
+		}
+	};
 	
 	//for list
 	$scope.param = 'none';
@@ -41,6 +54,7 @@ angular.module('sfmApp')
 			
 	
 	$scope.startsfm = function() {
+		$scope.message = 'Processing Request...';
 		console.log('requesting pipelines');
 		var request = {
 			method: 'POST',
@@ -52,10 +66,10 @@ angular.module('sfmApp')
 		};	
 		  		
 		$http(request).success(function(msg){
-			$scope.message = msg;
 			if (msg == 'Completed') {
+				$scope.message = msg;
 				$scope.downloadReady = true;
-			}
+			} 				
 			}).error(function(err){
 				console.log('Error occured!', err)
 				});

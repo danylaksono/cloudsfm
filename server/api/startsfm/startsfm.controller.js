@@ -8,9 +8,26 @@ var path = require('path');
 var zip = require('express-zip');
 
 
+
+var check = function(files) {
+	// Check to see if the process has finished
+	var message = '';
+	var stats = fs.lstatSync(files);
+	if (stats.isFile()) {
+		console.log('File found!');
+		message='Completed';
+	} else { 
+		console.log('Failed');
+		message='Unknown error occured. Please try again';
+	}
+	return message;
+}
+
+
+
+
 // Whole processing route
 exports.startProcess = function(req, res, next) {
-	var message = '';
 		
 	// identifying working directories
 	var currentDir = shell.pwd();
@@ -22,9 +39,9 @@ exports.startProcess = function(req, res, next) {
 	
 	// Defining SfM processing commands
 	// (initial sfm parameter are set to default now. future release will use parameter based on user input)
-	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images -o '+ workingDir + '/output -f 2000';
-	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images -o '+ workingDir + '/output -f 2000';
-	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images -o '+ workingDir + '/scene';
+	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000';
+	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000';
+	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images/ -o '+ workingDir + '/scene/';
 	
 	//Select SfM Method based on user input. Default is Global
 	var SfMmethod = 'Global';
@@ -36,26 +53,19 @@ exports.startProcess = function(req, res, next) {
 	var HTMLreport = '';
 	if(SfMmethod == 'Global') {
 		HTMLreport = exports.global_sfm_dir + 'SfMReconstruction_Report.html';
-		//shell.exec(GlobalSfM);
+		shell.exec(GlobalSfM);
 	} else {
 		HTMLreport = exports.sequential_sfm_dir + 'SfMReconstruction_Report.html';
-		//shell.exec(SequentialSfM);	
+		shell.exec(SequentialSfM);	
 	}
 	//executing MVS
-	//shell.exec(MVS);
+	shell.exec(MVS);
 	 
-		
-	// Check to see if the process has finished
-	var stats = fs.lstatSync(HTMLreport);
-	if (stats.isFile()) {
-		console.log('File found!');
-		message='Completed';
-	} else { 
-		console.log('Failed');
-		message='Unknown error occured. Please try again';
-	}
-	return res.json(message);
+	var fileExist = check(HTMLReport);	
+
+	return res.json(fileExist);
 };
+
 
 // Download
 exports.download = function(req, res, next) {
@@ -90,10 +100,20 @@ exports.download = function(req, res, next) {
 
 // Get list of startsfms
 exports.index = function(req, res) {
+  var pwd = shell.pwd();
+  var name = req.query.name;
+  var project = req.query.project;
+  console.log(name);
+  console.log(project);
+  
+  var mvsobj = pwd + '/uploaded' + '/' + name + '/' + project + '/scene/out_textured.obj';
+  var checkExist = check(mvsobj);
+  console.log(checkExist);		
+/*	
   Startsfm.find(function (err, startsfms) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, startsfms);
-  });
+    if(err) { return handleError(res, err); } */
+    return res.json(200, checkExist);
+  //});
 };
 
 // Creates a new startsfm in the DB.
