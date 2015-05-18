@@ -5,41 +5,41 @@ var Startsfm = require('./startsfm.model');
 var shell = require('shelljs');
 var fs = require('fs');
 var path = require('path');
+var zip = require('express-zip');
 
 
 // Whole processing route
 exports.startProcess = function(req, res, next) {
-	var message = {};
-	
-	
-	// export variable as global
-	exports.currentDir = shell.pwd();
-	exports.usernameDir = req.body.username;
-	exports.projectnameDir= req.body.projectname;
-	exports.workingDir = exports.currentDir + '/uploaded' + '/' + exports.usernameDir + '/' + exports.projectnameDir;
+	var message = '';
+		
+	// identifying working directories
+	var currentDir = shell.pwd();
+	var usernameDir = req.body.username;
+	var projectnameDir= req.body.projectname;
+	var workingDir = currentDir + '/uploaded' + '/' + usernameDir + '/' + projectnameDir;
 	
 	console.log(exports.usernameDir);
 	
-	// Defining SfM pipeline parameters
-	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + exports.workingDir + '/images -o '+ exports.workingDir + '/output -f 2000';
-	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + exports.workingDir + '/images -o '+ exports.workingDir + '/output -f 2000';
-	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + exports.workingDir + '/images -o '+ exports.workingDir + '/scene';
-	
+	// Defining SfM processing commands
+	// (initial sfm parameter are set to default now. future release will use parameter based on user input)
+	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images -o '+ workingDir + '/output -f 2000';
+	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images -o '+ workingDir + '/output -f 2000';
+	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images -o '+ workingDir + '/scene';
 	
 	//Select SfM Method based on user input. Default is Global
 	var SfMmethod = 'Global';
 	
-	var global_sfm_dir = exports.workingDir + '/output/reconstruction_global/';
-	var sequential_sfm_dir = exports.workingDir + '/output/reconstruction_sequential/';
+	exports.global_sfm_dir = workingDir + '/output/reconstruction_global/';
+	exports.sequential_sfm_dir = workingDir + '/output/reconstruction_sequential/';
+	exports.mvs_scene_dir = workingDir + '/scene/';
 	
 	var HTMLreport = '';
 	if(SfMmethod == 'Global') {
-		HTMLreport = global_sfm_dir + 'SfMReconstruction_Report.html';
+		HTMLreport = exports.global_sfm_dir + 'SfMReconstruction_Report.html';
 		//shell.exec(GlobalSfM);
 	} else {
-		HTMLreport = sequential_sfm_dir + 'SfMReconstruction_Report.html';
-		//shell.exec(SequentialSfM);
-		
+		HTMLreport = exports.sequential_sfm_dir + 'SfMReconstruction_Report.html';
+		//shell.exec(SequentialSfM);	
 	}
 	//executing MVS
 	//shell.exec(MVS);
@@ -49,23 +49,42 @@ exports.startProcess = function(req, res, next) {
 	var stats = fs.lstatSync(HTMLreport);
 	if (stats.isFile()) {
 		console.log('File found!');
-		message.msg='Completed';
-		message.report = HTMLreport;
+		message='Completed';
 	} else { 
 		console.log('Failed');
-		message.msg='Unknown error occured. Please try again';
+		message='Unknown error occured. Please try again';
 	}
-		
 	return res.json(message);
-	
 };
 
 // Download
-exports.download = function(req, res) {
-	console.log(exports.usernameDir);
-	var filepath = exports.currentDir + '/uploaded/' + exports.usernameDir +'/'
-	   + exports.projectnameDir + '/output/reconstruction_global/colorized.ply';
-	return res.download(filepath, 'colorized.ply');
+exports.download = function(req, res, next) {
+	//console.log(exports.usernameDir);
+	var out_colorizedSfM = exports.global_sfm_dir + 'robust_colorized.ply';
+	var out_SfMReport = exports.global_sfm_dir + 'SfMReconstruction_Report.html';
+	var out_textured = exports.mvs_scene_dir + 'out_textured.obj';
+	
+	if (req.query.download == 'colorized-cloud'){
+		console.log('Requesting colorized cloud..');
+		return res.download(out_colorizedSfM);
+	} else if (req.query.download == 'sfmreport') {
+		console.log('Requesting SfM Report...');
+		return res.download(out_SfMReport);
+	} else if (req.query.download == 'textured') {
+		console.log('Requesting textured model...');
+		//return res.download(out_textured);
+		return res.zip([
+			{path: exports.mvs_scene_dir + 'out_textured.obj', name: 'out_textured.obj'},
+			{path: exports.mvs_scene_dir + 'out_textured.mtl', name: 'out_textured.mtl'},
+			{path: exports.mvs_scene_dir + 'out_textured_data_costs.spt', name: 'out_textured_data_costs.spt'},
+			{path: exports.mvs_scene_dir + 'out_textured_labeling.vec', name: 'out_textured_labeling.vec'},
+			{path: exports.mvs_scene_dir + 'out_textured_material0000_map_Kd.png', name: 'out_textured_material0000_map_Kd.png'}
+			]);
+			
+	} else {
+		return res.json('Unknown query parameter')
+	}
+		
 };
 
 

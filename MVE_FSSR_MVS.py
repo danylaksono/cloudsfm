@@ -84,7 +84,7 @@ pMeshclean.wait()
 
 print ("4. MVS-Texturing (3D model + images + camera parameters --> textured 3D model)")
 # MVS-Texturing
-pTexrecon = subprocess.Popen( [os.path.join(BIN_DIR, "texrecon"), "scene::undistorted", "surface-clean.ply", "out_textured"])
+pTexrecon = subprocess.Popen( [os.path.join(BIN_DIR, "texrecon"), "scene::undistorted", "surface-clean.ply", "./scene/out_textured"])
 pTexrecon.wait()
 
 print("Finished all process!")

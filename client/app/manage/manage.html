@@ -1,43 +1,84 @@
 <div ng-include="'components/navbar/navbar.html'"> </div>
 
 <div class='container'>
-<h2> Manage Projects</h2>
+<h2> Project Manager</h2>
 <hr/><br/>
 
-<h5> Your last (active) project is:</h5><br/>
-<table>
-	<tr> 
-		<td> Owner </td>
-		<td> &nbsp;: </td>
-		<td> &nbsp; {{currentProject.author.name}} </td>
-	</tr>
-	<tr> 
-		<td> Project Name </td>
-		<td> &nbsp;: </td>
-		<td> &nbsp; {{currentProject.projectName}} </td>
-	</tr>
-	<tr> 
-		<td> Project Description </td>
-		<td> &nbsp;: </td>
-		<td> &nbsp; {{currentProject.projectDescription}} </td>
-	</tr>
-	<tr> 
-		<td> Status </td>
-		<td> &nbsp;: </td>
-		<!--td> &nbsp; Processing... </td-->
-		<td> &nbsp; {{message}} </td>
-	</tr>
-</table>
-<br/>
-<p> Project recorded on {{currentProject.date}}</p>
 
-<p> You can close this page while we process your data. You can always 
-return to this page by signin in and select 'Manage' menu on the toolbar</p>
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h4>Project Properties</h4>
+	</div>
+	<div class="panel-body">
+	
+	<div class=col-md-6>	
+	<h4> Your last (active) project is:</h4><br/>
+	<table>
+		<tr> 
+			<td> Owner </td>
+			<td> &nbsp;: </td>
+			<td> &nbsp; {{currentProject.author.name}} </td>
+		</tr>
+		<tr> 
+			<td> Project Name </td>
+			<td> &nbsp;: </td>
+			<td> &nbsp; {{currentProject.projectName}} </td>
+		</tr>
+		<tr> 
+			<td> Project Description </td>
+			<td> &nbsp;: </td>
+			<td> &nbsp; {{currentProject.projectDescription}} </td>
+		</tr>
+		<tr> 
+			<td> Status </td>
+			<td> &nbsp;: </td>
+			<!--td> &nbsp; Processing... </td-->
+			<td> &nbsp; {{message}} </td>
+		</tr>
+	</table>
+	<br/>
+	<p> This project is recorded on {{currentProject.date}}</p>
+	
+	</div>
+	<div class=col-md-6>
+	<p> You can close this page as we process your data. You can always 
+	return to this page by signin in and select 'Manage' menu on the toolbar.  
+	Upon completion, download links will be available below. Choose which 
+	type of output that you want, then click on 'Download'</p>
 
-<button class="btn btn-primary" ng-click="startsfm()"> Start Processing </button>
-<a href={{downloadUrl}} target="_blank" class="btn btn-primary" ng-show="downloadButton" > Download Here </a>
-<a href={{report}} target="_blank" class="btn btn-primary" ng-show="downloadButton" > View Report </a>
-<br/>
+	<button class="btn btn-lg btn-primary center-block" ng-click="startsfm()"> Start Processing </button>
+	</div>
+	
+ </div> <!-- panel body -->
+</div> <!-- panel -->
 
+	
+<div class="panel panel-info" ng-show="downloadReady" >
+	<div class="panel-heading">
+		<h4>Download Output</h4>
+	</div>
+	<div class="panel-body">
+		<p> Reconstructed Structure and Motion can be downloaded here. Please refer the  Documentation for explanation on each options</p>
+		<br/>
+		<form name="selection" class="form-horizontal">
+		<fieldset>
+			<div class="form-group col-md-6">
+			  <label class="col-md-4 control-label" for="textinput">Select Output</label>  
+			  <div class="col-md-8">
+				<select class="form-control" ng-model="parameter"  ng-change="changedVal(parameter)"
+					ng-options="param.value as param.name for param in paramsopt" ng-show="downloadReady" >
+				</select>			
+			  </div>
+		   </div>
+		   
+		   <div class="form-group">
+		    <button class="btn btn-primary center-block" ng-click="getfile()" > Download this </button>
+		    </div> 
+		</fieldset> 
+		</form>
+		
+			
+ </div> <!-- panel body -->
+</div> <!-- panel -->
 
 </div> <!-- main container -->

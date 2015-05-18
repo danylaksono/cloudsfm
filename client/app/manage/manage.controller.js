@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sfmApp')
-  .controller('ManageCtrl', function ($scope, $http, Auth) {
+  .controller('ManageCtrl', function ($scope, $http, $window, Auth) {
     
     $scope.currentUsername = Auth.getCurrentUser().name;
     $scope.currentProject ='';
@@ -17,17 +17,28 @@ angular.module('sfmApp')
 		  }
 	  } 
 	});
+	
+	//for list
+	$scope.param = 'none';
+	$scope.paramsopt = [
+      {value:'colorized-cloud', name:'Colorized Point-cloud'},
+      {value:'sfmreport', name:'HTML Report'},
+      {value:'textured', name:'Textured OBJ'}
+      ];
+      
+      
+    $scope.changedVal = function(theparam) {
+		$scope.downloadUrl = '/api/startsfms/' + Auth.getCurrentUser()._id + '?download=' + theparam;
 		
-		
-	var download = function(pesan){
-	$scope.downloadUrl = '/api/startsfms/download/' + Auth.getCurrentUser()._id;
-	$http({method:'GET', url:$scope.downloadUrl}).success(function(data,status,headers,config){
-			$scope.data=data;
-            if (status == 200) {
-				$scope.downloadButton = true;
-			}
-        });
-	}	
+		$http({method:'GET', url:$scope.downloadUrl}).success(function(data,status,headers,config){
+			console.log(status);
+		});
+	};
+	
+	$scope.getfile = function() {
+		$window.open($scope.downloadUrl, '_blank');
+	}
+			
 	
 	$scope.startsfm = function() {
 		console.log('requesting pipelines');
@@ -41,16 +52,14 @@ angular.module('sfmApp')
 		};	
 		  		
 		$http(request).success(function(msg){
-			$scope.message = msg.msg;
-			$scope.report = msg.report;
+			$scope.message = msg;
+			if (msg == 'Completed') {
+				$scope.downloadReady = true;
+			}
 			}).error(function(err){
 				console.log('Error occured!', err)
 				});
-		
-		download();
 	};
 	
-	
-
-	           
+      
 });
