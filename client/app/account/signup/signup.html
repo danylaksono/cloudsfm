@@ -3,10 +3,16 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Sign up</h1>
+      <!--h1>Sign up</h1-->
+      <br/>	
     </div>
-    <div class="col-sm-12">
-      <form class="form" name="form" ng-submit="register(form)" novalidate>
+    <div class="col-sm-4 col-md-offset-4 ">
+	<div class="panel panel-danger ">
+	<div class="panel-heading">
+		<h4>Register new account</h4>
+	</div>
+	<div class="panel-body">
+        <form class="form" name="form" ng-submit="register(form)" novalidate>
 
         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
                                             'has-error': form.name.$invalid && submitted }">
@@ -54,8 +60,8 @@
           </p>
         </div>
 
-        <div>
-          <button class="btn btn-inverse btn-lg btn-login" type="submit">
+        <div class="pull-right">
+          <button class="btn btn-danger btn-lg btn-login" type="submit">
             Sign up
           </button>
           <a class="btn btn-default btn-lg btn-register" href="/login">
@@ -64,6 +70,8 @@
         </div>
 
       </form>
+    </div> <!-- panel body -->
+    </div> <!-- panel 	 -->
     </div>
   </div>
   <hr>

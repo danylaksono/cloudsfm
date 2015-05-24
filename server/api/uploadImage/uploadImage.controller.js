@@ -22,13 +22,11 @@ exports.postUpload = function(req, res) {
     var file = req.files;
     exports.projectname = req.body.projectName;
     console.log(file);
-    console.log(projectname);
+    //console.log(projectname);
     console.log(req.body)
     console.log("Images successfully retrieved");
-    //delete req.body.date;
+    delete req.body.date;
 	
-	
-	//shell.exec('openMVG_main_CreateList');
 	
     var project = new UploadImage(_.merge({author:req.user._id}, req.body));
     project.save(function(err, project) {

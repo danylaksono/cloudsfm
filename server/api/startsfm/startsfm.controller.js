@@ -6,26 +6,26 @@ var shell = require('shelljs');
 var fs = require('fs');
 var path = require('path');
 var zip = require('express-zip');
+var present = require('present');
 
 
-
-var check = function(files) {
+exports.check = function(files) {
 	// Check to see if the process has finished
 	var message = '';
-	var stats = fs.lstatSync(files);
-	if (stats.isFile()) {
-		console.log('File found!');
-		message='Completed';
-	} else { 
-		console.log('Failed');
-		message='Unknown error occured. Please try again';
+	try {
+		var stats = fs.lstatSync(files);
+		if (stats.isFile()) {
+			console.log('File found!');
+			message='Completed';
+		}
+	} catch(err) {
+		console.log(err);
+		console.log('File Not Found');
+		message='Ready to Start';
 	}
-	return message;
+	return message;	
 }
-
-
-
-
+		
 // Whole processing route
 exports.startProcess = function(req, res, next) {
 		
@@ -39,9 +39,10 @@ exports.startProcess = function(req, res, next) {
 	
 	// Defining SfM processing commands
 	// (initial sfm parameter are set to default now. future release will use parameter based on user input)
-	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000';
-	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000';
-	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images/ -o '+ workingDir + '/scene/';
+	//var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 > '+ workingDir +'/report_global.txt';
+	var GlobalSfM = '';
+	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 > '+ workingDir +'/report_sequential.txt';
+	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images/ -o '+ workingDir + '/scene/ > '+ workingDir +'/report_mvs.txt';
 	
 	//Select SfM Method based on user input. Default is Global
 	var SfMmethod = 'Global';
@@ -49,6 +50,8 @@ exports.startProcess = function(req, res, next) {
 	exports.global_sfm_dir = workingDir + '/output/reconstruction_global/';
 	exports.sequential_sfm_dir = workingDir + '/output/reconstruction_sequential/';
 	exports.mvs_scene_dir = workingDir + '/scene/';
+	
+	var start = present();
 	
 	var HTMLreport = '';
 	if(SfMmethod == 'Global') {
@@ -60,8 +63,12 @@ exports.startProcess = function(req, res, next) {
 	}
 	//executing MVS
 	shell.exec(MVS);
+	
+	var end = present();
+	
+	console.log("Process took " + (start - end).tofixed(3) + " milliseconds.")
 	 
-	var fileExist = check(HTMLReport);	
+	var fileExist = exports.check(HTMLReport);	
 
 	return res.json(fileExist);
 };
@@ -98,7 +105,7 @@ exports.download = function(req, res, next) {
 };
 
 
-// Get list of startsfms
+// Check if output already exist
 exports.index = function(req, res) {
   var pwd = shell.pwd();
   var name = req.query.name;
@@ -107,13 +114,11 @@ exports.index = function(req, res) {
   console.log(project);
   
   var mvsobj = pwd + '/uploaded' + '/' + name + '/' + project + '/scene/out_textured.obj';
-  var checkExist = check(mvsobj);
+  var checkExist = exports.check(mvsobj);
   console.log(checkExist);		
-/*	
-  Startsfm.find(function (err, startsfms) {
-    if(err) { return handleError(res, err); } */
-    return res.json(200, checkExist);
-  //});
+
+  return res.json(checkExist);
+
 };
 
 // Creates a new startsfm in the DB.

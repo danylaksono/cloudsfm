@@ -5,6 +5,8 @@ angular.module('sfmApp')
     
     $scope.currentUsername = Auth.getCurrentUser().name;
     $scope.currentProject ='';
+    $scope.downloadReady = false;
+    $scope.message = '';
             
     $http.get('/api/uploadImages').success(function(projects) {           
       for (var i=0; i < projects.length; i++) {
@@ -25,10 +27,12 @@ angular.module('sfmApp')
 		console.log(url);
 		$http.get(url).success(function(msg){
 			$scope.message = msg;
-		});
-		if ($scope.message = 'Completed') {
+		if ($scope.message == 'Completed') {
 			$scope.downloadReady = true;
+		} else {
+			$scope.downloadReady = false;
 		}
+		});	
 	};
 	
 	//for list
@@ -73,6 +77,7 @@ angular.module('sfmApp')
 			}).error(function(err){
 				console.log('Error occured!', err)
 				});
+				
 	};
 	
       
