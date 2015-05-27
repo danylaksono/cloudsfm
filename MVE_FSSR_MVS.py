@@ -58,25 +58,25 @@ if not os.path.exists(scene_dir):
 
 print ("1. Image import & bundling (images --> camera parameters)") 
 # makescene, OpenMVG to MVE or MVE-SfM
-#pMVE = subprocess.Popen( [os.path.join(BIN_DIR, "makescene"), "-i", input_dir, scene_dir])
-#pMVE.wait()
+pMVE = subprocess.Popen( [os.path.join(BIN_DIR, "makescene"), "-i", input_dir, scene_dir])
+pMVE.wait()
 
 # sfmrecon, for SfM reconstruction using MVE format
-#pSfMrecon = subprocess.Popen( [os.path.join(BIN_DIR, "sfmrecon"), scene_dir])
-#pSfMrecon.wait()
+pSfMrecon = subprocess.Popen( [os.path.join(BIN_DIR, "sfmrecon"), scene_dir])
+pSfMrecon.wait()
 
 print ("2. Depth Map reconstruction (images + camera parameters --> depth maps)")
 # Depth-map reconstruction
-#pDMrecon = subprocess.Popen( [os.path.join(BIN_DIR, "dmrecon"), "-s2", scene_dir])
-#pDMrecon.wait()
+pDMrecon = subprocess.Popen( [os.path.join(BIN_DIR, "dmrecon"), "-s2", scene_dir])
+pDMrecon.wait()
 # Depth-map to point set
-#pPointset = subprocess.Popen( [os.path.join(BIN_DIR, "scene2pset"), "-F2", scene_dir, scene_dir+"point-set.ply"])
-#pPointset.wait()
+pPointset = subprocess.Popen( [os.path.join(BIN_DIR, "scene2pset"), "-F2", scene_dir, scene_dir+"point-set.ply"])
+pPointset.wait()
 
 print ("3. Surface reconstruction (depth maps + camera parameters --> 3D model)")
 # Floating-Scale Surface Reconstruction
-#pFSSR = subprocess.Popen( [os.path.join(BIN_DIR, "fssrecon"), scene_dir+"point-set.ply", scene_dir+"surface.ply"])
-#pFSSR.wait()
+pFSSR = subprocess.Popen( [os.path.join(BIN_DIR, "fssrecon"), scene_dir+"point-set.ply", scene_dir+"surface.ply"])
+pFSSR.wait()
 
 # Clean Reconstruction Mesh
 pMeshclean = subprocess.Popen( [os.path.join(BIN_DIR, "meshclean"), "-t10", "-c10000", scene_dir+"surface.ply", scene_dir+"surface-clean.ply"])
