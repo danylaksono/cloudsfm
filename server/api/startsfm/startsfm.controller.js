@@ -39,8 +39,8 @@ exports.startProcess = function(req, res, next) {
 	
 	// Defining SfM processing commands
 	// (initial sfm parameter are set to default now. future release will use parameter based on user input)
-	//var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 > '+ workingDir +'/report_global.txt';
-	var GlobalSfM = '';
+	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 > '+ workingDir +'/report_global.txt';
+	//var GlobalSfM = '';
 	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 > '+ workingDir +'/report_sequential.txt';
 	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images/ -o '+ workingDir + '/scene/ > '+ workingDir +'/report_mvs.txt';
 	
@@ -66,7 +66,7 @@ exports.startProcess = function(req, res, next) {
 	
 	var end = present();
 	
-	console.log("Process took " + (start - end).tofixed(3) + " milliseconds.")
+	console.log("Process took " + (start - end).toFixed(3) + " milliseconds.")
 	 
 	var fileExist = exports.check(HTMLReport);	
 
@@ -77,9 +77,9 @@ exports.startProcess = function(req, res, next) {
 // Download
 exports.download = function(req, res, next) {
 	//console.log(exports.usernameDir);
-	var out_colorizedSfM = exports.global_sfm_dir + 'robust_colorized.ply';
-	var out_SfMReport = exports.global_sfm_dir + 'SfMReconstruction_Report.html';
-	var out_textured = exports.mvs_scene_dir + 'out_textured.obj';
+	var out_colorizedSfM = exports.global_sfm_dir + '/robust_colorized.ply';
+	var out_SfMReport = exports.global_sfm_dir + '/SfMReconstruction_Report.html';
+	var out_textured = exports.mvs_scene_dir + '/out_textured.obj';
 	
 	if (req.query.download == 'colorized-cloud'){
 		console.log('Requesting colorized cloud..');
@@ -92,10 +92,10 @@ exports.download = function(req, res, next) {
 		//return res.download(out_textured);
 		return res.zip([
 			{path: exports.mvs_scene_dir + 'out_textured.obj', name: 'out_textured.obj'},
-			{path: exports.mvs_scene_dir + 'out_textured.mtl', name: 'out_textured.mtl'},
-			{path: exports.mvs_scene_dir + 'out_textured_data_costs.spt', name: 'out_textured_data_costs.spt'},
-			{path: exports.mvs_scene_dir + 'out_textured_labeling.vec', name: 'out_textured_labeling.vec'},
-			{path: exports.mvs_scene_dir + 'out_textured_material0000_map_Kd.png', name: 'out_textured_material0000_map_Kd.png'}
+			{path: exports.mvs_scene_dir + 'out_textured.mtl', name: 'out_textured.mtl'}
+			//{path: exports.mvs_scene_dir + 'out_textured_data_costs.spt', name: 'out_textured_data_costs.spt'},
+			//{path: exports.mvs_scene_dir + 'out_textured_labeling.vec', name: 'out_textured_labeling.vec'},
+			//{path: exports.mvs_scene_dir + 'out_textured_material0000_map_Kd.png', name: 'out_textured_material0000_map_Kd.png'}
 			]);
 			
 	} else {
