@@ -39,10 +39,10 @@ exports.startProcess = function(req, res, next) {
 	
 	// Defining SfM processing commands
 	// (initial sfm parameter are set to default now. future release will use parameter based on user input)
-	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 > '+ workingDir +'/report_global.txt';
+	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 >> '+ workingDir +'/report_global.txt';
 	//var GlobalSfM = '';
-	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 > '+ workingDir +'/report_sequential.txt';
-	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images/ -o '+ workingDir + '/scene/ > '+ workingDir +'/report_mvs.txt';
+	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 >> '+ workingDir +'/report_sequential.txt';
+	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images/ -o '+ workingDir + '/scene/ >> '+ workingDir +'/report_mvs.txt';
 	
 	//Select SfM Method based on user input. Default is Global
 	var SfMmethod = 'Global';
@@ -66,9 +66,9 @@ exports.startProcess = function(req, res, next) {
 	
 	var end = present();
 	
-	console.log("Process took " + (start - end).toFixed(3) + " milliseconds.")
+	console.log("Process took " + ((end - start).toFixed(3))/60000 + " minute.")
 	 
-	var fileExist = exports.check(HTMLReport);	
+	var fileExist = exports.check(HTMLreport);	
 
 	return res.json(fileExist);
 };
