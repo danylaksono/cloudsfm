@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sfmApp')
+angular.module('cloudsfmApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
       'title': 'Home',

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sfmApp')
+angular.module('cloudsfmApp')
   .controller('LoginCtrl', function ($scope, Auth, $location) {
     $scope.user = {};
     $scope.errors = {};

@@ -22,7 +22,7 @@ exports.postUpload = function(req, res) {
     var file = req.files;
     exports.projectname = req.body.projectName;
     console.log(file);
-    //console.log(projectname);
+    console.log(exports.projectname);
     console.log(req.body)
     console.log("Images successfully retrieved");
     delete req.body.date;

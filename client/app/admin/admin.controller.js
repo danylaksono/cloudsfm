@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sfmApp')
+angular.module('cloudsfmApp')
   .controller('AdminCtrl', function ($scope, $http, Auth, User) {
 
     // Use the User $resource to fetch all users
@@ -14,7 +14,4 @@ angular.module('sfmApp')
         }
       });
     };
-    
-
-    
   });

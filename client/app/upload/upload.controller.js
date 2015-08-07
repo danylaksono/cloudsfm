@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sfmApp')
+angular.module('cloudsfmApp')
   .controller('UploadCtrl', function ($scope, $window, Upload, $http) {
 
     $scope.showThumb = true;
@@ -53,7 +53,7 @@ angular.module('sfmApp')
 					console.log(headers);
                     console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
                     $scope.numUploaded += 1;
-                    if ($scope.numUploaded == files.length) {
+                    if ($scope.numUploaded === files.length) {
 						$window.location.href='/manage';
 					}
                 });

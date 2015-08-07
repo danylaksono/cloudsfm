@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sfmApp')
+angular.module('cloudsfmApp')
   .controller('ManageCtrl', function ($scope, $http, $window, Auth) {
     
     $scope.currentUsername = Auth.getCurrentUser().name;
@@ -11,13 +11,13 @@ angular.module('sfmApp')
     $http.get('/api/uploadImages').success(function(projects) {           
       for (var i=0; i < projects.length; i++) {
 		  var username = projects[i].author.name;
-		  if ($scope.currentUsername == username) {
+		  if ($scope.currentUsername === username) {
 			  $scope.currentProject = projects[i];
 		  }
 		  else {
-			  console.log('project not found')
+			  console.log('project not found');
 		  }
-	  };
+	  }
 	  checkAvailability();	  
 	   
 	});
@@ -27,7 +27,7 @@ angular.module('sfmApp')
 		console.log(url);
 		$http.get(url).success(function(msg){
 			$scope.message = msg;
-		if ($scope.message == 'Completed') {
+		if ($scope.message === 'Completed') {
 			$scope.downloadReady = true;
 		} else {
 			$scope.downloadReady = false;
@@ -54,7 +54,7 @@ angular.module('sfmApp')
 	
 	$scope.getfile = function() {
 		$window.open($scope.downloadUrl, '_blank');
-	}
+	};
 			
 	
 	$scope.startsfm = function() {
@@ -70,12 +70,12 @@ angular.module('sfmApp')
 		};	
 		  		
 		$http(request).success(function(msg){
-			if (msg == 'Completed') {
+			if (msg === 'Completed') {
 				$scope.message = msg;
 				$scope.downloadReady = true;
 			} 				
 			}).error(function(err){
-				console.log('Error occured!', err)
+				console.log('Error occured!', err);
 				});
 				
 	};

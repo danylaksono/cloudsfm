@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sfmApp', [
+angular.module('cloudsfmApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',

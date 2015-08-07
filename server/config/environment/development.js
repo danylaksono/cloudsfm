@@ -5,8 +5,8 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/sfm-dev'
+    uri: 'mongodb://localhost/cloudsfm-dev'
   },
 
-  seedDB: false,
+  seedDB: true
 };
