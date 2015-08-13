@@ -3,6 +3,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
+@import "animate.css-scss/animate.scss";
 
 /**
  * App-wide Styles
@@ -12,13 +13,14 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     margin: 0.2em 0;
     background: #ccc;
     color: #000;
-    padding: 0.2em 0;
+    padding: 0.2em 0;    
 }
 
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
+@import 'checkin/checkin.scss';
 @import 'main/main.scss';
 @import 'manage/manage.scss';
 @import 'upload/upload.scss';
