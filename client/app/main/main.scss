@@ -2,33 +2,6 @@
 @font-face {font-family: 'AvenirNextLTPro-Medium';src: url('https://code.ionicframework.com/assets/fonts/28882F_1_0.eot');src: url('https://code.ionicframework.com/assets/fonts/28882F_1_0.eot?#iefix') format('embedded-opentype'),url('https://code.ionicframework.com/assets/fonts/28882F_1_0.woff') format('woff'),url('https://code.ionicframework.com/assets/fonts/28882F_1_0.ttf') format('truetype');}
 @font-face {font-family: 'AvenirNextLTPro-UltLt';src: url('https://code.ionicframework.com/assets/fonts/29CC36_0_0.eot');src: url('https://code.ionicframework.com/assets/fonts/29CC36_0_0.eot?#iefix') format('embedded-opentype'),url('https://code.ionicframework.com/assets/fonts/29CC36_0_0.woff') format('woff'),url('https://code.ionicframework.com/assets/fonts/29CC36_0_0.ttf') format('truetype');}
 
-html {
-  margin:0;
-  padding:0;
-  -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  background-color: #1f232e;
-  background: url(/../assets/images/bg.png) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-.animated {
-  @include fadeIn();
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  /*color: #fff;  */
-  font-size: 12px; 
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-weight: 300;
-  text-align:center;
-  background-color: transparent !important;
-}
 
 .wrapper {
   max-width: 960px;
