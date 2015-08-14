@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('cloudsfmApp')
-  .controller('CheckinCtrl', function ($scope) {
+  .controller('UserCtrl', function ($scope) {
     $scope.message = 'Hello';
   });

@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: CheckinCtrl', function () {
+describe('Controller: UserCtrl', function () {
 
   // load the controller's module
   beforeEach(module('cloudsfmApp'));
 
-  var CheckinCtrl, scope;
+  var UserCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    CheckinCtrl = $controller('CheckinCtrl', {
+    UserCtrl = $controller('UserCtrl', {
       $scope: scope
     });
   }));
