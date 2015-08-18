@@ -16,20 +16,14 @@ angular.module('cloudsfmApp')
 	  $scope.openAdvanced = function () {
 		$scope.modalInstance = $modal.open({
 		  templateUrl: 'myModalContent.html',
+		  controller: 'ModalInstanceCtrl',
 		  backdrop: 'static',
 		  keyboard: false
 		});
 		
 
 	  };
-			$scope.close = function(){
-			$scope.modalInstance.dismiss('cancel')
-		};
-		
-
-
-
-
+			
 
 	// for upload router
     $scope.upload = function(files) {

@@ -4,11 +4,11 @@
   <div class="panel-heading clearfix">
     <h3 class="panel-title pull-left">Advanced Settings</h3>
     <div class="btn-group pull-right">
-      <button class="btn btn-danger">
-        <i class="fa fa-times" ng-click="close()"></i>
+      <button class="btn btn-danger" ng-click="cancel()">
+        <i class="fa fa-times"></i>
         Cancel
       </button>
-      <button class="btn btn-success">
+      <button class="btn btn-success" ng-click="save()">
         <i class="fa fa-check"></i>
         Save
       </button>
@@ -46,7 +46,9 @@
 </div>
     </script>
     
-    
+
+
+<!-- main html content starts here -->
     
 <div ng-include="'components/navbar/navbar.html'"> </div>
 
