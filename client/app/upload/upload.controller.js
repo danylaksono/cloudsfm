@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cloudsfmApp')
-  .controller('UploadCtrl', function ($scope, $window, Upload, $http) {
+  .controller('UploadCtrl', function ($scope, $modal,  $window, Upload, $http) {
 
     $scope.showThumb = true;
     $scope.uploaded = false;
@@ -12,22 +12,26 @@ angular.module('cloudsfmApp')
       });
      
 
-/*
- Latest version of angular file upload support img thumbnail, so we dont need this
- * 
-    $scope.$watch('files', function(files) {
- 	$scope.formUpload = false;
-	if (files != null) {
-		for (var i = 0; i < files.length; i++) {
-			$scope.errorMsg = null;
-			(function(file) {
-				imgThumbnail(file);
-			})(files[i]);
-		}
-	}
-    });
+	// for advanced setting's modal
+	  $scope.openAdvanced = function () {
+		$scope.modalInstance = $modal.open({
+		  templateUrl: 'myModalContent.html',
+		  backdrop: 'static',
+		  keyboard: false
+		});
+		
 
-*/  
+	  };
+			$scope.close = function(){
+			$scope.modalInstance.dismiss('cancel')
+		};
+		
+
+
+
+
+
+	// for upload router
     $scope.upload = function(files) {
 		$scope.numUploaded = 0; 
         $scope.uploaded = true;
@@ -60,41 +64,5 @@ angular.module('cloudsfmApp')
             }
         }
     };
-
-/*
-  $scope.uploadPic = function(files) {
-	$scope.formUpload = true;
- 		if (files != null) {
-			upload(files);
-			imgThumbnail(files[0]);
-			
-		}
-	};
-
-
-   var getReader = function(deferred, scope){
-	var reader = new FileReader();
-	return reader;
-   } */
-   
-   /*
-
-   var imgThumbnail = function(file, scope) {
-	//var deferred = $q.defer();
-	if (file != null) {
-		var reader = new FileReader(); //getReader(deferred,scope);
-		reader.onload = function(e) {
-			file.dataUrl = e.target.result;
-		};
-		
-		reader.readAsDataURL(file);
-
-		// call upload function
-		//$scope.upload($scope.files);
-	}
-
-	//return deferred.promise;
-  };
-*/
 
   });

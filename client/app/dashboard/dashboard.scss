@@ -1,0 +1,30 @@
+.navbar {
+	margin-bottom:5px;
+}
+
+.big-icon {
+    font-size: 10em;
+    color:skyBlue;
+    
+    &:hover {
+	font-size: 11em;
+	color:dodgerBlue;
+	}
+			
+}
+
+.dashboardpanel {
+	min-height:320px;
+	max-height:320px;
+}
+
+.flexbox {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  
+  .col {
+	flex: 1;
+  }
+}

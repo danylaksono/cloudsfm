@@ -1,25 +1,81 @@
+<!-- script for modal window of advanced parameters -->
+<script type="text/ng-template" id="myModalContent.html">
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">Advanced Settings</h3>
+    <div class="btn-group pull-right">
+      <button class="btn btn-danger">
+        <i class="fa fa-times" ng-click="close()"></i>
+        Cancel
+      </button>
+      <button class="btn btn-success">
+        <i class="fa fa-check"></i>
+        Save
+      </button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Name</label>
+        <div class="col-xs-9">
+          <input type="text" class="form-control" value="John Smith">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Occupation</label>
+        <div class="col-xs-9">
+          <select class="form-control">
+            <option>Designer</option>
+            <option selected>Developer</option>
+            <option>Salesman</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Description</label>
+        <div class="col-xs-9">
+          <textarea class="form-control" rows="6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam mauris tellus, vehicula ut tellus id, suscipit dapibus tortor. Integer viverra turpis ac fringilla hendrerit. Sed faucibus posuere felis et pellentesque. Cras varius tortor vitae molestie tempor. Proin ut viverra elit, ac gravida tortor.</textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="panel-footer">
+    <small>CloudSfM - The open source photogrammetry webservice</small>
+  </div>
+</div>
+    </script>
+    
+    
+    
 <div ng-include="'components/navbar/navbar.html'"> </div>
 
 
 <div class="container">
-	<h2> Select - Review - Upload </h2>
-	<hr/><br/>
+	<!--h2> Select - Review - Upload </h2>
+	<hr/--><br/>
 
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h4>Project Description</h4>
+		<h4>New Project</h4>
 	</div>
 	<div class="panel-body">
-		<div name="projectdefinition" class="col-md-6">
+		<div name="projectdefinition" class="col-md-4 col-sm-4" style="text-align:justify">
 			<h3> Project </h3>
-			<p> Give this project a name and an (optional) description </p>
-			<br/>
-			<form name="cloudsfm" class="form-horizontal">
+			<p> Give this project a name and an (optional) description. By default, CloudSfM uses predefined SfM parameters automatically.
+			 <br/>
+			 <br/>
+			 If you want more customization on the 3D reconstruction parameters, check the Advanced Settings option. Explanation
+			 on each parameters can be found in <strong><a href="#">Documentation</a></strong>  </p>
+		</div> 
+			
+	<div class="col-md-4 col-sm-4">
+		<form name="cloudsfm">
 				<fieldset>
 					<!-- Text input-->
 					<div class="form-group">
-					  <label class="col-md-4 control-label" for="textinput">Project Name</label>  
-					  <div class="col-md-8">
+					  <label for="textinput">Project Name</label>  
+					  <div>
 					  <input ng-model="projectName" name="projectName" type="text" placeholder="Project Name" class="form-control input-md" required>
 					  <i ng-show="cloudsfm.projectName.$error.required">*required</i><br>
 					  </div>
@@ -27,17 +83,32 @@
 
 					<!-- Text input-->
 					<div class="form-group">
-					  <label class="col-md-4 control-label" for="textinput">Description</label>  
-					  <div class="col-md-8">
-						<textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="2" name="projectdesc" placeholder="Description (optional)"></textarea>
+					  <label for="textinput">Description</label>  
+					  <div>
+						<textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="3" name="projectdesc" placeholder="Description (optional)"></textarea>
 					  </div>
 					</div>
+					
+					<div class="form-group">
+					  <div class="checkbox">
+						<label><input type="checkbox" ng-model="checked"> Use advanced settings</label>
+					  </div>
+					</div>
+
+					<div class="form-group">
+					  <div>
+						<span class="btn btn-primary pull-right" ng-disabled="!checked" ng-click="openAdvanced()"> 
+							<i class="fa fa-gears"></i> Advanced Settings
+							</span>
+					  </div>
+					</div>
+
 				</fieldset>
 			</form>
-		</div> 
-		<!-- projectdefinition-->
+		
+	</div>
 
-	<div class="uploadButton col-md-6">
+	<div class="uploadButton col-md-4 col-sm-4" style="text-align:justify">
 	  <h3> Select Images</h3>
 	  <p> Use the button below to select images, or to start capture images from your mobile phone. You can later 
 	  remove bad images (blurred, out-of-focus, etc) before uploading to our server
@@ -45,12 +116,15 @@
 	  <br/>
 	  <button class="btn btn-lg btn-success center-block" ngf-select ng-model="files" 
 	  ngf-multiple="true" accept="'image/*'">
+	  <i class="fa fa-file-image-o"></i> 
 	  Select Images
-	  </button>
-	  
+	  </button>  
 	  <br/>
 	</div>
+	
+	
 </div> <!-- panel body -->
+</div> <!-- panel -->
 </div> <!-- panel -->
 
 
