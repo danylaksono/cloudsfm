@@ -3,6 +3,7 @@
 
 <div class="container">
 	<!--div class="alert alert-info alert-dismissible" role="alert" ng-hide="hideme">
+	 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 	  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="hideme=true"><span aria-hidden="true">&times;</span></button>
 	  Welcome <strong> {{ getCurrentUser().name }}  </strong> !
 	</div-->

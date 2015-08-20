@@ -20,9 +20,15 @@ angular.module('cloudsfmApp')
 		  backdrop: 'static',
 		  keyboard: false
 		});
-		
-
 	  };
+	  
+	  
+	$scope.slider = {
+		'options': {
+			start: function (event, ui) { $log.info('Slider start'); },
+			stop: function (event, ui) { $log.info('Slider stop'); }
+		}
+	}
 			
 
 	// for upload router

@@ -57,7 +57,7 @@ section {
 		padding:1px;
 	}
 }
-	
+
 
   
 .modal-body {
@@ -65,6 +65,37 @@ section {
 		cursor: pointer;
 		}
 }
+
+.form-group {
+	.param-help {
+		    font-size: 1em;
+    color:skyBlue;
+    
+		&:hover {
+		font-size: 1.5em;
+		color:dodgerBlue;
+		cursor:pointer;
+		}
+	}
+}
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 
 
