@@ -24,15 +24,37 @@
             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
             </div>
         </accordion-heading>
+		
+			<div class="input-group">
+			<span> Using known focal or Intrinsic Camera Parameters? &nbsp;</span>
+				<div class="btn-group">
+					<label class="btn btn-info" ng-model="radioModel" btn-radio="'focal'" > Focal </label>
+					<label class="btn btn-info" ng-model="radioModel" btn-radio="'intrinsic'"> Intrinsic </label>
+				</div>
+			</div>
+			
+			<br/>
 			 <form class="form-horizontal">
 			  <div class="form-group">
-				<label class="col-xs-3 control-label">Name</label>
+				<label class="col-xs-3 control-label" >Focal (in pixels)</label>
 				<div class="col-xs-9">
-				  <input type="text" class="form-control" value="John Smith">
+				  <input type="text" class="form-control" value="2000" ng-disabled="radioModel!=='focal'">
+				  
 				</div>
 			  </div>
+		   
+		   <div class="form-group">
+			<label class="col-xs-3 control-label">Intrinsic (Kmatrix)</label>
+			<div class="col-xs-8">
+			  <textarea class="form-control" rows="2" ng-disabled="radioModel!=='intrinsic'">f;0;ppx;0;f;ppy;0;0;1</textarea>
+			</div>
+			<div class="col-xs-1">
+				<i class="fa fa-question-circle" style="color:lightBlue"></i>
+			</div>
+		  </div>
+			
 			<div class="form-group">
-				<label class="col-xs-3 control-label">Occupation</label>
+				<label class="col-xs-3 control-label"></label>
 				<div class="col-xs-9">
 				  <select class="form-control">
 					<option>Designer</option>
@@ -41,12 +63,7 @@
 				  </select>
 				</div>
 			</div>
-		  <div class="form-group">
-			<label class="col-xs-3 control-label">Description</label>
-			<div class="col-xs-9">
-			  <textarea class="form-control" rows="6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam mauris tellus, vehicula ut tellus id, suscipit dapibus tortor. Integer viverra turpis ac fringilla hendrerit. Sed faucibus posuere felis et pellentesque. Cras varius tortor vitae molestie tempor. Proin ut viverra elit, ac gravida tortor.</textarea>
-			</div>
-		  </div>
+		  
 		</form>
         
     </accordion-group>
