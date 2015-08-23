@@ -2,12 +2,13 @@ h1 {
 	margin-top:5px;
 }
 
+
 section {
  	display:table;
 	padding: 25px 15px;
 	margin: 0 1.5% 24px 1.5%;
 }
- 
+
 .gallery-box {
 	width: 200px;
 	padding: 5px;
@@ -18,7 +19,7 @@ section {
 	overflow: hidden;
 
 }
- 
+
 .gallery-box {
  .title {
 	text-align: center;
@@ -38,7 +39,7 @@ section {
 
 [data-toggle="buttons"] > .btn > input[type="radio"] {
     clip: rect(1px 10px 1px 1px);
-} 
+}
 */
 
 .thumbnail {
@@ -46,7 +47,7 @@ section {
 	margin-bottom: 5px;
 	overflow: hidden;
 	word-break: normal;
-	
+
 	img {
 		display:block;
 		height: 100%;
@@ -56,21 +57,14 @@ section {
 	.btn-group {
 		padding:1px;
 	}
-}
+} 
 
-
-  
-.modal-body {
-	.panel-heading {
-		cursor: pointer;
-		}
-}
 
 .form-group {
 	.param-help {
 		    font-size: 1em;
     color:skyBlue;
-    
+
 		&:hover {
 		font-size: 1.5em;
 		color:dodgerBlue;
@@ -78,24 +72,3 @@ section {
 		}
 	}
 }
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-

@@ -1,340 +1,339 @@
 <!-- script for modal window of advanced parameters -->
 
 <script type="text/ng-template" id="myModalContent.html">
-	
-  <div class="panel panel-default">
-    <div class="panel-heading clearfix">
-      <h3 class="panel-title pull-left" style="padding-top:10px">
-      <i class="fa fa-gears"></i>Advanced Settings</h3>
-      <div class="btn-group pull-right">
-        <button class="btn btn-danger" ng-click="cancel()">
-        <i class="fa fa-times"></i>Cancel</button>
-        <button class="btn btn-success" ng-click="save()">
-        <i class="fa fa-check"></i>Save</button>
-      </div>
-    </div>
-  </div>
 
+	<div class="panel panel-default">
+		<div class="panel-heading clearfix">
+			<h3 class="panel-title pull-left" style="padding-top:10px">
+				<i class="fa fa-gears"></i> &nbsp; Advanced Settings</h3>
+			<div class="btn-group pull-right">
+				<button class="btn btn-danger" ng-click="cancel()">
+					<i class="fa fa-times"></i>Cancel</button>
+				<button class="btn btn-success" ng-click="save()">
+					<i class="fa fa-check"></i>Save</button>
+			</div>
+		</div>
+	</div>
 
-	
 	<div class="modal-body">
-	<accordion>
-		<accordion-group is-open="status.open">
-        <accordion-heading>
-			<div style="height:100%">
-            Camera Parameters 
-            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-            </div>
-        </accordion-heading>
-		 <form class="form-horizontal">
-			<div class="form-group">
-				<div class="col-xs-8">
-					<label> Using known Focal Length or Intrinsic Camera Parameters? &nbsp;</label>
-				</div>	
-				<div class="btn-group col-xs-4">
-					<label class="btn btn-info" ng-model="radioModel" btn-radio="'focal'" checked> Focal </label>
-					<label class="btn btn-info" ng-model="radioModel" btn-radio="'intrinsic'"> Intrinsic </label>
-				</div>
-			</div>
-						
-		  <div class="form-group">
-			<label class="col-xs-3 control-label" >Focal (in pixels)</label>
-			<div class="col-xs-8">
-			  <input type="text" class="form-control" value="2000" ng-disabled="radioModel!=='focal'">
-			</div>
-			<div class="col-xs-1">
-				<i class="fa fa-question-circle param-help" aria-label="question"></i>
-			</div>
-		  </div>
-		   
-		   <div class="form-group">
-			<label class="col-xs-3 control-label">Intrinsic (Kmatrix)</label>
-			<div class="col-xs-8">
-			  <textarea class="form-control" rows="2" ng-disabled="radioModel!=='intrinsic'">f;0;ppx;0;f;ppy;0;0;1</textarea>
-			</div>
-				<div class="col-xs-1">
-					<i  class="fa fa-question-circle param-help" aria-label="question"></i>
-				</div>
-		  </div>
-			
-	  
-		</form>
-        
-    </accordion-group>
-    </accordion>
-		
-	<accordion>
-  <accordion-group is-open="status.open">
-    <accordion-heading>
-      <div style="height:100%">Feature Detection 
-      <i class="pull-right glyphicon"
-      ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}">
-      </i></div>
-    </accordion-heading>
-    <form class="form-horizontal">
-      <div class="form-group">
-        <label class="col-xs-3 control-label">Feature
-        Detector</label>
-        <div class="col-xs-8">
-          <select class="form-control">
-            <option selected="selected">SIFT</option>
-            <option>AKAZE-FLOAT</option>
-            <option>AKAZE-BINARY</option>
-          </select>
-        </div>
-        <div class="col-xs-1">
-          <i class="fa fa-question-circle param-help"
-          aria-label="question"></i>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-xs-3 control-label">Detection
-        Preset</label>
-        <div class="col-xs-8">
-          <select class="form-control">
-            <option selected="selected">Normal</option>
-            <option>High</option>
-            <option>Ultra (very slow!)</option>
-          </select>
-        </div>
-        <div class="col-xs-1">
-          <i class="fa fa-question-circle param-help"
-          aria-label="question"></i>
-        </div>
-      </div>
-    </form>
-  </accordion-group>
-</accordion>
-<div class="form-group">
-  <label class="col-xs-3">Use upright parameter?</label>
-  <div class="col-xs-8 btn-group btn-toggle">
-    <button class="btn btn-info" ng-model="radioModel"
-    btn-radio="'1'" style="min-width:100px">
-      <strong>Yes</strong>
-    </button>
-    <button class="btn btn-info" ng-model="radioModel"
-    btn-radio="'0'" style="min-width:100px">
-      <strong>No</strong>
-    </button>
-  </div>
-  <div class="col-xs-1">
-    <i class="fa fa-question-circle param-help"
-    aria-label="question" popover="content" popover-trigger=""
-    popover-animation="true" popover-placement="left"></i>
-  </div>
-</div>
+		<accordion>
+			<accordion-group is-open="status.open">
+				<accordion-heading>
+					<div style="height:100%">
+						Camera Parameters
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					</div>
+				</accordion-heading>
 
-    
-    
-	<accordion>
-		<accordion-group is-open="status.open">
-        <accordion-heading>
-			<div style="height:100%">
-            Feature Matching 
-            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-            </div>
-        </accordion-heading>
-		<form class="form-horizontal">
-			
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> ANN Ratio</label>
-				<div class="col-xs-8">
-				  <input type="text" class="form-control" value="0.8">
-				</div>
-				<div class="col-xs-1">
-					<i class="fa fa-question-circle param-help" aria-label="question"></i>
-				</div>
-			</div>
-			
-			
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> Geometric Model</label>
-				<div class="col-xs-8">
-				  <select class="form-control">
-					<option selected>Fundamental</option>
-					<option>Essential</option>
-					<option>Homography</option>
-				  </select>
-				</div>
-				<div class="col-xs-1">
-					<i  class="fa fa-question-circle param-help" aria-label="question"></i>
-				</div>
-			</div>
-			
-			
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> Sequential Matching</label>
-				<div class="col-xs-8">
-				  <select class="form-control">
-					<option selected>No Sequential Matching (1 to X)</option>
-					<option>Close Sequential Matching (1-2 to 2-3)</option>
-					<option>Medium Sequential Matching (1-2-3 to 2-3-4)</option>
-				  </select>
-				</div>
-				<div class="col-xs-1">
-					<i  class="fa fa-question-circle param-help" aria-label="question"></i>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> Nearest Matching Method </label>
-				<div class="col-xs-8">
-				  <select class="form-control">
-					<option selected>Automatic</option>
-					<option>BruteForce L2</option>
-					<option>Approximate Nearest Neighbor L2</option>
-					<option>Cascade Hashing L2</option>
-					<option>BruteForce Hamming </option>
-				  </select>
-				</div>
-				<div class="col-xs-1">
-					<i  class="fa fa-question-circle param-help" aria-label="question"></i>
-				</div>
-			</div>
-			
-			
-		</form>
-        
-    </accordion-group>
-    </accordion>
-    
-  </div>
+				<form class="form-horizontal">
+
+					<div class="form-group">
+						<div class="col-xs-8">
+							<label> Using known Focal Length or Intrinsic Camera Parameters? &nbsp;</label>
+						</div>
+						<div class="btn-group col-xs-4">
+							<label class="btn btn-info" ng-model="radioModel" btn-radio="'focal'" checked> Focal </label>
+							<label class="btn btn-info" ng-model="radioModel" btn-radio="'intrinsic'"> Intrinsic </label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label">Focal (in pixels)</label>
+						<div class="col-xs-8">
+							<input type="text" class="form-control" value="2000" ng-disabled="radioModel!=='focal'">
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label">Intrinsic (Kmatrix)</label>
+						<div class="col-xs-8">
+							<textarea class="form-control" rows="2" ng-disabled="radioModel!=='intrinsic'">f;0;ppx;0;f;ppy;0;0;1</textarea>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+				</form>
+
+			</accordion-group>
+		</accordion>
+
+		<accordion>
+			<accordion-group is-open="status.open">
+				<accordion-heading>
+					<div style="height:100%">
+						Feature Detection <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}">
+      </i></div>
+				</accordion-heading>
+				<form class="form-horizontal">
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label">Feature Detector
+						</label>
+						<div class="col-xs-8">
+							<select class="form-control">
+								<option selected="selected">SIFT</option>
+								<option>AKAZE-FLOAT</option>
+								<option>AKAZE-BINARY</option>
+							</select>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label">Detection Preset
+						</label>
+						<div class="col-xs-8">
+							<select class="form-control">
+								<option selected="selected">Normal</option>
+								<option>High</option>
+								<option>Ultra (very slow!)</option>
+							</select>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-3">Use upright parameter?</label>
+						<div class="col-xs-8 btn-group btn-toggle">
+							<button class="btn btn-info" ng-model="radioModel" btn-radio="'1'" style="min-width:100px">
+								<strong>Yes</strong>
+							</button>
+							<button class="btn btn-info" ng-model="radioModel" btn-radio="'0'" style="min-width:100px">
+								<strong>No</strong>
+							</button>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question" popover="content" popover-trigger="" popover-animation="true" popover-placement="left"></i>
+						</div>
+					</div>
+
+				</form>
+			</accordion-group>
+		</accordion>
+
+		<accordion>
+			<accordion-group is-open="status.open">
+
+				<accordion-heading>
+					<div style="height:100%">
+						Feature Matching
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					</div>
+				</accordion-heading>
+
+				<form class="form-horizontal">
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label"> ANN Ratio </label>
+						<div class="col-xs-7">
+							<input type="range" ng-model="rangeq" min="0.5" max="1" step="0.1" value="0.8">
+						</div>
+						<div class="col-xs-1" >
+							<span > {{rangeq}}</span>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label"> Geometric Model</label>
+						<div class="col-xs-8">
+							<select class="form-control">
+								<option selected>Fundamental</option>
+								<option>Essential</option>
+								<option>Homography</option>
+							</select>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label"> Sequential Matching</label>
+						<div class="col-xs-8">
+							<select class="form-control">
+								<option selected>No Sequential Matching (1 to X)</option>
+								<option>Close Sequential Matching (1-2 to 2-3)</option>
+								<option>Medium Sequential Matching (1-2-3 to 2-3-4)</option>
+							</select>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-3 control-label"> Nearest Matching Method </label>
+						<div class="col-xs-8">
+							<select class="form-control">
+								<option selected>Automatic</option>
+								<option>BruteForce L2</option>
+								<option>Approximate Nearest Neighbor L2</option>
+								<option>Cascade Hashing L2</option>
+								<option>BruteForce Hamming </option>
+							</select>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-question-circle param-help" aria-label="question"></i>
+						</div>
+					</div>
+
+
+				</form>
+
+			</accordion-group>
+		</accordion>
+
+	</div>
+
 	<div class="panel-footer">
 		<small>CloudSfM - The open source photogrammetry webservice</small>
 	</div>
-</div>
+
+	</div> <!-- panel -->
 </script>
-    
 
 
 <!-- main html content starts here -->
-    
 <div ng-include="'components/navbar/navbar.html'"> </div>
 
 <div class="container">
-	
-<br/>
+	<h2> Upload Images </h2>
+	<hr/>
+	<br/>
 
-<div class="panel panel-info">
-	<div class="panel-heading" >
-		<h3 style="margin-top:5px"> <i class="fa fa-files-o"></i> <strong>New Project</strong></h3> 
-	</div>
-	<div class="panel-body">
-		<div name="projectdefinition" class="col-md-4 col-sm-4" style="text-align:justify">
-			<h3> Project </h3>
-			<p> Give this project a name and an (optional) description. By default, CloudSfM uses predefined SfM parameters automatically.
-			 <br/>
-			 <br/>
-			 If you want more customization on the 3D reconstruction parameters, check the Advanced Settings option. Explanation
-			 on each parameters can be found in <strong><a href="#">Documentation</a></strong></p>
-			 <!--div popover="After today restriction" popover-trigger popover-animation="true" popover-placement="bottom">Hover me</div-->
-		</div> 
-			
-	<div class="col-md-4 col-sm-4">
-		<form name="cloudsfm">
-				<fieldset>
-					<!-- Text input-->
-					<div class="form-group">
-					  <label for="textinput">Project Name</label>  
-					  <div>
-					  <input ng-model="projectName" name="projectName" type="text" placeholder="Project Name" class="form-control input-md" required>
-					  <i ng-show="cloudsfm.projectName.$error.required">*required</i><br>
-					  </div>
-					</div>
-
-					<!-- Text input-->
-					<div class="form-group">
-					  <label for="textinput">Description</label>  
-					  <div>
-						<textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="3" name="projectdesc" placeholder="Description (optional)"></textarea>
-					  </div>
-					</div>
-					
-					<div class="form-group">
-					  <div class="checkbox">
-						<label><input type="checkbox" ng-model="checked"> Use advanced settings</label>
-					  </div>
-					</div>
-
-					<div class="form-group">
-					  <div>
-						<span class="btn btn-primary pull-right" ng-disabled="!checked" ng-click="openAdvanced()"> 
-							<i class="fa fa-gears"></i> Advanced Settings
-							</span>
-					  </div>
-					</div>
-					
-					
-					
-
-				</fieldset>
-			</form>
-		
-	</div>
-
-	<div class="uploadButton col-md-4 col-sm-4" style="text-align:justify">
-	  <h3> Select Images</h3>
-	  <p> Use the button below to select images, or to start capture images from your mobile phone. You can later 
-	  remove bad images (blurred, out-of-focus, etc) before uploading to our server
-	   </p>
-	  <br/>
-	  <button class="btn btn-lg btn-success center-block" ngf-select ng-model="files" 
-	  ngf-multiple="true" accept="'image/*'">
-	  <i class="fa fa-file-image-o"></i> 
-	  Select Images
-	  </button>  
-	  <br/>
-	</div>
-	
-	
-</div> <!-- panel body -->
-</div> <!-- panel -->
-</div> <!-- panel -->
-
-
-<div class="panel panel-info" ng-show="files.length>0">
-	<div class="panel-heading">
-		<h4> Review Images </h4>	
-	</div>	
-	<div class="panel-body">
-		<p> Review your selected images before uploading to server. Delete bad image(s) using 'remove' button </p>
-		<div class="displayThumbnail">
-		<div class="well gallery-box" ng-repeat="f in files" ng-show="showThumb">
-		  <span class="title"> {{f.name}} </span>
-		  <div class="thumbnail" ng-show="files.length > 0">
-			<img ngf-src="f" width="50" height="50"/> 
-		  </div>
-		  <div class="progress">
-			<div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle">
-			<span class="sr-only">{{progress}}% </span>
-			</div>
-		  </div>
-		  <div class="btn-group pull-right">
-			<!--button class="btn btn-danger" ng-click="showThumb=false"> Remove </button--> 
-			<button class="btn btn-danger" ng-click="f.upload.abort();f.upload.aborted=true;showThumb=false;files.splice($index,1)"> Remove </button> 
-		  </div>
+	<div class="panel panel-info"> <!-- first panel -->
+		<div class="panel-heading">
+			<h3 style="margin-top:5px"> <i class="fa fa-files-o"></i>
+				<strong>New Project</strong>
+			</h3>
 		</div>
-		</div> <!-- thumbnail -->
-		
-</div> <!-- panel body -->
-</div> <!-- panel -->
+		<div class="panel-body">
+			<div name="projectdefinition" class="col-md-4 col-sm-4" style="text-align:justify">
+				<h3> Project </h3>
+				<p> Give this project a name and an (optional) description. By default, CloudSfM uses predefined SfM parameters automatically.
+					<br/>
+					<br/> If you want more customization on the 3D reconstruction parameters, check the Advanced Settings option. Explanation on each parameters can be found in
+					<strong><a href="#">Documentation</a></strong>
+				</p>
+			</div>
 
-<div class="panel panel-info" ng-show="files.length>0">
-	<div class="panel-heading">
-		<h4> Upload to Server </h4>	
-	</div>	
-	<div class="panel-body">
-	  <p> Click this button to upload and start processing </p>
-	  <button class="btn btn-lg btn-primary center-block" ng-click="upload(files)" ng-show="files.length > 0"> 
-		Upload Now!
-	  </button>
-	  <span ng-show="uploaded"> Files to Upload: {{files.length}} </span>
+			<div class="col-md-4 col-sm-4">
+				<form name="cloudsfm">
+					<fieldset>
+						<!-- Text input-->
+						<div class="form-group">
+							<label for="textinput">Project Name</label>
+							<div>
+								<input ng-model="projectName" name="projectName" type="text" placeholder="Project Name"
+								class="form-control input-md" required>
+								<i style="color:red" ng-show="cloudsfm.projectName.$error.required">*required</i>
+								<br>
+							</div>
+						</div>
 
-</div> <!-- panel body -->
-</div> <!-- panel -->
+						<!-- Text input-->
+						<div class="form-group">
+							<label for="textinput">Description</label>
+							<div>
+								<textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="3" name="projectdesc" placeholder="Description (optional)"></textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" ng-model="checked"> Use advanced settings</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div>
+								<span class="btn btn-primary pull-right" ng-disabled="!checked" ng-click="openAdvanced()">
+									<i class="fa fa-gears"></i> Advanced Settings
+								</span>
+							</div>
+						</div>
+
+					</fieldset>
+				</form>
+
+			</div>
+
+			<div class="uploadButton col-md-4 col-sm-4" style="text-align:justify">
+				<h3> Select Images</h3>
+				<p> Use the button below to select images, or to start capture images from your mobile phone. You can later remove bad images (blurred, out-of-focus, etc) before uploading to our server
+				</p>
+				<br/>
+				<button ng-disabled="cloudsfm.projectName.$error.required" class="btn btn-lg btn-success center-block" ngf-select ng-model="files" ngf-multiple="true" accept="'image/*'">
+					<i class="fa fa-file-image-o"></i> Select Images
+				</button>
+				<br/>
+			</div>
 
 
+		</div>
+		<!-- panel body -->
+	</div>
+	<!-- panel -->
 
-</div> <!-- container -->
+	<div class="panel panel-info" ng-show="files.length>0"> <!-- second panel -->
+		<div class="panel-heading">
+			<h4> Review Images </h4>
+		</div>
+		<div class="panel-body">
+			<p> Review your selected images before uploading to server. Delete bad image(s) using 'remove' button </p>
+			<div class="displayThumbnail">
+				<div class="well gallery-box" ng-repeat="f in files" ng-show="showThumb">
+					<span class="title"> {{f.name}} </span>
+					<div class="thumbnail" ng-show="files.length > 0">
+						<img ngf-src="f" width="50" height="50" />
+					</div>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle">
+							<span class="sr-only">{{progress}}% </span>
+						</div>
+					</div>
+					<div class="btn-group pull-right">
+						<!--button class="btn btn-danger" ng-click="showThumb=false"> Remove </button-->
+						<button class="btn btn-danger" ng-click="f.upload.abort();f.upload.aborted=true;showThumb=false;files.splice($index,1)"> Remove </button>
+					</div>
+				</div>
+			</div>
+			<!-- thumbnail -->
 
+		</div>
+		<!-- panel body -->
+	</div>
+	<!-- panel -->
 
+	<div class="panel panel-info" ng-show="files.length>0"> <!-- third panel -->
+		<div class="panel-heading">
+			<h4> Upload to Server </h4>
+		</div>
+		<div class="panel-body">
+			<p> Click this button to upload and start processing </p>
+			<button class="btn btn-lg btn-primary center-block" ng-click="upload(files)" ng-show="files.length > 0">
+				Upload Now!
+			</button>
+			<span ng-show="uploaded"> Files to Upload: {{files.length}} </span>
+
+		</div>
+		<!-- panel body -->
+	</div>
+	<!-- panel -->
+
+</div>
+<!-- container -->
