@@ -10,11 +10,12 @@ var fs = require('fs-extra');
 var router = express.Router();
 
 var destination = multer({
-	dest:"./uploaded/",
+	dest: "./uploaded/",
 	changeDest: function(dest, req, res) {
-		var newDestination = dest + req.user.name + "/" + req.body.projectName + "/images/";
+		var newDestination = dest + req.user.name + "/" + req.body.projectName +
+			"/images/";
 		fs.mkdirsSync(newDestination, function(err) {
-				console.log('Error creating directory ',err);				
+			console.log('Error creating directory ', err);
 		});
 		/*
 		var stat = null;
@@ -26,10 +27,10 @@ var destination = multer({
 		if (stat && !stat.isDirectory()) {
 			throw new Error('Directory cannot be created because an inode of a different type exists at "' + dest + '"');
 		} */
-		return newDestination 
-	
+		return newDestination
+
 	}
-	});
+});
 
 
 router.get('/', auth.isAuthenticated(), controller.index);

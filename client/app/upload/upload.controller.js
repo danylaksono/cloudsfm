@@ -1,19 +1,22 @@
 'use strict';
 
 angular.module('cloudsfmApp')
-  .controller('UploadCtrl', function($scope, $modal, $window, Upload, $http) {
+  .controller('UploadCtrl', function($scope, $modal, $window, Upload, $http,
+    formData) {
 
     $scope.showThumb = true;
     $scope.uploaded = false;
+    $scope.form = {};
 
     // for GET request
-    $http.get('/api/uploadImages').success(function(index) {
+    $http.get('/api/projects').success(function(index) {
       $scope.index = index;
     });
 
 
     // for advanced setting's modal
     $scope.openAdvanced = function() {
+      //console.log($scope.form)
       $scope.modalInstance = $modal.open({
         templateUrl: 'myModalContent.html',
         controller: 'ModalInstanceCtrl',
@@ -32,7 +35,7 @@ angular.module('cloudsfmApp')
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
           Upload.upload({
-            url: 'api/uploadImages',
+            url: '/api/projects',
             method: 'POST',
             fields: {
               projectName: $scope.projectName,

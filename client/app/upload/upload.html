@@ -2,6 +2,7 @@
 
 <script type="text/ng-template" id="myModalContent.html">
 
+
 	<div class="panel panel-default">
 		<div class="panel-heading clearfix">
 			<h3 class="panel-title pull-left" style="padding-top:10px">
@@ -16,7 +17,7 @@
 	</div>
 
 	<div class="modal-body">
-		<accordion>
+		<accordion close-others="true">
 			<accordion-group is-open="status.open">
 				<accordion-heading>
 					<div style="height:100%">
@@ -32,15 +33,15 @@
 							<label> Using known Focal Length or Intrinsic Camera Parameters? &nbsp;</label>
 						</div>
 						<div class="btn-group col-xs-4">
-							<label class="btn btn-info" ng-model="radioModel" btn-radio="'focal'" checked> Focal </label>
-							<label class="btn btn-info" ng-model="radioModel" btn-radio="'intrinsic'"> Intrinsic </label>
+							<label class="btn btn-info" ng-model="form.intrinsic" btn-radio="'focal'" checked> Focal </label>
+							<label class="btn btn-info" ng-model="form.intrinsic" btn-radio="'intrinsic'"> Intrinsic </label>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-xs-3 control-label">Focal (in pixels)</label>
 						<div class="col-xs-8">
-							<input type="text" class="form-control" value="2000" ng-disabled="radioModel!=='focal'">
+							<input type="text" ng-model="form.focal" class="form-control" value="2000" ng-disabled="form.intrinsic!=='focal'">
 						</div>
 						<div class="col-xs-1">
 							<i class="fa fa-question-circle param-help" aria-label="question"></i>
@@ -50,7 +51,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label">Intrinsic (Kmatrix)</label>
 						<div class="col-xs-8">
-							<textarea class="form-control" rows="2" ng-disabled="radioModel!=='intrinsic'">f;0;ppx;0;f;ppy;0;0;1</textarea>
+							<textarea ng-model="form.kmatrix" class="form-control" rows="2" ng-disabled="form.intrinsic!=='intrinsic'">f;0;ppx;0;f;ppy;0;0;1</textarea>
 						</div>
 						<div class="col-xs-1">
 							<i class="fa fa-question-circle param-help" aria-label="question"></i>
@@ -73,9 +74,9 @@
 
 					<div class="form-group">
 						<label class="col-xs-3 control-label">Feature Detector
-						</label>
+						</label>w
 						<div class="col-xs-8">
-							<select class="form-control">
+							<select ng-model="form.featDetector" class="form-control">
 								<option selected="selected">SIFT</option>
 								<option>AKAZE-FLOAT</option>
 								<option>AKAZE-BINARY</option>
@@ -90,7 +91,7 @@
 						<label class="col-xs-3 control-label">Detection Preset
 						</label>
 						<div class="col-xs-8">
-							<select class="form-control">
+							<select ng-model="form.detPreset" class="form-control">
 								<option selected="selected">Normal</option>
 								<option>High</option>
 								<option>Ultra (very slow!)</option>
@@ -104,10 +105,10 @@
 					<div class="form-group">
 						<label class="col-xs-3">Use upright parameter?</label>
 						<div class="col-xs-8 btn-group btn-toggle">
-							<button class="btn btn-info" ng-model="radioModel" btn-radio="'1'" style="min-width:100px">
+							<button class="btn btn-info" ng-model="form.isUpright" btn-radio="'1'" style="min-width:100px">
 								<strong>Yes</strong>
 							</button>
-							<button class="btn btn-info" ng-model="radioModel" btn-radio="'0'" style="min-width:100px">
+							<button class="btn btn-info" ng-model="form.isUpright" btn-radio="'0'" style="min-width:100px">
 								<strong>No</strong>
 							</button>
 						</div>
@@ -135,10 +136,10 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> ANN Ratio </label>
 						<div class="col-xs-7">
-							<input type="range" ng-model="rangeq" min="0.5" max="1" step="0.1" value="0.8">
+							<input type="range" ng-model="form.annRatio" min="0.5" max="1" step="0.1" value="0.8">
 						</div>
 						<div class="col-xs-1" >
-							<span > {{rangeq}}</span>
+							<span > {{form.annRatio}}</span>
 						</div>
 						<div class="col-xs-1">
 							<i class="fa fa-question-circle param-help" aria-label="question"></i>
@@ -148,7 +149,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> Geometric Model</label>
 						<div class="col-xs-8">
-							<select class="form-control">
+							<select ng-model="form.geomModel" class="form-control">
 								<option selected>Fundamental</option>
 								<option>Essential</option>
 								<option>Homography</option>
@@ -163,7 +164,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> Sequential Matching</label>
 						<div class="col-xs-8">
-							<select class="form-control">
+							<select ng-model="form.seqModel" class="form-control">
 								<option selected>No Sequential Matching (1 to X)</option>
 								<option>Close Sequential Matching (1-2 to 2-3)</option>
 								<option>Medium Sequential Matching (1-2-3 to 2-3-4)</option>
@@ -177,7 +178,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> Nearest Matching Method </label>
 						<div class="col-xs-8">
-							<select class="form-control">
+							<select ng-model="form.nearMethod" class="form-control">
 								<option selected>Automatic</option>
 								<option>BruteForce L2</option>
 								<option>Approximate Nearest Neighbor L2</option>
@@ -206,6 +207,7 @@
 </script>
 
 
+
 <!-- main html content starts here -->
 <div ng-include="'components/navbar/navbar.html'"> </div>
 
@@ -227,6 +229,9 @@
 					<br/>
 					<br/> If you want more customization on the 3D reconstruction parameters, check the Advanced Settings option. Explanation on each parameters can be found in
 					<strong><a href="#">Documentation</a></strong>
+					<span><br/>
+					{{form}}
+					</span>
 				</p>
 			</div>
 
@@ -237,7 +242,7 @@
 						<div class="form-group">
 							<label for="textinput">Project Name</label>
 							<div>
-								<input ng-model="projectName" name="projectName" type="text" placeholder="Project Name"
+								<input ng-model="form.name" name="projectName" type="text" placeholder="Project Name"
 								class="form-control input-md" required>
 								<i style="color:red" ng-show="cloudsfm.projectName.$error.required">*required</i>
 								<br>
@@ -248,7 +253,7 @@
 						<div class="form-group">
 							<label for="textinput">Description</label>
 							<div>
-								<textarea ng-model="projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="3" name="projectdesc" placeholder="Description (optional)"></textarea>
+								<textarea ng-model="form.description" name="projectDescription" class="form-control" id="projectdesc" rows="3" name="projectdesc" placeholder="Description (optional)"></textarea>
 							</div>
 						</div>
 

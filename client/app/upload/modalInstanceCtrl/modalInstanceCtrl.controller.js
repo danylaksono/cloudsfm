@@ -1,19 +1,22 @@
 'use strict';
 
 angular.module('cloudsfmApp')
-  .controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
-    
-    
-    $scope.message = 'Hello';
-    
-    
-	$scope.save = function () {
-		$modalInstance.close('');
-	};
+  .controller('ModalInstanceCtrl', function($scope, $http, $modalInstance,
+    formData) {
 
-	$scope.cancel = function () {
-		$modalInstance.dismiss('cancel');
-	};
-  
-  
+
+    $scope.message = 'Hello';
+    $scope.form = {};
+
+    $scope.save = function() {
+      console.log($scope.form);
+
+      //$modalInstance.close('');
+    };
+
+    $scope.cancel = function() {
+      $modalInstance.dismiss('cancel');
+    };
+
+
   });
