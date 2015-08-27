@@ -2,21 +2,48 @@
 
 angular.module('cloudsfmApp')
   .controller('UploadCtrl', function($scope, $modal, $window, Upload, $http,
-    formData) {
+    formData, Auth) {
 
     $scope.showThumb = true;
     $scope.uploaded = false;
-    $scope.form = {};
 
-    // for GET request
-    $http.get('/api/projects').success(function(index) {
+    var userName = Auth.getCurrentUser().name;
+    var userID = Auth.getCurrentUser()._id
+
+    $scope.form = {
+      userID: userID,
+      userName: userName,
+      projectName: '',
+      projectDescription: '',
+      intrinsic: "focal",
+      focal: "2000",
+      kmatrix: "",
+      featDetector: "SIFT",
+      detPreset: "NORMAL",
+      isUpright: "1",
+      annRatio: "0.8",
+      geomModel: "e",
+      seqModel: "X",
+      nearMethod: "AUTO"
+    };
+
+    // GET request
+    $http.get('/api/projects/' + userID).success(function(index) {
       $scope.index = index;
     });
 
 
-    // for advanced setting's modal
-    $scope.openAdvanced = function() {
-      //console.log($scope.form)
+    //using default settings
+    $scope.useDefault = function() {
+      if ($scope.checked == true) {
+        console.log($scope.checked);
+
+      }
+    }
+
+    // using advanced settings
+    $scope.useAdvanced = function() {
+      formData.setProperty($scope.form);
       $scope.modalInstance = $modal.open({
         templateUrl: 'myModalContent.html',
         controller: 'ModalInstanceCtrl',
@@ -25,6 +52,11 @@ angular.module('cloudsfmApp')
       });
     };
 
+    $scope.saveProjectParameters = function() {
+      $scope.advancedParams = formData.getProperty();
+      angular.extend($scope.form, $scope.advancedParams);
+      console.log($scope.form);
+    }
 
 
     // for upload router

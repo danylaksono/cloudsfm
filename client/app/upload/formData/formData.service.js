@@ -3,14 +3,16 @@
 angular.module('cloudsfmApp')
   .service('formData', function($rootScope) {
 
-    var service = {};
-    service.data = false;
-    service.sendData = function(data) {
-      this.data = data;
-      $rootScope.$broadcast('data_shared');
+    //initial variables for advanced SfM parameters
+    var tosend = {};
+
+
+    return {
+      getProperty: function() {
+        return tosend;
+      },
+      setProperty: function(value) {
+        angular.extend(tosend, value);
+      }
     };
-    service.getData = function() {
-      return this.data;
-    };
-    return service;
   });

@@ -74,12 +74,12 @@
 
 					<div class="form-group">
 						<label class="col-xs-3 control-label">Feature Detector
-						</label>w
+						</label>
 						<div class="col-xs-8">
 							<select ng-model="form.featDetector" class="form-control">
-								<option selected="selected">SIFT</option>
-								<option>AKAZE-FLOAT</option>
-								<option>AKAZE-BINARY</option>
+								<option value="SIFT" selected>SIFT</option>
+								<option value="AKAZE_FLOAT">AKAZE-FLOAT</option>
+								<option value="AKAZE_MLDB">AKAZE-BINARY</option>
 							</select>
 						</div>
 						<div class="col-xs-1">
@@ -92,9 +92,9 @@
 						</label>
 						<div class="col-xs-8">
 							<select ng-model="form.detPreset" class="form-control">
-								<option selected="selected">Normal</option>
-								<option>High</option>
-								<option>Ultra (very slow!)</option>
+								<option value="NORMAL" selected>Normal</option>
+								<option value="HIGH">High</option>
+								<option value="ULTRA">Ultra (very slow!)</option>
 							</select>
 						</div>
 						<div class="col-xs-1">
@@ -150,9 +150,9 @@
 						<label class="col-xs-3 control-label"> Geometric Model</label>
 						<div class="col-xs-8">
 							<select ng-model="form.geomModel" class="form-control">
-								<option selected>Fundamental</option>
-								<option>Essential</option>
-								<option>Homography</option>
+								<option value="f" selected>Fundamental</option>
+								<option value="e" >Essential</option>
+								<option value="h" >Homography</option>
 							</select>
 						</div>
 						<div class="col-xs-1">
@@ -165,9 +165,9 @@
 						<label class="col-xs-3 control-label"> Sequential Matching</label>
 						<div class="col-xs-8">
 							<select ng-model="form.seqModel" class="form-control">
-								<option selected>No Sequential Matching (1 to X)</option>
-								<option>Close Sequential Matching (1-2 to 2-3)</option>
-								<option>Medium Sequential Matching (1-2-3 to 2-3-4)</option>
+								<option value="X" selected>No Sequential Matching (1 to X)</option>
+								<option value="2"> Close Sequential Matching (1-2 to 2-3)</option>
+								<option value="3">Medium Sequential Matching (1-2-3 to 2-3-4)</option>
 							</select>
 						</div>
 						<div class="col-xs-1">
@@ -179,11 +179,11 @@
 						<label class="col-xs-3 control-label"> Nearest Matching Method </label>
 						<div class="col-xs-8">
 							<select ng-model="form.nearMethod" class="form-control">
-								<option selected>Automatic</option>
-								<option>BruteForce L2</option>
-								<option>Approximate Nearest Neighbor L2</option>
-								<option>Cascade Hashing L2</option>
-								<option>BruteForce Hamming </option>
+								<option value="AUTO" selected>Automatic</option>
+								<option value="BRUTEFORCEL2">BruteForce L2</option>
+								<option value="ANNL2">Approximate Nearest Neighbor L2</option>
+								<option value=" CASCADEHASHINGL2">Cascade Hashing L2</option>
+								<option value="BRUTEFORCEHAMMING">BruteForce Hamming </option>
 							</select>
 						</div>
 						<div class="col-xs-1">
@@ -230,7 +230,7 @@
 					<br/> If you want more customization on the 3D reconstruction parameters, check the Advanced Settings option. Explanation on each parameters can be found in
 					<strong><a href="#">Documentation</a></strong>
 					<span><br/>
-					{{form}}
+
 					</span>
 				</p>
 			</div>
@@ -242,7 +242,7 @@
 						<div class="form-group">
 							<label for="textinput">Project Name</label>
 							<div>
-								<input ng-model="form.name" name="projectName" type="text" placeholder="Project Name"
+								<input ng-model="form.projectName" name="projectName" type="text" placeholder="Project Name"
 								class="form-control input-md" required>
 								<i style="color:red" ng-show="cloudsfm.projectName.$error.required">*required</i>
 								<br>
@@ -253,7 +253,7 @@
 						<div class="form-group">
 							<label for="textinput">Description</label>
 							<div>
-								<textarea ng-model="form.description" name="projectDescription" class="form-control" id="projectdesc" rows="3" name="projectdesc" placeholder="Description (optional)"></textarea>
+								<textarea ng-model="form.projectDescription" name="projectDescription" class="form-control" id="projectdesc" rows="3" name="projectdesc" placeholder="Description (optional)"></textarea>
 							</div>
 						</div>
 
@@ -266,7 +266,7 @@
 
 						<div class="form-group">
 							<div>
-								<span class="btn btn-primary pull-right" ng-disabled="!checked" ng-click="openAdvanced()">
+								<span class="btn btn-primary pull-right" ng-disabled="!checked" ng-click="useAdvanced()">
 									<i class="fa fa-gears"></i> Advanced Settings
 								</span>
 							</div>
@@ -282,7 +282,9 @@
 				<p> Use the button below to select images, or to start capture images from your mobile phone. You can later remove bad images (blurred, out-of-focus, etc) before uploading to our server
 				</p>
 				<br/>
-				<button ng-disabled="cloudsfm.projectName.$error.required" class="btn btn-lg btn-success center-block" ngf-select ng-model="files" ngf-multiple="true" accept="'image/*'">
+				<button ng-disabled="cloudsfm.projectName.$error.required" class="btn btn-lg btn-success center-block"
+				ngf-select ngf-keep="true" ng-model="files" ngf-multiple="true" accept="'image/*'"
+				ng-click="saveProjectParameters()">
 					<i class="fa fa-file-image-o"></i> Select Images
 				</button>
 				<br/>
@@ -329,11 +331,12 @@
 			<h4> Upload to Server </h4>
 		</div>
 		<div class="panel-body">
+			<span> Files to Upload: {{files.length}} </span>
 			<p> Click this button to upload and start processing </p>
 			<button class="btn btn-lg btn-primary center-block" ng-click="upload(files)" ng-show="files.length > 0">
-				Upload Now!
+				Create Project!
 			</button>
-			<span ng-show="uploaded"> Files to Upload: {{files.length}} </span>
+
 
 		</div>
 		<!-- panel body -->

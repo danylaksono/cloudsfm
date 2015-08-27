@@ -4,14 +4,19 @@ angular.module('cloudsfmApp')
   .controller('ModalInstanceCtrl', function($scope, $http, $modalInstance,
     formData) {
 
+    // take the value from formData service
 
-    $scope.message = 'Hello';
-    $scope.form = {};
+    $modalInstance.opened.then(function() {
+
+      $scope.form = formData.getProperty();
+      //console.log($scope.form);
+    });
+
+
 
     $scope.save = function() {
-      console.log($scope.form);
-
-      //$modalInstance.close('');
+      formData.setProperty($scope.form);
+      $modalInstance.close('');
     };
 
     $scope.cancel = function() {
