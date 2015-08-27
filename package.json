@@ -21,7 +21,6 @@
     "method-override": "~1.0.0",
     "mongoose": "~3.8.8",
     "morgan": "~1.0.0",
-<<<<<<< HEAD
     "multer": "^1.0.1",
     "passport": "~0.2.0",
     "passport-facebook": "*",
@@ -33,7 +32,7 @@
     "socket.io": "^1.0.6",
     "socket.io-client": "^1.0.6",
     "socketio-jwt": "^2.0.2"
-=======
+
     "multer": "*",
     "node-static": "^0.7.6",
     "passport": "*",
@@ -43,7 +42,7 @@
     "socket.io": "*",
     "socket.io-client": "*",
     "socketio-jwt": "*"
->>>>>>> b33a6129a3a0b1cc228478b8086f979681c61b4f
+
   },
   "devDependencies": {
     "grunt": "~0.4.4",
