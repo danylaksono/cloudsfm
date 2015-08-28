@@ -15,8 +15,7 @@ var storeFiles = multer.diskStorage({
     var newDestination = ulFolder + req.body.userName + "/" + req.body.projectName +
       "/images/";
     cb(null, newDestination);
-    console.log('terupload');
-    console.log(req.body);
+    console.log('writing images to' + newDestination);
 
     fs.mkdirsSync(newDestination, function(err) {
       console.log('Error creating directory ', err);

@@ -2,7 +2,7 @@
 
 angular.module('cloudsfmApp')
   .controller('UploadCtrl', function($scope, $modal, $window, Upload, $http,
-    formData, Auth) {
+    formData, Auth, uuid4) {
 
     $scope.showThumb = true;
     $scope.uploaded = false;
@@ -14,6 +14,7 @@ angular.module('cloudsfmApp')
     $scope.form = {
       userID: userID,
       userName: userName,
+      projectID: uuid4.generate(),
       projectName: '',
       projectDescription: '',
       advancedSettings: {
