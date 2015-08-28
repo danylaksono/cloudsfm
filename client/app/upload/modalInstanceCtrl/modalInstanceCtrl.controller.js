@@ -7,9 +7,7 @@ angular.module('cloudsfmApp')
     // take the value from formData service
 
     $modalInstance.opened.then(function() {
-
       $scope.form = formData.getProperty();
-      //console.log($scope.form);
     });
 
 

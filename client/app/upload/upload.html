@@ -33,15 +33,15 @@
 							<label> Using known Focal Length or Intrinsic Camera Parameters? &nbsp;</label>
 						</div>
 						<div class="btn-group col-xs-4">
-							<label class="btn btn-info" ng-model="form.intrinsic" btn-radio="'focal'" checked> Focal </label>
-							<label class="btn btn-info" ng-model="form.intrinsic" btn-radio="'intrinsic'"> Intrinsic </label>
+							<label class="btn btn-info" ng-model="form.advancedSettings.intrinsic" btn-radio="'focal'" checked> Focal </label>
+							<label class="btn btn-info" ng-model="form.advancedSettings.intrinsic" btn-radio="'intrinsic'"> Intrinsic </label>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-xs-3 control-label">Focal (in pixels)</label>
 						<div class="col-xs-8">
-							<input type="text" ng-model="form.focal" class="form-control" value="2000" ng-disabled="form.intrinsic!=='focal'">
+							<input type="text" ng-model="form.advancedSettings.focal" class="form-control" value="2000" ng-disabled="form.advancedSettings.intrinsic!=='focal'">
 						</div>
 						<div class="col-xs-1">
 							<i class="fa fa-question-circle param-help" aria-label="question"></i>
@@ -51,7 +51,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label">Intrinsic (Kmatrix)</label>
 						<div class="col-xs-8">
-							<textarea ng-model="form.kmatrix" class="form-control" rows="2" ng-disabled="form.intrinsic!=='intrinsic'">f;0;ppx;0;f;ppy;0;0;1</textarea>
+							<textarea ng-model="form.advancedSettings.kmatrix" class="form-control" rows="2" ng-disabled="form.advancedSettings.intrinsic!=='intrinsic'">f;0;ppx;0;f;ppy;0;0;1</textarea>
 						</div>
 						<div class="col-xs-1">
 							<i class="fa fa-question-circle param-help" aria-label="question"></i>
@@ -76,7 +76,7 @@
 						<label class="col-xs-3 control-label">Feature Detector
 						</label>
 						<div class="col-xs-8">
-							<select ng-model="form.featDetector" class="form-control">
+							<select ng-model="form.advancedSettings.featDetector" class="form-control">
 								<option value="SIFT" selected>SIFT</option>
 								<option value="AKAZE_FLOAT">AKAZE-FLOAT</option>
 								<option value="AKAZE_MLDB">AKAZE-BINARY</option>
@@ -91,7 +91,7 @@
 						<label class="col-xs-3 control-label">Detection Preset
 						</label>
 						<div class="col-xs-8">
-							<select ng-model="form.detPreset" class="form-control">
+							<select ng-model="form.advancedSettings.detPreset" class="form-control">
 								<option value="NORMAL" selected>Normal</option>
 								<option value="HIGH">High</option>
 								<option value="ULTRA">Ultra (very slow!)</option>
@@ -105,10 +105,10 @@
 					<div class="form-group">
 						<label class="col-xs-3">Use upright parameter?</label>
 						<div class="col-xs-8 btn-group btn-toggle">
-							<button class="btn btn-info" ng-model="form.isUpright" btn-radio="'1'" style="min-width:100px">
+							<button class="btn btn-info" ng-model="form.advancedSettings.isUpright" btn-radio="'1'" style="min-width:100px">
 								<strong>Yes</strong>
 							</button>
-							<button class="btn btn-info" ng-model="form.isUpright" btn-radio="'0'" style="min-width:100px">
+							<button class="btn btn-info" ng-model="form.advancedSettings.isUpright" btn-radio="'0'" style="min-width:100px">
 								<strong>No</strong>
 							</button>
 						</div>
@@ -136,10 +136,10 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> ANN Ratio </label>
 						<div class="col-xs-7">
-							<input type="range" ng-model="form.annRatio" min="0.5" max="1" step="0.1" value="0.8">
+							<input type="range" ng-model="form.advancedSettings.annRatio" min="0.5" max="1" step="0.1" value="0.8">
 						</div>
 						<div class="col-xs-1" >
-							<span > {{form.annRatio}}</span>
+							<span > {{form.advancedSettings.annRatio}}</span>
 						</div>
 						<div class="col-xs-1">
 							<i class="fa fa-question-circle param-help" aria-label="question"></i>
@@ -149,7 +149,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> Geometric Model</label>
 						<div class="col-xs-8">
-							<select ng-model="form.geomModel" class="form-control">
+							<select ng-model="form.advancedSettings.geomModel" class="form-control">
 								<option value="f" selected>Fundamental</option>
 								<option value="e" >Essential</option>
 								<option value="h" >Homography</option>
@@ -164,7 +164,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> Sequential Matching</label>
 						<div class="col-xs-8">
-							<select ng-model="form.seqModel" class="form-control">
+							<select ng-model="form.advancedSettings.seqModel" class="form-control">
 								<option value="X" selected>No Sequential Matching (1 to X)</option>
 								<option value="2"> Close Sequential Matching (1-2 to 2-3)</option>
 								<option value="3">Medium Sequential Matching (1-2-3 to 2-3-4)</option>
@@ -178,7 +178,7 @@
 					<div class="form-group">
 						<label class="col-xs-3 control-label"> Nearest Matching Method </label>
 						<div class="col-xs-8">
-							<select ng-model="form.nearMethod" class="form-control">
+							<select ng-model="form.advancedSettings.nearMethod" class="form-control">
 								<option value="AUTO" selected>Automatic</option>
 								<option value="BRUTEFORCEL2">BruteForce L2</option>
 								<option value="ANNL2">Approximate Nearest Neighbor L2</option>
@@ -260,7 +260,7 @@
 						<div class="form-group">
 							<div class="checkbox">
 								<label>
-									<input type="checkbox" ng-model="checked"> Use advanced settings</label>
+									<input type="checkbox" ng-model="checked" > Use advanced settings</label>
 							</div>
 						</div>
 

@@ -17,7 +17,7 @@ var ProjectSchema = new Schema({
     ref: 'User'
   },
   advancedSettings: {
-    intrinsic: Boolean, // is the project using focal length or K-matrix?
+    intrinsic: String, // is the project using focal length or K-matrix?
     focal: Number, //for the focal number
     kmatrix: String, //for K Matrix Intrinsic parameters
     featDetector: String, // feature detector (SIFT, AKAZE, AK-FLOAT)

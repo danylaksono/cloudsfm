@@ -10,36 +10,30 @@ angular.module('cloudsfmApp')
     var userName = Auth.getCurrentUser().name;
     var userID = Auth.getCurrentUser()._id
 
+    // Default settings
     $scope.form = {
       userID: userID,
       userName: userName,
       projectName: '',
       projectDescription: '',
-      intrinsic: "focal",
-      focal: "2000",
-      kmatrix: "",
-      featDetector: "SIFT",
-      detPreset: "NORMAL",
-      isUpright: "1",
-      annRatio: "0.8",
-      geomModel: "e",
-      seqModel: "X",
-      nearMethod: "AUTO"
+      advancedSettings: {
+        intrinsic: "focal",
+        focal: "2000",
+        kmatrix: "",
+        featDetector: "SIFT",
+        detPreset: "NORMAL",
+        isUpright: "1",
+        annRatio: "0.8",
+        geomModel: "e",
+        seqModel: "X",
+        nearMethod: "AUTO"
+      }
     };
 
     // GET request
     $http.get('/api/projects/' + userID).success(function(index) {
       $scope.index = index;
     });
-
-
-    //using default settings
-    $scope.useDefault = function() {
-      if ($scope.checked == true) {
-        console.log($scope.checked);
-
-      }
-    }
 
     // using advanced settings
     $scope.useAdvanced = function() {
@@ -69,12 +63,8 @@ angular.module('cloudsfmApp')
           Upload.upload({
             url: '/api/projects',
             method: 'POST',
-            fields: {
-              projectName: $scope.projectName,
-              projectDescription: $scope.projectDescription
-            },
             file: file,
-            fileFormDataName: 'cloudsfm'
+            fields: $scope.form
           }).progress(function(evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config
