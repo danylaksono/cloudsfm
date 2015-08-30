@@ -10,8 +10,6 @@ angular.module('cloudsfmApp')
       $scope.form = formData.getProperty();
     });
 
-
-
     $scope.save = function() {
       formData.setProperty($scope.form);
       $modalInstance.close('');

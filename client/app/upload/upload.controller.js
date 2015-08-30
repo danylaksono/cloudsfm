@@ -17,18 +17,19 @@ angular.module('cloudsfmApp')
       projectID: uuid4.generate(),
       projectName: '',
       projectDescription: '',
-      advancedSettings: {
-        intrinsic: "focal",
-        focal: "2000",
-        kmatrix: "",
-        featDetector: "SIFT",
-        detPreset: "NORMAL",
-        isUpright: "1",
-        annRatio: "0.8",
-        geomModel: "e",
-        seqModel: "X",
-        nearMethod: "AUTO"
-      }
+      projectPath: '',
+      projectStatus: '',
+      intrinsic: "focal",
+      focal: "2000",
+      kmatrix: "",
+      featDetector: "SIFT",
+      detPreset: "NORMAL",
+      isUpright: "1",
+      annRatio: "0.8",
+      geomModel: "e",
+      seqModel: "X",
+      nearMethod: "AUTO"
+
     };
 
     // GET request
@@ -62,7 +63,7 @@ angular.module('cloudsfmApp')
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
           Upload.upload({
-            url: '/api/projects',
+            url: '/api/projects/',
             method: 'POST',
             file: file,
             fields: $scope.form
@@ -74,8 +75,7 @@ angular.module('cloudsfmApp')
             // bind progress bar style
             $scope.progressStyle = {
               width: $scope.progress + '%'
-            };
-
+            }
           }).success(function(data, status, headers, config) {
             console.log(headers);
             console.log('file ' + config.file.name +

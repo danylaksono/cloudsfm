@@ -1,39 +1,90 @@
 'use strict';
 
 angular.module('cloudsfmApp')
-  .controller('ManageCtrl', function($scope, $http, $window, Auth) {
+  .controller('ManageCtrl', function($scope, $http, $window, Auth, socket,
+    $modal) {
 
-    $scope.currentUsername = Auth.getCurrentUser().name;
-    $scope.currentProject = '';
+    $scope.clicked = false;
     $scope.downloadReady = false;
-    $scope.message = '';
 
-    $http.get('/api/uploadImages').success(function(projects) {
-      /*for (var i = 0; i < projects.length; i++) {
-        var username = projects[i].author.userName;
-        if ($scope.currentUsername === username) {
-          $scope.currentProject = projects[i];
-        } else {
-          console.log('project not found');
-        }
-      }
-      checkAvailability();
-*/
+
+    $http.get('/api/projects/' + Auth.getCurrentUser()._id).success(function(
+      projects) {
+
+      $scope.projects = projects;
+      console.log($scope.projects);
+
+      socket.syncUpdates('project', $scope.projects, function(event,
+        project, projects) {
+        // This callback is fired after the comments array is updated by the socket listeners
+
+        // sort the array every time its modified
+        projects.sort(function(a, b) {
+          a = new Date(a.date);
+          b = new Date(b.date);
+          return a > b ? -1 : a < b ? 1 : 0;
+        });
+      });
     });
 
-    var checkAvailability = function() {
-      var url = '/api/startsfms/' + '?name=' + $scope.currentUsername +
-        '&project=' + $scope.currentProject.projectName;
-      console.log(url);
-      $http.get(url).success(function(msg) {
-        $scope.message = msg;
-        if ($scope.message === 'Completed') {
-          $scope.downloadReady = true;
-        } else {
-          $scope.downloadReady = false;
+    // Clean up listeners when the controller is destroyed
+    $scope.$on('$destroy', function() {
+      socket.unsyncUpdates('project');
+    });
+
+
+    /*
+        var checkAvailability = function() {
+          var url = '/api/startsfms/' + '?name=' + $scope.currentUsername +
+            '&project=' + $scope.currentProject.projectName;
+          console.log(url);
+          $http.get(url).success(function(msg) {
+            $scope.message = msg;
+            if ($scope.message === 'Completed') {
+              $scope.downloadReady = true;
+            } else {
+              $scope.downloadReady = false;
+            }
+          });
+        };
+    */
+
+    $scope.summonInfo = function(key) {
+      $scope.displayThis = key;
+      $scope.clicked = true;
+    };
+
+
+    $scope.confirmDelete = function() {
+      $scope.modalInstance = $modal.open({
+        templateUrl: 'deleteConfirmation.html',
+        controller: 'DeleteProjectCtrl',
+        size: 'sm',
+        backdrop: 'static',
+        keyboard: true
+      });
+    }
+
+
+    $scope.deleteProject = function(project) {
+      $scope.confirmDelete();
+      $scope.modalInstance.result.then(function(value) {
+        if (value === 'affirmative') { //delete the project
+          $http.delete('/api/projects/' + Auth.getCurrentUser()._id, {
+            params: {
+              projectid: project._id,
+              projectpath: project.projectPath,
+              projectname: project.projectName
+            }
+          });
         }
       });
     };
+    /*
+
+          //  $scope.$apply();
+        };
+    */
 
     //for list
     $scope.param = 'none';

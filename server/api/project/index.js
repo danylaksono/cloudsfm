@@ -15,7 +15,8 @@ var storeFiles = multer.diskStorage({
     var newDestination = ulFolder + req.body.userName + "/" + req.body.projectName +
       "/images/";
     cb(null, newDestination);
-    console.log('writing images to' + newDestination);
+    console.log('writing images to ' + newDestination);
+    console.log(req.body);
 
     fs.mkdirsSync(newDestination, function(err) {
       console.log('Error creating directory ', err);
@@ -29,10 +30,10 @@ var destination = multer({
 
 
 router.get('/:id', auth.isAuthenticated(), controller.index);
-//router.get('/:id', controller.show);
+//router.get('/', auth.isAuthenticated(), controller.show);
 router.post('/', auth.isAuthenticated(), destination.array('file'), controller.create);
 //router.put('/:id', controller.update);
 //router.patch('/:id', controller.update);
-router.delete('/:id', controller.destroy);
+router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 
 module.exports = router;
