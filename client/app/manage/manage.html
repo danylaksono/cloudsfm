@@ -3,8 +3,8 @@
             <h3 class="modal-title">Delete Project</h3>
         </div>
         <div class="modal-body">
-            <p>Are you sure you want to delete project {{displayThis.name}}?</p>
-						<p style="color:red">Warning: This action can''t be undone</p>
+            <p>Are you sure you want to delete this project and its associated files?</p>
+						<p style="color:red">Warning: This action can not be undone</p>
 
         </div>
         <div class="modal-footer">
@@ -67,14 +67,7 @@
 				<div class="panel-heading clearfix">
 					<h3 class="panel-title pull-left" style="padding-top:10px">
 						<i class="fa fa-book"></i> &nbsp; Project Info</h3>
-					<!--div class="btn-group pull-right">
-						<button class="btn btn-danger" ng-click="delete(this)">
-							<i class="fa fa-trash-o"></i> &nbsp; <strong>Delete</strong></button>
-						<button class="btn btn-success" ng-click="download(this)">
-							<i class="fa fa-arrow-down"></i> &nbsp; <strong>Download</strong></button>
-					</div-->
 				</div>
-
 
 				<div class="panel-body" style="min-height:350px; max-height:350px; overflow-y:scroll">
 					<tabset justified="true">
@@ -87,13 +80,13 @@
 								<div ng-hide="clicked" style="text-align: center; vertical-align: middle;line-height: 90px; color:gray">
 									Click on a project to show it's status
 								</div>
-								<div ng-show="displayThis.projectStatus == 'Ready to Proceed'">
+								<!--div ng-show="displayThis.projectStatus == 'Ready to Proceed'">
 									<alert type="danger" close="bCloseAlert=1" ng-hide="bCloseAlert">
 										<small>You haven't start this project yet. Click on 'Start Processing' to process the images</small>
 									</alert>
-								</div>
+								</div-->
 
-								<div ng-show="clicked">
+								<div ng-if="clicked" class="animate-if">
 									<div class="list-group">
 									<div class="list-group-item">
 										<p class="list-group-item-text">Name</p>
@@ -101,11 +94,12 @@
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Description</p>
-										<h4 class="list-group-item-heading">{{displayThis.projectDescription}}</h4>
+										<h4 class="list-group-item-heading">
+											{{displayThis.projectDescription === null ? displayThis.projectDescription : "No Description Available"}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Status</p>
-										<h4 class="list-group-item-heading"><i>{{displayThis.projectStatus}}</i></h4>
+										<h4 class="list-group-item-heading" style="color:green"><i>{{displayThis.projectStatus}}</i></h4>
 									</div>
 									<div class="btn-group btn-group-justified">
 										<div class="btn-group">
@@ -130,17 +124,52 @@
 								<i class="fa fa-tasks"></i> Details
 							</tab-heading>
 							<div style="word-wrap:break-word">
-								<p> {{displayThis.intrinsic}}	</p>
-								<p> {{displayThis.focal}}	</p>
-								<p> {{displayThis.kmatrix}}	</p>
-								<p> {{displayThis.featDetector}}	</p>
-								<p> {{displayThis.detPreset}}	</p>
-								<p> {{displayThis.isUpright}}	</p>
-								<p> {{displayThis.annRatio}}	</p>
-								<p> {{displayThis.geomModel}}	</p>
-								<p> {{displayThis.seqModel}}	</p>
-								<p> {{displayThis.nearMethod}}	</p>
-
+								<br/>
+								<div ng-hide="clicked" style="text-align: center; vertical-align: middle;line-height: 90px; color:gray">
+									Click on a project to show it's status
+								</div>
+								<div class="list-group"  ng-if="clicked">
+									<div class="list-group-item">
+										<p class="list-group-item-text">Intrinsic camera definition</p>
+										<h4 class="list-group-item-heading"> Using {{displayThis.intrinsic}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Value of Focal Length (if intrinsic=focal)</p>
+										<h4 class="list-group-item-heading"> {{displayThis.focal}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Calibration Matrix K (if intrinsic=kmatrix)</p>
+										<h4 class="list-group-item-heading"> {{displayThis.kmatrix}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Algorithm for Feature Detector</p>
+										<h4 class="list-group-item-heading"> {{displayThis.featDetector}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Feature Detection Aggressiveness</p>
+										<h4 class="list-group-item-heading"> {{displayThis.detPreset}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Camera orientation is consistent</p>
+										<h4 class="list-group-item-heading"> {{displayThis.isUpright}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Feature Search Distance Ratio</p>
+										<h4 class="list-group-item-heading"> {{displayThis.annRatio}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Scene Geometric Model</p>
+										<h4 class="list-group-item-heading"> {{displayThis.geomModel}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Define Sequential Matching</p>
+										<h4 class="list-group-item-heading"> {{displayThis.seqModel}}</h4>
+									</div>
+									<div class="list-group-item">
+										<p class="list-group-item-text">Calculation Method for Nearest Matching</p>
+										<h4 class="list-group-item-heading"> {{displayThis.nearMethod}}</h4>
+									</div>
+								</div>
 							</div>
 						</tab>
 
@@ -148,10 +177,8 @@
 							<tab-heading>
 								<i class="fa fa-save"></i> Download
 							</tab-heading>
-							<div style="text-align: center; vertical-align: middle;line-height: 90px;">
+							<div style="text-align: center; vertical-align: middle; line-height: 90px; color:gray">
 								Nothing to download yet
-
-								{{displayThis._id}}
 							</div>
 						</tab>
 					</tabset>

@@ -57,35 +57,33 @@ angular.module('cloudsfmApp')
 
     // for upload router
     $scope.upload = function(files) {
-      $scope.numUploaded = 0;
       $scope.uploaded = true;
       if (files && files.length) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          Upload.upload({
-            url: '/api/projects/',
-            method: 'POST',
-            file: file,
-            fields: $scope.form
-          }).progress(function(evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config
-              .file.name);
-            $scope.progress = progressPercentage;
-            // bind progress bar style
-            $scope.progressStyle = {
-              width: $scope.progress + '%'
-            }
-          }).success(function(data, status, headers, config) {
-            console.log(headers);
-            console.log('file ' + config.file.name +
-              ' uploaded. Response: ' + data);
-            $scope.numUploaded += 1;
-            if ($scope.numUploaded === files.length) {
-              $window.location.href = '/manage';
-            }
-          });
-        }
+        //for (var i = 0; i < files.length; i++) {
+        //var file = files[i];
+        Upload.upload({
+          //fileFormDataName: 'imageupload',
+          url: '/api/projects/',
+          method: 'POST',
+          file: files,
+          fields: $scope.form
+        }).progress(function(evt) {
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ' + evt.config
+            .file.name);
+          $scope.progress = progressPercentage;
+          // bind progress bar style
+          $scope.progressStyle = {
+            width: $scope.progress + '%'
+          }
+        }).success(function(data, status, headers, config) {
+          console.log(headers);
+          console.log('Files uploaded. Response: ' + status);
+          if ($scope.progress == 100) {
+            $window.location.href = '/manage';
+          }
+        });
+        //}
       }
     };
 

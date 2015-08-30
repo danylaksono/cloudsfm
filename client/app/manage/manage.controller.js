@@ -14,6 +14,7 @@ angular.module('cloudsfmApp')
       $scope.projects = projects;
       console.log($scope.projects);
 
+      // socketJS update the data
       socket.syncUpdates('project', $scope.projects, function(event,
         project, projects) {
         // This callback is fired after the comments array is updated by the socket listeners
@@ -79,12 +80,10 @@ angular.module('cloudsfmApp')
           });
         }
       });
-    };
-    /*
 
-          //  $scope.$apply();
-        };
-    */
+      $scope.clicked = false;
+    };
+
 
     //for list
     $scope.param = 'none';
