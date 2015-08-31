@@ -4,16 +4,16 @@
 # Python implementation of the bash script written by Romuald Perrot
 # Created by @vins31
 # Modified by Pierre Moulon and Dany Laksono
-# 
+#
 # this script is for easy use of OpenMVG
 #
-# usage : python openmvg.py image_dir output_dir 
+# usage : python openmvg.py image_dir output_dir
 #
-# image_dir is the input directory where images are located 
+# image_dir is the input directory where images are located
 # output_dir is where the project must be saved
-# 
-# if output_dir is not present script will create it 
-# 
+#
+# if output_dir is not present script will create it
+#
 
 # Indicate the openMVG binary directory
 OPENMVG_SFM_BIN = "/home/dany/github/openMVG_Build/software/SfM"
@@ -74,7 +74,7 @@ if not os.path.exists(output_dir):
 if not os.path.exists(matches_dir):
   os.mkdir(matches_dir, 0755)
 
-print ("1. Intrisics analysis") 
+print ("1. Intrisics analysis")
 # modified to include camera with unknown parameter
 if cam_focus != '':
 	print ("Camera model or intrinsic parameter unknown. Using estimated focus")
@@ -111,5 +111,3 @@ pRecons.wait()
 
 pRecons = subprocess.Popen( [os.path.join(OPENMVG_SFM_BIN, "openMVG_main_ComputeSfM_DataColor"),  "-i", reconstruction_dir+"/robust.json", "-o", os.path.join(reconstruction_dir,"robust_colorized.ply")] )
 pRecons.wait()
-
-

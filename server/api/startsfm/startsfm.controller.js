@@ -23,52 +23,52 @@ exports.check = function(files) {
 		console.log('File Not Found');
 		message='Ready to Start';
 	}
-	return message;	
+	return message;
 }
-		
+
 // Whole processing route
 exports.startProcess = function(req, res, next) {
-		
+
 	// identifying working directories
 	var currentDir = shell.pwd();
 	var usernameDir = req.body.username;
 	var projectnameDir= req.body.projectname;
 	var workingDir = currentDir + '/uploaded' + '/' + usernameDir + '/' + projectnameDir;
-	
+
 	console.log(exports.usernameDir);
-	
+
 	// Defining SfM processing commands
 	// (initial sfm parameter are set to default now. future release will use parameter based on user input)
 	var GlobalSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 >> '+ workingDir +'/report_global.txt';
 	//var GlobalSfM = '';
 	var SequentialSfM = 'python SfM_GlobalPipeline.py -i ' + workingDir + '/images/ -o '+ workingDir + '/output/ -f 2000 >> '+ workingDir +'/report_sequential.txt';
 	var MVS = "printf \\r\\n | python MVE_FSSR_MVS.py -i " + workingDir + '/images/ -o '+ workingDir + '/scene/ >> '+ workingDir +'/report_mvs.txt';
-	
+
 	//Select SfM Method based on user input. Default is Global
 	var SfMmethod = 'Global';
-	
+
 	exports.global_sfm_dir = workingDir + '/output/reconstruction_global/';
 	exports.sequential_sfm_dir = workingDir + '/output/reconstruction_sequential/';
 	exports.mvs_scene_dir = workingDir + '/scene/';
-	
+
 	var start = present();
-	
+
 	var HTMLreport = '';
 	if(SfMmethod == 'Global') {
 		HTMLreport = exports.global_sfm_dir + 'SfMReconstruction_Report.html';
 		shell.exec(GlobalSfM);
 	} else {
 		HTMLreport = exports.sequential_sfm_dir + 'SfMReconstruction_Report.html';
-		shell.exec(SequentialSfM);	
+		shell.exec(SequentialSfM);
 	}
 	//executing MVS
 	shell.exec(MVS);
-	
+
 	var end = present();
-	
+
 	console.log("Process took " + ((end - start).toFixed(3))/60000 + " minute.")
-	 
-	var fileExist = exports.check(HTMLreport);	
+
+	var fileExist = exports.check(HTMLreport);
 
 	return res.json(fileExist);
 };
@@ -80,7 +80,7 @@ exports.download = function(req, res, next) {
 	var out_colorizedSfM = exports.global_sfm_dir + '/robust_colorized.ply';
 	var out_SfMReport = exports.global_sfm_dir + '/SfMReconstruction_Report.html';
 	var out_textured = exports.mvs_scene_dir + '/out_textured.obj';
-	
+
 	if (req.query.download == 'colorized-cloud'){
 		console.log('Requesting colorized cloud..');
 		return res.download(out_colorizedSfM);
@@ -97,11 +97,11 @@ exports.download = function(req, res, next) {
 			//{path: exports.mvs_scene_dir + 'out_textured_labeling.vec', name: 'out_textured_labeling.vec'},
 			//{path: exports.mvs_scene_dir + 'out_textured_material0000_map_Kd.png', name: 'out_textured_material0000_map_Kd.png'}
 			]);
-			
+
 	} else {
 		return res.json('Unknown query parameter')
 	}
-		
+
 };
 
 
@@ -112,10 +112,10 @@ exports.index = function(req, res) {
   var project = req.query.project;
   console.log(name);
   console.log(project);
-  
+
   var mvsobj = pwd + '/uploaded' + '/' + name + '/' + project + '/scene/out_textured.obj';
   var checkExist = exports.check(mvsobj);
-  console.log(checkExist);		
+  console.log(checkExist);
 
   return res.json(checkExist);
 
