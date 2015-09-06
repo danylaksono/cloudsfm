@@ -5,7 +5,7 @@ angular.module('cloudsfmApp')
     $modal) {
 
     $scope.clicked = false;
-    $scope.downloadReady = false;
+    $scope.downloadAvailable = false;
 
 
     $http.get('/api/projects/' + Auth.getCurrentUser()._id).success(function(
@@ -17,7 +17,7 @@ angular.module('cloudsfmApp')
       // socketJS update the data
       socket.syncUpdates('project', $scope.projects, function(event,
         project, projects) {
-        // This callback is fired after the comments array is updated by the socket listeners
+        //the socket listeners
 
         // sort the array every time its modified
         projects.sort(function(a, b) {
@@ -33,29 +33,39 @@ angular.module('cloudsfmApp')
       socket.unsyncUpdates('project');
     });
 
-
     /*
-        var checkAvailability = function() {
-          var url = '/api/startsfms/' + '?name=' + $scope.currentUsername +
-            '&project=' + $scope.currentProject.projectName;
-          console.log(url);
-          $http.get(url).success(function(msg) {
-            $scope.message = msg;
-            if ($scope.message === 'Completed') {
-              $scope.downloadReady = true;
-            } else {
-              $scope.downloadReady = false;
-            }
-          });
-        };
-    */
+    var checkAvailability = function(){
+    		var url = '/api/startsfms/' + '?name=' + $scope.currentUsername + '&project=' + $scope.currentProject.projectName;
+    		console.log(url);
+    		$http.get(url).success(function(msg){
+    			$scope.message = msg;
+    		if ($scope.message == 'Completed') {
+    			$scope.downloadReady = true;
+    		} else {
+    			$scope.downloadReady = false;
+    		}
+    		});
+    	};
+      */
 
     $scope.summonInfo = function(key) {
-      $scope.displayThis = key;
+      $scope.activeProject = key;
       $scope.clicked = true;
+      console.log($scope.activeProject.userName);
+
+      //checking project status
+      var summonUrl = '/api/startsfms/' + '?name=' + $scope.activeProject.userName +
+        '&project=' + $scope.activeProject.projectName;
+      $http.get(summonUrl).success(function(msg) {
+        console.log(msg);
+      }).error(function(err) {
+        console.log('Error occured!', err);
+      });
+
     };
 
 
+    // Delete confirmation
     $scope.confirmDelete = function() {
       $scope.modalInstance = $modal.open({
         templateUrl: 'deleteConfirmation.html',
@@ -83,6 +93,7 @@ angular.module('cloudsfmApp')
 
       $scope.clicked = false;
     };
+
 
 
     //for list

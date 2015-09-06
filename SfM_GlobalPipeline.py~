@@ -15,7 +15,7 @@
 #
 
 # Indicate the openMVG binary directory
-OPENMVG_SFM_BIN = "/usr/local/bin"
+OPENMVG_SFM_BIN = "/home/dany/github/openMVG_Build/software/SfM"
 
 # Indicate the openMVG camera sensor width directory
 CAMERA_SENSOR_WIDTH_DIRECTORY = "/home/dany/github/openMVG/src/software/SfM" + "/cameraSensorWidth"

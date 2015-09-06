@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 
 // define each project attribute
 var ProjectSchema = new Schema({
+  userName: String,
   projectID: String,
   projectName: String,
   projectDescription: String,

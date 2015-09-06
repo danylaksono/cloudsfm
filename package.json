@@ -32,6 +32,7 @@
     "passport-local": "*",
     "passport-twitter": "*",
     "present": "0.0.6",
+    "python-shell": "^0.1.0",
     "serve-favicon": "*",
     "socket.io": "*",
     "socket.io-client": "*",

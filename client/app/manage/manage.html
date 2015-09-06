@@ -80,7 +80,7 @@
 								<div ng-hide="clicked" style="text-align: center; vertical-align: middle;line-height: 90px; color:gray">
 									Click on a project to show it's status
 								</div>
-								<!--div ng-show="displayThis.projectStatus == 'Ready to Proceed'">
+								<!--div ng-show="activeProject.projectStatus == 'Ready to Proceed'">
 									<alert type="danger" close="bCloseAlert=1" ng-hide="bCloseAlert">
 										<small>You haven't start this project yet. Click on 'Start Processing' to process the images</small>
 									</alert>
@@ -90,20 +90,20 @@
 									<div class="list-group">
 									<div class="list-group-item">
 										<p class="list-group-item-text">Name</p>
-										<h4 class="list-group-item-heading"> {{displayThis.projectName}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.projectName}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Description</p>
 										<h4 class="list-group-item-heading">
-											{{displayThis.projectDescription === null ? displayThis.projectDescription : "No Description Available"}}</h4>
+											{{activeProject.projectDescription === null ? activeProject.projectDescription : "No Description Available"}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Status</p>
-										<h4 class="list-group-item-heading" style="color:green"><i>{{displayThis.projectStatus}}</i></h4>
+										<h4 class="list-group-item-heading" style="color:green"><i>{{activeProject.projectStatus}}</i></h4>
 									</div>
 									<div class="btn-group btn-group-justified">
 										<div class="btn-group">
-											<button class="btn btn-danger btn-lg" ng-click="deleteProject(displayThis)">
+											<button class="btn btn-danger btn-lg" ng-click="deleteProject(activeProject)">
 											<!--button class="btn btn-danger btn-lg" ng-click="confirmDelete()"-->
 												<i class="fa fa-trash"></i> Delete Project
 											</button>
@@ -131,43 +131,43 @@
 								<div class="list-group"  ng-if="clicked">
 									<div class="list-group-item">
 										<p class="list-group-item-text">Intrinsic camera definition</p>
-										<h4 class="list-group-item-heading"> Using {{displayThis.intrinsic}}</h4>
+										<h4 class="list-group-item-heading"> Using {{activeProject.intrinsic}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Value of Focal Length (if intrinsic=focal)</p>
-										<h4 class="list-group-item-heading"> {{displayThis.focal}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.focal}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Calibration Matrix K (if intrinsic=kmatrix)</p>
-										<h4 class="list-group-item-heading"> {{displayThis.kmatrix}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.kmatrix}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Algorithm for Feature Detector</p>
-										<h4 class="list-group-item-heading"> {{displayThis.featDetector}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.featDetector}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Feature Detection Aggressiveness</p>
-										<h4 class="list-group-item-heading"> {{displayThis.detPreset}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.detPreset}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Camera orientation is consistent</p>
-										<h4 class="list-group-item-heading"> {{displayThis.isUpright}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.isUpright}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Feature Search Distance Ratio</p>
-										<h4 class="list-group-item-heading"> {{displayThis.annRatio}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.annRatio}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Scene Geometric Model</p>
-										<h4 class="list-group-item-heading"> {{displayThis.geomModel}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.geomModel}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Define Sequential Matching</p>
-										<h4 class="list-group-item-heading"> {{displayThis.seqModel}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.seqModel}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Calculation Method for Nearest Matching</p>
-										<h4 class="list-group-item-heading"> {{displayThis.nearMethod}}</h4>
+										<h4 class="list-group-item-heading"> {{activeProject.nearMethod}}</h4>
 									</div>
 								</div>
 							</div>
