@@ -27,6 +27,8 @@ import sys, getopt
 import atexit
 from time import clock
 
+
+# function to calculate running time
 def secondsToStr(t):
     return "%d:%02d:%02d.%03d" % \
         reduce(lambda ll,b : divmod(ll[0],b) + ll[1:],
@@ -54,10 +56,11 @@ atexit.register(endlog)
 log("Start Program")
 
 
+
+# define arguments of this python script
 if len(sys.argv) < 3:
     print ("Usage %s image_dir output_dir cam_focus" % sys.argv[0])
     sys.exit(1)
-
 
 input_dir = ''
 output_dir = ''
@@ -80,11 +83,6 @@ for opt, arg in opts:
   elif opt in ("-f", "--focus"):
 	 cam_focus = arg
 
-
-
-#input_dir = sys.argv[1]
-#output_dir = sys.argv[2]
-#cam_focus = sys.argv[3]
 
 matches_dir = os.path.join(output_dir, "matches")
 reconstruction_dir = os.path.join(output_dir, "global")
