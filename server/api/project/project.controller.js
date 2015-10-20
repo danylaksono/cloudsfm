@@ -40,14 +40,15 @@ exports.create = function(req, res) {
   //write file project settings
   var settingsFile = "./uploaded/" + req.body.userName + "/" + req.body.projectName +
     '/settings.json';
-  fs.writeFile(settingsFile, JSON.stringify(req.body), function(err, data) {
+  fs.writeFile(settingsFile, JSON.stringify(req.body, null, 4), function(err,
+    data) {
     if (err) {
       return console.log(err);
     }
     console.log(data);
   });
 
-  // create new project in Mongo collection
+  // create and save new project in Mongo collection
   var project = new Project(_.merge({
     author: req.user._id
   }, req.body));
