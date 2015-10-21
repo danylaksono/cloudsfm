@@ -29,7 +29,7 @@ var destination = multer({
 });
 
 
-router.get('/:id', auth.isAuthenticated(), controller.index);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 //router.get('/', auth.isAuthenticated(), controller.show);
 router.post('/', auth.isAuthenticated(), destination.array('file'), controller.create);
 //router.put('/:id', controller.update);

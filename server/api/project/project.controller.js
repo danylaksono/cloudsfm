@@ -6,24 +6,37 @@ var fs = require('fs-extra')
 
 // Get list of projects
 exports.index = function(req, res) {
-  Project.find(function(err, projects) {
+
+  Project.loadRecent(function(err, projects) {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(200).json(projects);
+    /*console.log(req.user._id)
+    var userProjects = {};
+    projects.forEach(function(project) {
+      if (project.author._id == req.user._id) {
+
+      }
+    });
+
+    console.log(userProjects); */
+    return res.status(200).json(userProjects);
   });
 };
 
 // Get a single project
 exports.show = function(req, res) {
-  Project.findById(req.params.id, function(err, project) {
+  Project.find({
+    'userName': req.user.name
+  }, function(err, projects) {
     if (err) {
       return handleError(res, err);
     }
-    if (!project) {
+    /*if (!project) {
       return res.status(404).send('Not Found');
-    }
-    return res.json(project);
+    }*/
+    console.log(req.user)
+    return res.json(projects);
   });
 };
 

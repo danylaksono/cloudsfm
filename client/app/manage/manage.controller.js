@@ -17,8 +17,6 @@ angular.module('cloudsfmApp')
       // socketJS update the data
       socket.syncUpdates('project', $scope.projects, function(event,
         project, projects) {
-        //the socket listeners
-
         // sort the array every time its modified
         projects.sort(function(a, b) {
           a = new Date(a.date);
