@@ -1,18 +1,15 @@
 #!/usr/bin/python
 #! -*- encoding: utf-8 -*-
 
-# Python implementation of the bash script written by Romuald Perrot
-# Created by @vins31
-# Modified by Pierre Moulon and Dany Laksono
+# Created by Dany Laksono
+# Thanks to Romuald Perrot, @vins31 and Pierre Moulon
 #
-# this script is for easy use of OpenMVG
+# this script performs background sfm processing of CloudSfM
 #
 #
-# image_dir is the input directory where images are located
-# output_dir is where the project must be saved
+# Input iss project name based on CloudSfM web interface
 #
-# if output_dir is not present script will create it
-#
+
 
 # Indicate the openMVG binary directory
 BIN_DIR = "/usr/local/bin"
@@ -26,6 +23,7 @@ import subprocess
 import sys, getopt
 import atexit
 from time import clock
+import simplejson as json
 
 
 # function to calculate running time
@@ -58,43 +56,36 @@ log("Start Program")
 
 
 # define arguments of this python script
-if len(sys.argv) < 3:
-    print ("Usage %s image_dir output_dir cam_focus" % sys.argv[0])
+if len(sys.argv) < 1:
+    print ("Usage %s project" % sys.argv[0])
     sys.exit(1)
 
-input_dir = ''
-output_dir = ''
-cam_focus = ''
-
-
 try:
-  opts, args = getopt.getopt(sys.argv[1:],"hi:o:f:",["input=","output=","focus=" ])
+  opts, args = getopt.getopt(sys.argv[1:],"hp:",["project="])
 except getopt.GetoptError:
-  print 'test.py -i <inputfile> -o <outputfile> -f <focuslength>'
+  print 'test.py -p <projectname> '
   sys.exit(2)
 for opt, arg in opts:
   if opt == '-h':# usage : python openmvg.py image_dir output_dir
-	 print 'test.py -i <inputfile> -o <outputfile>'
+	 print 'test.py -p <projectname> '
 	 sys.exit()
-  elif opt in ("-i", "--input"):
-	 input_dir = arg
-  elif opt in ("-o", "--output"):
-	 output_dir = arg
-  elif opt in ("-f", "--focus"):
-	 cam_focus = arg
+ elif opt in ("-p", "--project"):
+	 project = arg
 
 
+
+# PARAMETERS
+
+input_dir = '/images'
+output_dir = '/output'
 matches_dir = os.path.join(output_dir, "matches")
 reconstruction_dir = os.path.join(output_dir, "global")
 mve_dir = os.path.join(output_dir, "mve")
 camera_file_params = os.path.join(CAMERA_SENSOR_WIDTH_DIRECTORY, "cameraGenerated.txt")
 
 
-print ("Using input dir  		: ", input_dir)
-print ("      output_dir 		: ", output_dir)
-print ("Estimated camera focus 	: ", cam_focus)
 
-
+# STRUCTURE FROM MOTION
 # Create the ouput/matches folder if not present
 if not os.path.exists(output_dir):
   os.mkdir(output_dir, 0755)
@@ -136,6 +127,9 @@ pRecons.wait()
 pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeSfM_DataColor"),  "-i", reconstruction_dir+"/robust.json", "-o", os.path.join(reconstruction_dir,"robust_colorized.ply")] )
 pRecons.wait()
 
+
+
+# MULTIVIEW RECONSTRUCTION
 # Create the mve dir if not present
 if not os.path.exists(mve_dir):
     os.mkdir(mve_dir, 0755)
@@ -176,5 +170,3 @@ pTexrecon.wait()
 
 
 print("Finished all process!")
-
-
