@@ -7,7 +7,7 @@
 # this script performs background sfm processing of CloudSfM
 #
 #
-# Input iss project name based on CloudSfM web interface
+# Input is project name based on CloudSfM web interface
 #
 
 
