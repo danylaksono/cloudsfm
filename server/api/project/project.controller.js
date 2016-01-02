@@ -49,7 +49,6 @@ exports.create = function(req, res) {
   req.body.projectStatus = 'Ready to Proceed';
   console.log(req.body);
 
-
   //write file project settings
   var settingsFile = "./uploaded/" + req.body.userName + "/" + req.body.projectName +
     '/settings.json';
@@ -76,6 +75,8 @@ exports.create = function(req, res) {
   });
 
 };
+
+
 
 // Updates an existing project in the DB.
 exports.update = function(req, res) {

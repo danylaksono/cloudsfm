@@ -92,6 +92,25 @@ angular.module('cloudsfmApp')
       $scope.clicked = false;
     };
 
+    $scope.startsfm = function(project) {
+      var request = {
+        method: 'POST',
+        url: '/api/startsfms',
+        data: {
+          username: project.userName,
+          projectname: project.projectName,
+          projectpath: project.projectPath
+        }
+      };
+
+      $http(request).success(function(msg) {
+        console.log('runtime' + msg)
+      }).error(function(err) {
+        console.log('Error occured!', err);
+      });
+
+    };
+
 
 
     //for list
@@ -108,45 +127,11 @@ angular.module('cloudsfmApp')
     }];
 
 
-    $scope.changedVal = function(theparam) {
-      $scope.downloadUrl = '/api/startsfms/' + Auth.getCurrentUser()._id +
-        '?download=' + theparam;
-
-      $http({
-        method: 'GET',
-        url: $scope.downloadUrl
-      }).success(function(data, status, headers, config) {
-        console.log(status);
-      });
-    };
 
     $scope.getfile = function() {
       $window.open($scope.downloadUrl, '_blank');
     };
 
-
-    $scope.startsfm = function() {
-      $scope.message = 'Processing Request...';
-      console.log('requesting pipelines');
-      var request = {
-        method: 'POST',
-        url: '/api/startsfms',
-        data: {
-          username: $scope.currentUsername,
-          projectname: $scope.currentProject.projectName
-        }
-      };
-
-      $http(request).success(function(msg) {
-        if (msg === 'Completed') {
-          $scope.message = msg;
-          $scope.downloadReady = true;
-        }
-      }).error(function(err) {
-        console.log('Error occured!', err);
-      });
-
-    };
 
 
   });

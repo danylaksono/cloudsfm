@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #! -*- encoding: utf-8 -*-
-# 
+#
 # Created by Dany Laksono
 # Thanks to Romuald Perrot, @vins31 and Pierre Moulon
 #
@@ -21,8 +21,6 @@ import os, stat
 import subprocess
 import sys, getopt
 import atexit
-from time import clock
-#import simplejson as json
 import json
 
 
@@ -34,7 +32,7 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 try:
-  opts, args = getopt.getopt(sys.argv[1:],"hu:p:",["user=","project="])
+  opts, args = getopt.getopt(sys.argv[1:],"hw:",["workingdir="])
 except getopt.GetoptError:
   print 'sfmglobal.py -u <username> -p <projectname> '
   sys.exit(2)
@@ -42,54 +40,20 @@ for opt, arg in opts:
   if opt == '-h':
 	 print 'sfmglobal.py -u <username> -p <projectname> '
 	 sys.exit()
-  elif opt in ("-u", "--user"):
-	 user_name = arg
-  elif opt in ("-p", "--project"):
-	 project_name = arg
-
-
-
-# function to calculate running time
-def secondsToStr(t):
-    return "%d:%02d:%02d.%03d" % \
-        reduce(lambda ll,b : divmod(ll[0],b) + ll[1:],
-            [(t*1000,),1000,60,60])
-
-line = "="*40
-def log(s, elapsed=None):
-    print line
-    print secondsToStr(clock()), '-', s
-    if elapsed:
-        print "Elapsed time:", elapsed
-    print line
-    print
-
-def endlog():
-    end = clock()
-    elapsed = end-start
-    log("End Program", secondsToStr(elapsed))
-
-def now():
-    return secondsToStr(clock())
-
-start = clock()
-atexit.register(endlog)
-log("Start Program")
+  elif opt in ("-w", "--workingdir"):
+	 project_dir = arg
 
 
 
 # INITIAL PARAMETERS
 
-project_path = "./uploaded/"+user_name+"/"+project_name
+project_path = project_dir
 
-#redirect all output to file 'report.html'
-#sys.stdout = open(os.path.join(project_path,"report.txt"), "w")
-
-#read the parameters from settings
-with open(project_path+'/settings.json') as params:    
+#read the parameters from settings.json
+with open(project_path+'/settings.json') as params:
     sfmparams = json.load(params)
 
-project_status = sfmparams['projectStatus']
+print(sfmparams['projectStatus'])
 input_dir = os.path.join(project_path, "images")
 output_dir = os.path.join(project_path, "output")
 matches_dir = os.path.join(output_dir, "matches")
@@ -157,7 +121,6 @@ pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_openMVG2MVE2"),
 pRecons.wait()
 
 print (" ")
-print ("===================================================")
 print ("Finished SfM Reconstruction. Continuing with MVS...")
 print (" ")
 
@@ -184,7 +147,7 @@ pMeshclean.wait()
 
 
 # TEXTURING
-print ("===================================================")
+print (" ")
 print ("Texturing Mesh...")
 print (" ")
 
@@ -193,5 +156,22 @@ print ("10. MVS-Texturing (3D model + images + camera parameters --> textured 3D
 pTexrecon = subprocess.Popen( [os.path.join(BIN_DIR, "texrecon"), scene_dir+"::undistorted", scene_dir+"/surface-clean.ply", scene_dir +"/textured"])
 pTexrecon.wait()
 
+
+print(' ')
+print('Updating settings.json...')
+print(' ')
+
+sfmparams['projectStatus'] = 'Finished'    
+
+with open(project_path+'/settings.json', 'w') as params:    
+    json.dump(sfmparams, params)
+
+print ("===================================================")
 print(' ')
 print("Finished all process!")
+
+
+
+
+
+
