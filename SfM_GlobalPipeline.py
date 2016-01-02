@@ -1,14 +1,13 @@
 #!/usr/bin/python
 #! -*- encoding: utf-8 -*-
-
+# 
 # Created by Dany Laksono
 # Thanks to Romuald Perrot, @vins31 and Pierre Moulon
 #
-# this script performs background sfm processing of CloudSfM
+# This script performs background SfM processing of CloudSfM Webservice
+# Input is username and project name based on CloudSfM web interface
 #
-#
-# Input is project name based on CloudSfM web interface
-#
+# openMVG parameters are based on version 0.9 (Paracheirodons Simulans)
 
 
 # Indicate the openMVG binary directory
@@ -23,7 +22,31 @@ import subprocess
 import sys, getopt
 import atexit
 from time import clock
-import simplejson as json
+#import simplejson as json
+import json
+
+
+
+
+# define arguments of this python script
+if len(sys.argv) < 2:
+    print ("Usage %s username projectname" % sys.argv[0])
+    sys.exit(1)
+
+try:
+  opts, args = getopt.getopt(sys.argv[1:],"hu:p:",["user=","project="])
+except getopt.GetoptError:
+  print 'sfmglobal.py -u <username> -p <projectname> '
+  sys.exit(2)
+for opt, arg in opts:
+  if opt == '-h':
+	 print 'sfmglobal.py -u <username> -p <projectname> '
+	 sys.exit()
+  elif opt in ("-u", "--user"):
+	 user_name = arg
+  elif opt in ("-p", "--project"):
+	 project_name = arg
+
 
 
 # function to calculate running time
@@ -55,73 +78,71 @@ log("Start Program")
 
 
 
-# define arguments of this python script
-if len(sys.argv) < 1:
-    print ("Usage %s project" % sys.argv[0])
-    sys.exit(1)
+# INITIAL PARAMETERS
 
-try:
-  opts, args = getopt.getopt(sys.argv[1:],"hp:",["project="])
-except getopt.GetoptError:
-  print 'test.py -p <projectname> '
-  sys.exit(2)
-for opt, arg in opts:
-  if opt == '-h':# usage : python openmvg.py image_dir output_dir
-	 print 'test.py -p <projectname> '
-	 sys.exit()
- elif opt in ("-p", "--project"):
-	 project = arg
+project_path = "./uploaded/"+user_name+"/"+project_name
 
+#redirect all output to file 'report.html'
+#sys.stdout = open(os.path.join(project_path,"report.txt"), "w")
 
+#read the parameters from settings
+with open(project_path+'/settings.json') as params:    
+    sfmparams = json.load(params)
 
-# PARAMETERS
-
-input_dir = '/images'
-output_dir = '/output'
+project_status = sfmparams['projectStatus']
+input_dir = os.path.join(project_path, "images")
+output_dir = os.path.join(project_path, "output")
 matches_dir = os.path.join(output_dir, "matches")
 reconstruction_dir = os.path.join(output_dir, "global")
 mve_dir = os.path.join(output_dir, "mve")
 camera_file_params = os.path.join(CAMERA_SENSOR_WIDTH_DIRECTORY, "cameraGenerated.txt")
 
 
+# =========================================================
+# 		STRUCTURE FROM MOTION
+# =========================================================
 
-# STRUCTURE FROM MOTION
-# Create the ouput/matches folder if not present
+# Create these folders if not present
 if not os.path.exists(output_dir):
   os.mkdir(output_dir, 0755)
 if not os.path.exists(matches_dir):
   os.mkdir(matches_dir, 0755)
+if not os.path.exists(reconstruction_dir):
+    os.mkdir(reconstruction_dir, 0755)
+if not os.path.exists(mve_dir):
+    os.mkdir(mve_dir, 0755)
 
+
+# OpenMVG Libraries
 print ("1. Intrisics analysis")
-# modified to include camera with unknown parameter
-print ("Camera model or intrinsic parameter unknown. Using estimated focus")
-pIntrisics = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_SfMInit_ImageListing"),  "-i", input_dir, "-o", matches_dir, "-f", cam_focus])
-pIntrisics.wait()
-
+if sfmparams["intrinsic"] == "focal":
+  print ("Using camera focus")
+  pIntrisics = subprocess.Popen([os.path.join(BIN_DIR, "openMVG_main_SfMInit_ImageListing"),  "-i", input_dir, "-o", matches_dir, "-f", sfmparams["focal"]])
+  pIntrisics.wait()
+else:
+  print ("Using Known Calibration Matrix")
+  pIntrisics = subprocess.Popen([os.path.join(BIN_DIR, "openMVG_main_SfMInit_ImageListing"),  "-i", input_dir, "-o", matches_dir, "-k", sfmparams["kmatrix"]])
+  pIntrisics.wait()
 
 print ("2. Compute features")
-pFeatures = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeFeatures"),  "-i", matches_dir+"/sfm_data.json", "-o", matches_dir, "-m", "SIFT", "-p", "HIGH"] )
+pFeatures = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeFeatures"),  "-i", matches_dir+"/sfm_data.json", "-o", matches_dir, "-m", sfmparams["featDetector"], "-u", sfmparams["isUpright"],  "-p", sfmparams["detPreset"]])
 pFeatures.wait()
 
 print ("3. Compute matches")
-pMatches = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeMatches"),  "-i", matches_dir+"/sfm_data.json", "-o", matches_dir, "-r", "0.8", "-g", "e"] )
+pMatches = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeMatches"),  "-i", matches_dir+"/sfm_data.json", "-o", matches_dir, "-r", sfmparams["annRatio"], "-n", sfmparams["nearMethod"], "-g", sfmparams["geomModel"]] )
 pMatches.wait()
 
-# Create the reconstruction dir if not present
-if not os.path.exists(reconstruction_dir):
-    os.mkdir(reconstruction_dir, 0755)
-
 print ("4. Do Global reconstruction")
-pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_GlobalSfM"),  "-i", matches_dir+"/sfm_data.json", "-m", matches_dir, "-o", reconstruction_dir, "-r", "2", "-t", "1"] )
+pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_GlobalSfM"), "-i", matches_dir+"/sfm_data.json", "-m", matches_dir, "-o", reconstruction_dir, "-r", "2", "-t", "1"] )
 pRecons.wait()
 
 print ("5. Colorize Structure")
-pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeSfM_DataColor"),  "-i", reconstruction_dir+"/sfm_data.json", "-o", os.path.join(reconstruction_dir,"colorized.ply")] )
+pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeSfM_DataColor"),  "-i", reconstruction_dir+"/sfm_data.bin", "-o", os.path.join(reconstruction_dir,"colorized.ply")] )
 pRecons.wait()
 
 # optional, compute final valid structure from the known camera poses
 print ("6. Structure from Known Poses (robust triangulation)")
-pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeStructureFromKnownPoses"),  "-i", reconstruction_dir+"/sfm_data.json", "-m", matches_dir, "-f", os.path.join(matches_dir, "matches.e.txt"), "-o", os.path.join(reconstruction_dir,"robust.json")] )
+pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeStructureFromKnownPoses"),  "-i", reconstruction_dir+"/sfm_data.bin", "-m", matches_dir, "-f", os.path.join(matches_dir, "matches.e.bin"), "-o", os.path.join(reconstruction_dir,"robust.json")] )
 pRecons.wait()
 
 pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_ComputeSfM_DataColor"),  "-i", reconstruction_dir+"/robust.json", "-o", os.path.join(reconstruction_dir,"robust_colorized.ply")] )
@@ -130,21 +151,19 @@ pRecons.wait()
 
 
 # MULTIVIEW RECONSTRUCTION
-# Create the mve dir if not present
-if not os.path.exists(mve_dir):
-    os.mkdir(mve_dir, 0755)
 
 print ("7. Conversion to MVE Format")
-pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_openMVG2MVE2"),  "-i", reconstruction_dir+"/sfm_data.json", "-o", mve_dir])
+pRecons = subprocess.Popen( [os.path.join(BIN_DIR, "openMVG_main_openMVG2MVE2"),  "-i", reconstruction_dir+"/sfm_data.bin", "-o", mve_dir])
 pRecons.wait()
 
 print (" ")
 print ("===================================================")
 print ("Finished SfM Reconstruction. Continuing with MVS...")
+print (" ")
 
 scene_dir = mve_dir+ "/MVE"
 
-print ("using scene dir: "+ scene_dir)
+#print ("using scene dir: "+ scene_dir)
 
 print ("8. Depth Map reconstruction (images + camera parameters --> depth maps)")
 # Depth-map reconstruction
@@ -163,10 +182,16 @@ pFSSR.wait()
 pMeshclean = subprocess.Popen( [os.path.join(BIN_DIR, "meshclean"), "-t10", "-c10000", scene_dir+"/surface.ply", scene_dir+"/surface-clean.ply"])
 pMeshclean.wait()
 
+
+# TEXTURING
+print ("===================================================")
+print ("Texturing Mesh...")
+print (" ")
+
 print ("10. MVS-Texturing (3D model + images + camera parameters --> textured 3D model)")
 # MVS-Texturing
 pTexrecon = subprocess.Popen( [os.path.join(BIN_DIR, "texrecon"), scene_dir+"::undistorted", scene_dir+"/surface-clean.ply", scene_dir +"/textured"])
 pTexrecon.wait()
 
-
+print(' ')
 print("Finished all process!")
