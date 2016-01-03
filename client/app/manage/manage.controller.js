@@ -174,7 +174,12 @@ angular.module('cloudsfmApp')
     }];
 
     $scope.downloadItem = function(project, item) {
+      $scope.downloadUrl = '/api/startsfms/download/' + Auth.getCurrentUser()
+        ._id + '?item=' + item + '&path=' + project.projectPath;
+      $window.open($scope.downloadUrl, '_blank');
+
       console.log('downloading ', item)
+
       var request = {
         method: 'GET',
         url: '/api/startsfms/download',
@@ -187,16 +192,11 @@ angular.module('cloudsfmApp')
         }
       };
 
-      $http(request).success(function(result) {
-        console.log(result);
+      $http(request).success(function(data, status, headers, config) {
+        console.log(status);
       });
 
     }
-
-
-    $scope.getfile = function() {
-      $window.open($scope.downloadUrl, '_blank');
-    };
 
 
 

@@ -188,7 +188,8 @@
 
                 <div ng-show="activeProject.projectStatus == 'Finished'" class="row" style="padding:20px">
                   <div class="list-group" ng-repeat="params in downloadParams">
-                    <a class="list-group-item list-group-item-warning" ng-click="downloadItem(activeProject, params.value)" style="cursor:pointer">
+                    <a class="list-group-item list-group-item-warning"  ng-href="" target="_blank"
+                    ng-click="downloadItem(activeProject, params.value)" style="cursor:pointer">
                     {{params.name}}
                     </a>
                   </div>

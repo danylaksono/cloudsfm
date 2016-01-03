@@ -95,26 +95,24 @@ exports.startProcess = function(req, res, next) {
 // Download
 exports.download = function(req, res, next) {
 	//console.log(req)
+	console.log('downloading item..')
 	console.log(req.query)
 
-	var workingdir = path.join(req.query.projectpath, "..");
+	var workingdir = path.join(req.query.path, "..");
 	console.log(workingdir)
-
-	var localpath = {
-		colorcloud: workingdir + '/output/global/robust_colorized.ply',
-		sfmreport: workingdir + '/output/global/SfMReconstruction_Report.html',
-		sfmgraph: workingdir + '/output/global/Reconstruction_Report.html',
-		textured: workingdir + '/output/mve/MVE/Reconstruction_Report.html',
-	}
+		//express.public(workingdir);
 
 	//return res.json('Unknown query parameter')
 
 	if (req.query.item == 'colorized-cloud') {
 		console.log('Requesting colorized cloud..');
-		return res.download(localpath.colorcloud);
+		return res.download(path.join(workingdir,
+			'/output/global/robust_colorized.ply'));
 	} else if (req.query.item == 'sfmreport') {
 		console.log('Requesting SfM Report...');
-		return res.download(localpath.sfmreport);
+		return res.sendFile('SfMReconstruction_Report.html', {
+			root: path.join(workingdir, '/output/global/')
+		});
 	} else if (req.query.item == 'textured') {
 		console.log('Requesting textured model...');
 		//return res.download(out_textured);
