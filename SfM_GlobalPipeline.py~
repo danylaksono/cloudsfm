@@ -49,11 +49,11 @@ for opt, arg in opts:
 
 project_path = project_dir
 
-#read the parameters from settings
+#read the parameters from settings.json
 with open(project_path+'/settings.json') as params:
     sfmparams = json.load(params)
 
-project_status = sfmparams['projectStatus']
+print(sfmparams['projectStatus'])
 input_dir = os.path.join(project_path, "images")
 output_dir = os.path.join(project_path, "output")
 matches_dir = os.path.join(output_dir, "matches")
@@ -160,6 +160,11 @@ pTexrecon.wait()
 print(' ')
 print('Updating settings.json...')
 print(' ')
+
+sfmparams['projectStatus'] = 'Finished'    
+
+with open(project_path+'/settings.json', 'w') as params:    
+    json.dump(sfmparams, params)
 
 print ("===================================================")
 print(' ')

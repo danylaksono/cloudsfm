@@ -95,11 +95,11 @@
 									<div class="list-group-item">
 										<p class="list-group-item-text">Description</p>
 										<h4 class="list-group-item-heading">
-											{{activeProject.projectDescription === null ? activeProject.projectDescription : "No Description Available"}}</h4>
+											{{activeProject.projectDescription}}</h4>
 									</div>
 									<div class="list-group-item">
 										<p class="list-group-item-text">Status</p>
-										<h4 class="list-group-item-heading" style="color:green"><i>{{activeProject.projectStatus}}</i></h4>
+										<h4 class="list-group-item-heading" style="color:green"><i>{{currentStatus}}</i></h4>
 									</div>
 									<div class="btn-group btn-group-justified">
 										<div class="btn-group">
@@ -109,7 +109,7 @@
 											</button>
 										</div>
 										<div class="btn-group">
-											<button class="btn btn-success btn-lg" ng-click="startsfm(activeProject)">
+											<button class="btn btn-success btn-lg" ng-click="startsfm(activeProject)" ng-disabled="isprocessing">
 												<i class="fa fa-arrow-right"></i> Start Processing
 											</button>
 										</div>

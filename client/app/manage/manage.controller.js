@@ -6,6 +6,7 @@ angular.module('cloudsfmApp')
 
     $scope.clicked = false;
     $scope.downloadAvailable = false;
+    $scope.currentStatus = '';
 
 
     $http.get('/api/projects/' + Auth.getCurrentUser()._id).success(function(
@@ -51,6 +52,8 @@ angular.module('cloudsfmApp')
       $scope.clicked = true;
       console.log($scope.activeProject.userName);
 
+      $scope.currentStatus = $scope.activeProject.projectStatus;
+
       //checking project status
       var summonUrl = '/api/startsfms/' + '?name=' + $scope.activeProject.userName +
         '&project=' + $scope.activeProject.projectName;
@@ -92,19 +95,42 @@ angular.module('cloudsfmApp')
       $scope.clicked = false;
     };
 
+
+    $scope.isprocessing = false;
     $scope.startsfm = function(project) {
+      $scope.currentStatus = 'Running SfM Reconstruction...';
+      if ($scope.currentStatus != project.projectstatus) {
+        $scope.isprocessing = true;
+      }
+
+      console.log('starting sfm reconstruction')
       var request = {
         method: 'POST',
         url: '/api/startsfms',
         data: {
           username: project.userName,
           projectname: project.projectName,
-          projectpath: project.projectPath
+          projectstatus: project.projectStatus
         }
       };
 
-      $http(request).success(function(msg) {
-        console.log('runtime' + msg)
+      $http(request).success(function(projectsetting) {
+        console.log(projectsetting);
+        var setting = JSON.parse(projectsetting);
+        if (setting.projectStatus == 'Finished') {
+          $scope.currentStatus = 'Finished';
+        } else {
+          $scope.currentStatus = 'Finished with Error';
+        }
+
+
+        // update project.model
+        $http.put('/api/projects/' + Auth.getCurrentUser()._id, {
+          params: {
+            projectid: project._id,
+            projectstatus: $scope.currentStatus
+          }
+        });
       }).error(function(err) {
         console.log('Error occured!', err);
       });

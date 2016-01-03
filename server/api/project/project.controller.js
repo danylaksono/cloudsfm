@@ -4,9 +4,10 @@ var _ = require('lodash');
 var Project = require('./project.model');
 var fs = require('fs-extra')
 
+
+// ============================================================================================
 // Get list of projects
 exports.index = function(req, res) {
-
   Project.loadRecent(function(err, projects) {
     if (err) {
       return handleError(res, err);
@@ -40,6 +41,7 @@ exports.show = function(req, res) {
   });
 };
 
+// ============================================================================================
 // Creates a new project in the DB.
 exports.create = function(req, res) {
   // don't include the date, if a user specified it
@@ -77,32 +79,47 @@ exports.create = function(req, res) {
 };
 
 
-
+// ============================================================================================
 // Updates an existing project in the DB.
 exports.update = function(req, res) {
+  console.log('Update project:' + req.body.params.projectid);
+  console.log(req.body.params);
+
+
   if (req.body._id) {
     delete req.body._id;
   }
-  Project.findById(req.params.id, function(err, project) {
+
+  var updatevalue = {
+    projectStatus: req.body.params.projectstatus
+  }
+
+  Project.findById(req.body.params.projectid, function(err, project) {
     if (err) {
       return handleError(res, err);
     }
     if (!project) {
       return res.status(404).send('Not Found');
     }
-    var updated = _.merge(project, req.body);
+    var updated = _.merge(project, updatevalue);
+    console.log(updated)
     updated.save(function(err) {
       if (err) {
         return handleError(res, err);
       }
       return res.status(200).json(project);
+
     });
+
   });
+
+
 };
 
+// ============================================================================================
 // Deletes a project from the DB.
 exports.destroy = function(req, res) {
-  console.log('hapus proyek:' + req.query.projectid);
+  console.log('delete project:' + req.query.projectid);
   console.log(req.query);
 
   // delete physical data

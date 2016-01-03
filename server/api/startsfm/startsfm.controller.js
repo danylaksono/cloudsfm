@@ -50,6 +50,7 @@ exports.startProcess = function(req, res, next) {
 
 	// identifying working directories
 	var currentDir = shell.pwd();
+
 	var usernameDir = req.body.username;
 	var projectnameDir = req.body.projectname;
 	var workingDir = currentDir + '/uploaded' + '/' + usernameDir + '/' +
@@ -58,20 +59,31 @@ exports.startProcess = function(req, res, next) {
 	console.log(workingDir);
 
 	// Running the python SfM processing commands
-	var GlobalSfM = 'python SfM_GlobalPipeline.py -w ' + workingDir + ' >> ' +
+	var GlobalSfM = 'python SfM_GlobalPipeline.py -w ' + workingDir + ' > ' +
 		workingDir + '/report_global.txt';
 
 	//log execution time of function
 	var start = present();
-	shell.exec(GlobalSfM);
+	//shell.exec(GlobalSfM);
 	var end = present();
 	var run_time = "Process took " + ((end - start).toFixed(3)) / 60000 +
 		" minute(s)."
 	console.log(run_time)
 
-	//var fileExist = exports.check(HTMLreport);
 
-	return res.json(run_time);
+	fs.readFile(workingDir + '/settings.json', 'utf-8', function(err, data) {
+		if (err) {
+			console.log(err);
+		} else {
+			//console.log(data);
+			var lateststatus = data;
+			console.log(lateststatus)
+			return res.json(lateststatus)
+		}
+	});
+
+
+
 };
 
 
