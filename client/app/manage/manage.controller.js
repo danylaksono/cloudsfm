@@ -5,9 +5,24 @@ angular.module('cloudsfmApp')
     $modal) {
 
     $scope.clicked = false;
-    $scope.downloadAvailable = false;
+    $scope.isFinished = false;
     $scope.currentStatus = '';
+    $scope.downloadactive = false;
+    $scope.downloadready = false;
 
+
+    //moving between tab seamlesly using angular ui
+    $scope.active = {
+      basic: true
+    };
+
+    $scope.activateTab = function(tab) {
+      $scope.active = {}; //reset
+      $scope.active[tab] = true;
+    }
+
+
+    // get all projects in mongodb
 
     $http.get('/api/projects/' + Auth.getCurrentUser()._id).success(function(
       projects) {
@@ -32,27 +47,18 @@ angular.module('cloudsfmApp')
       socket.unsyncUpdates('project');
     });
 
-    /*
-    var checkAvailability = function(){
-    		var url = '/api/startsfms/' + '?name=' + $scope.currentUsername + '&project=' + $scope.currentProject.projectName;
-    		console.log(url);
-    		$http.get(url).success(function(msg){
-    			$scope.message = msg;
-    		if ($scope.message == 'Completed') {
-    			$scope.downloadReady = true;
-    		} else {
-    			$scope.downloadReady = false;
-    		}
-    		});
-    	};
-      */
-
     $scope.summonInfo = function(key) {
       $scope.activeProject = key;
       $scope.clicked = true;
-      console.log($scope.activeProject.userName);
+      $scope.activateTab('basic');
+      console.log($scope.activeProject.projectName);
+      console.log($scope.activeProject.projectStatus);
 
       $scope.currentStatus = $scope.activeProject.projectStatus;
+
+      if ($scope.currentStatus = 'Finished') {
+        $scope.isFinished = true;
+      }
 
       //checking project status
       var summonUrl = '/api/startsfms/' + '?name=' + $scope.activeProject.userName +
@@ -91,7 +97,6 @@ angular.module('cloudsfmApp')
           });
         }
       });
-
       $scope.clicked = false;
     };
 
@@ -119,11 +124,10 @@ angular.module('cloudsfmApp')
         var setting = JSON.parse(projectsetting);
         if (setting.projectStatus == 'Finished') {
           $scope.currentStatus = 'Finished';
+
         } else {
           $scope.currentStatus = 'Finished with Error';
         }
-
-
         // update project.model
         $http.put('/api/projects/' + Auth.getCurrentUser()._id, {
           params: {
@@ -139,19 +143,55 @@ angular.module('cloudsfmApp')
 
 
 
-    //for list
-    $scope.param = 'none';
-    $scope.paramsopt = [{
-      value: 'colorized-cloud',
-      name: 'Colorized Point-cloud'
-    }, {
+    /*
+    var checkAvailability = function(){
+        var url = '/api/startsfms/' + '?name=' + $scope.currentUsername + '&project=' + $scope.currentProject.projectName;
+        console.log(url);
+        $http.get(url).success(function(msg){
+          $scope.message = msg;
+        if ($scope.message == 'Completed') {
+          $scope.downloadReady = true;
+        } else {
+          $scope.downloadReady = false;
+        }
+        });
+      };
+      */
+
+
+
+    //List of downloadable items
+    $scope.downloadParams = [{
       value: 'sfmreport',
       name: 'HTML Report'
+
+    }, {
+      value: 'colorized-cloud',
+      name: 'Colorized Point-cloud'
     }, {
       value: 'textured',
       name: 'Textured OBJ'
     }];
 
+    $scope.downloadItem = function(project, item) {
+      console.log('downloading ', item)
+      var request = {
+        method: 'GET',
+        url: '/api/startsfms/download',
+        params: {
+          projectid: project._id,
+          username: project.userName,
+          projectname: project.projectName,
+          projectpath: project.projectPath,
+          item: item
+        }
+      };
+
+      $http(request).success(function(result) {
+        console.log(result);
+      });
+
+    }
 
 
     $scope.getfile = function() {

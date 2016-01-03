@@ -164,7 +164,7 @@ print(' ')
 sfmparams['projectStatus'] = 'Finished'    
 
 with open(project_path+'/settings.json', 'w') as params:    
-    json.dump(sfmparams, params)
+    json.dump(sfmparams, params, sort_keys=True, indent=4, separators=(',', ': '))
 
 print ("===================================================")
 print(' ')

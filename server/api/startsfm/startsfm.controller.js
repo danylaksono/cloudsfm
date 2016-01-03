@@ -71,12 +71,17 @@ exports.startProcess = function(req, res, next) {
 	console.log(run_time)
 
 
+	var lateststatus;
 	fs.readFile(workingDir + '/settings.json', 'utf-8', function(err, data) {
 		if (err) {
 			console.log(err);
+			lateststatus = {
+				projectStatus: "Error during reconstruction"
+			}
+			return res.json(lateststatus)
 		} else {
 			//console.log(data);
-			var lateststatus = data;
+			lateststatus = data;
 			console.log(lateststatus)
 			return res.json(lateststatus)
 		}
@@ -89,32 +94,45 @@ exports.startProcess = function(req, res, next) {
 
 // Download
 exports.download = function(req, res, next) {
-	return res.json('Unknown query parameter')
-		/*
-		var out_colorizedSfM = exports.global_sfm_dir + '/robust_colorized.ply';
-		var out_SfMReport = exports.global_sfm_dir + '/SfMReconstruction_Report.html';
-		var out_textured = exports.mvs_scene_dir + '/out_textured.obj';
+	//console.log(req)
+	console.log(req.query)
 
-		if (req.query.download == 'colorized-cloud'){
-			console.log('Requesting colorized cloud..');
-			return res.download(out_colorizedSfM);
-		} else if (req.query.download == 'sfmreport') {
-			console.log('Requesting SfM Report...');
-			return res.download(out_SfMReport);
-		} else if (req.query.download == 'textured') {
-			console.log('Requesting textured model...');
-			//return res.download(out_textured);
-			return res.zip([
-				{path: exports.mvs_scene_dir + 'out_textured.obj', name: 'out_textured.obj'},
-				{path: exports.mvs_scene_dir + 'out_textured.mtl', name: 'out_textured.mtl'}
-				//{path: exports.mvs_scene_dir + 'out_textured_data_costs.spt', name: 'out_textured_data_costs.spt'},
-				//{path: exports.mvs_scene_dir + 'out_textured_labeling.vec', name: 'out_textured_labeling.vec'},
-				//{path: exports.mvs_scene_dir + 'out_textured_material0000_map_Kd.png', name: 'out_textured_material0000_map_Kd.png'}
-				]);
+	var workingdir = path.join(req.query.projectpath, "..");
+	console.log(workingdir)
 
-		} else {
-			return res.json('Unknown query parameter')
-		}*/
+	var localpath = {
+		colorcloud: workingdir + '/output/global/robust_colorized.ply',
+		sfmreport: workingdir + '/output/global/SfMReconstruction_Report.html',
+		sfmgraph: workingdir + '/output/global/Reconstruction_Report.html',
+		textured: workingdir + '/output/mve/MVE/Reconstruction_Report.html',
+	}
+
+	//return res.json('Unknown query parameter')
+
+	if (req.query.item == 'colorized-cloud') {
+		console.log('Requesting colorized cloud..');
+		return res.download(localpath.colorcloud);
+	} else if (req.query.item == 'sfmreport') {
+		console.log('Requesting SfM Report...');
+		return res.download(localpath.sfmreport);
+	} else if (req.query.item == 'textured') {
+		console.log('Requesting textured model...');
+		//return res.download(out_textured);
+		return res.zip([{
+				path: exports.mvs_scene_dir + 'textured.obj',
+				name: 'out_textured.obj'
+			}, {
+				path: exports.mvs_scene_dir + 'textured.mtl',
+				name: 'out_textured.mtl'
+			}
+			//{path: exports.mvs_scene_dir + 'textured_data_costs.spt', name: 'out_textured_data_costs.spt'},
+			//{path: exports.mvs_scene_dir + 'textured_labeling.vec', name: 'out_textured_labeling.vec'},
+			//{path: exports.mvs_scene_dir + 'textured_material0000_map_Kd.png', name: 'out_textured_material0000_map_Kd.png'}
+		]);
+
+	} else {
+		return res.json('Unknown query parameter')
+	}
 
 };
 
