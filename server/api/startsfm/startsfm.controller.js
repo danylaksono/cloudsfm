@@ -64,7 +64,7 @@ exports.startProcess = function(req, res, next) {
 
 	//log execution time of function
 	var start = present();
-	//shell.exec(GlobalSfM);
+	shell.exec(GlobalSfM);
 	var end = present();
 	var run_time = "Process took " + ((end - start).toFixed(3)) / 60000 +
 		" minute(s)."
@@ -117,16 +117,22 @@ exports.download = function(req, res, next) {
 		console.log('Requesting textured model...');
 		//return res.download(out_textured);
 		return res.zip([{
-				path: exports.mvs_scene_dir + 'textured.obj',
-				name: 'out_textured.obj'
-			}, {
-				path: exports.mvs_scene_dir + 'textured.mtl',
-				name: 'out_textured.mtl'
-			}
-			//{path: exports.mvs_scene_dir + 'textured_data_costs.spt', name: 'out_textured_data_costs.spt'},
-			//{path: exports.mvs_scene_dir + 'textured_labeling.vec', name: 'out_textured_labeling.vec'},
-			//{path: exports.mvs_scene_dir + 'textured_material0000_map_Kd.png', name: 'out_textured_material0000_map_Kd.png'}
-		]);
+			path: path.join(workingdir, '/output/mve/MVE/textured.obj'),
+			name: 'textured.obj'
+		}, {
+			path: path.join(workingdir, '/output/mve/MVE/textured.mtl'),
+			name: 'textured.mtl'
+		}, {
+			path: path.join(workingdir, '/output/mve/MVE/textured_data_costs.spt'),
+			name: 'textured_data_costs.spt'
+		}, {
+			path: path.join(workingdir, '/output/mve/MVE/textured_labeling.vec'),
+			name: 'textured_labeling.vec'
+		}, {
+			path: path.join(workingdir,
+				'/output/mve/MVE/textured_material0000_map_Kd.png'),
+			name: 'textured_material0000_map_Kd.png'
+		}]);
 
 	} else {
 		return res.json('Unknown query parameter')
