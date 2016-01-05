@@ -110,10 +110,12 @@
                         </button>
                       </div>
                       <div class="btn-group">
-                        <button class="btn btn-success btn-lg" ng-click="startsfm(activeProject)" ng-disabled="isprocessing" ng-hide="activeProject.projectStatus == 'Finished'">
+                        <button class="btn btn-success btn-lg" ng-click="startsfm(activeProject)" ng-disabled="isprocessing"
+                        ng-hide="activeProject.projectStatus == 'Finished'">
                           <i class="fa fa-arrow-right"></i> Start Processing
                         </button>
-                        <button class="btn btn-info btn-lg" ng-click="activateTab('download')" ng-show="activeProject.projectStatus == 'Finished'">
+                        <button class="btn btn-info btn-lg" ng-click="activateTab('download')"
+                        ng-show="activeProject.projectStatus == 'Finished'">
                           <i class="fa fa-cloud-download"></i> Download
                         </button>
                       </div>

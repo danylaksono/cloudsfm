@@ -83,8 +83,7 @@ exports.create = function(req, res) {
 // Updates an existing project in the DB.
 exports.update = function(req, res) {
   console.log('Update project:' + req.body.params.projectid);
-  console.log(req.body.params);
-
+  console.log('parameters to write', req.body.params);
 
   if (req.body._id) {
     delete req.body._id;

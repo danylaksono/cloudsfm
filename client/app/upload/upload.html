@@ -242,7 +242,8 @@
 						<div class="form-group">
 							<label for="textinput">Project Name</label>
 							<div>
-								<input ng-model="form.projectName" name="projectName" type="text" placeholder="Project Name"
+								<input ng-model="form.projectName"  ng-trim="false" ng-change="field = field.split(' ').join('')"
+								name="projectName" type="text" placeholder="Project Name"
 								class="form-control input-md" required>
 								<i style="color:red" ng-show="cloudsfm.projectName.$error.required">*required</i>
 								<br>
