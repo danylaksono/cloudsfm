@@ -102,7 +102,9 @@ angular.module('cloudsfmApp')
 
 
     $scope.isprocessing = false;
+
     $scope.startsfm = function(project) {
+      $scope.activeProject.projectStatus = 'Running SfM Reconstruction...';
       $scope.currentStatus = 'Running SfM Reconstruction...';
       if ($scope.currentStatus != project.projectstatus) {
         $scope.isprocessing = true;
