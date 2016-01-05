@@ -124,21 +124,23 @@ angular.module('cloudsfmApp')
       $http(request).success(function(projectsetting) {
         var setting = JSON.parse(projectsetting);
         console.log('read settingjson', setting);
+        $scope.activeProject.projectStatus = 'Finished';
         if (setting.projectStatus == 'Finished') {
           $scope.currentStatus = 'Finished';
           $scope.isprocessing = false;
         } else {
           $scope.currentStatus = 'Finished with Error';
         }
-        // update project.model
-        $http.put('/api/projects/' + Auth.getCurrentUser()._id, {
-          params: {
-            projectid: project._id,
-            projectstatus: setting.projectStatus
-          }
-        });
       }).error(function(err) {
         console.log('Error occured!', err);
+      });
+
+      // update project.model
+      $http.put('/api/projects/' + Auth.getCurrentUser()._id, {
+        params: {
+          projectid: project._id,
+          projectstatus: $scope.currentStatus
+        }
       });
 
     };
