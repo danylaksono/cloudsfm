@@ -3,7 +3,7 @@
 describe('Controller: UploadCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('sfmApp'));
+  beforeEach(module('cloudsfmApp'));
 
   var UploadCtrl, scope;
 

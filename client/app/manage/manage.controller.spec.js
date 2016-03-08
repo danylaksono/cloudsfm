@@ -3,7 +3,7 @@
 describe('Controller: ManageCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('sfmApp'));
+  beforeEach(module('cloudsfmApp'));
 
   var ManageCtrl, scope;
 

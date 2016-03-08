@@ -1,60 +1,263 @@
+<script type="text/ng-template" id="deleteConfirmation.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Delete Project</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete this project and its associated files?</p>
+    <p style="color:red">Warning: This action can not be undone</p>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="closeConfirm()">DELETE</button>
+    <button class="btn btn-primary" type="button" ng-click="cancel()">Cancel</button>
+  </div>
+</script>
+
 <div ng-include="'components/navbar/navbar.html'"> </div>
 
 <div class='container'>
-<h2> Project Manager</h2>
-<hr/><br/>
 
+  <h2> Project Manager</h2>
+  <hr/>
+  <br/>
+
+
+  <div class="row">
+
+    <div class="col-md-7 col-xs-7 bootcards-list">
+      <div class="panel panel-info">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left" style="padding-top:10px">
+            <i class="fa fa-list-ul"></i> List of Your Projects</h3>
+        </div>
+        <div class="panel-body" style="min-height:300px; max-height:350px; overflow-x:hidden; overflow-y:visible;">
+          <div class="row">
+            <div class="col-xs-9">
+              <div class="form-group">
+                <input type="text" class="form-control" ng-model="query" placeholder="Search Projects...">
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <a class="btn btn-primary btn-block" href="/upload">
+                <i class="fa fa-plus-square"></i>&nbsp; Add Project
+              </a>
+            </div>
+          </div>
+          <div class="row" style="padding:20px">
+            <div class="list-group" ng-repeat="project in projects | orderBy: '-date' | filter:query">
+              <a class="list-group-item" ng-click="summonInfo(project)" style="cursor:pointer">
+                <i class="pull-right glyphicon glyphicon-chevron-right"></i>
+                <img class="img-rounded pull-left" />
+                <h4 class="list-group-item-heading">{{project.projectName}}</h4>
+                <p class="list-group-item-text">Created at: {{project.date | date:'medium'}}</p>
+              </a>
+            </div>
+
+            <div ng-show="!projects.length" style="text-align: center; vertical-align: middle;line-height: 90px; color:gray">
+              You don't have any project yet. Click on
+              <strong>Add Project</strong> to start
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5 col-xs-5 bootcards-list">
+      <div class="panel panel-info">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left" style="padding-top:10px">
+            <i class="fa fa-book"></i> &nbsp; Project Info</h3>
+        </div>
+
+        <div class="panel-body" style="min-height:300px; max-height:350px; overflow-y:scroll">
+          <tabset justified="true">
+            <tab active="active.basic">
+              <tab-heading>
+                <i class="fa fa-info-circle"></i> Basic Info
+              </tab-heading>
+              <div style="word-wrap:break-word">
+                <br/>
+                <div ng-hide="clicked" style="text-align: center; vertical-align: middle;line-height: 90px; color:gray">
+                  Click on a project to show it's status
+                </div>
+                <!--div ng-show="activeProject.projectStatus == 'Ready to Proceed'">
+									<alert type="danger" close="bCloseAlert=1" ng-hide="bCloseAlert">
+										<small>You haven't start this project yet. Click on 'Start Processing' to process the images</small>
+									</alert>
+								</div-->
+
+                <div ng-if="clicked" class="animate-if">
+                  <div class="list-group">
+                    <div class="list-group-item">
+                      <p class="list-group-item-text">Name</p>
+                      <h4 class="list-group-item-heading"> {{activeProject.projectName}}</h4>
+                    </div>
+                    <div class="list-group-item">
+                      <p class="list-group-item-text">Description</p>
+                      <h4 class="list-group-item-heading">
+                        {{activeProject.projectDescription}}</h4>
+                    </div>
+                    <div class="list-group-item">
+                      <p class="list-group-item-text">Status</p>
+                      <h4 class="list-group-item-heading" style="color:green"><i>{{activeProject.projectStatus}}</i></h4>
+                    </div>
+                    <div class="btn-group btn-group-justified">
+                      <div class="btn-group">
+                        <button class="btn btn-danger btn-lg" ng-click="deleteProject(activeProject)">
+                          <!--button class="btn btn-danger btn-lg" ng-click="confirmDelete()"-->
+                          <i class="fa fa-trash"></i> Delete Project
+                        </button>
+                      </div>
+                      <div class="btn-group">
+                        <button class="btn btn-success btn-lg" ng-click="startsfm(activeProject)" ng-disabled="isprocessing"
+                        ng-hide="activeProject.projectStatus == 'Finished'">
+                          <i class="fa fa-arrow-right"></i> Start Processing
+                        </button>
+                        <button class="btn btn-info btn-lg" ng-click="activateTab('download')"
+                        ng-show="activeProject.projectStatus == 'Finished'">
+                          <i class="fa fa-cloud-download"></i> Download
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tab>
+
+            <tab active="active.detail">
+              <tab-heading>
+                <i class="fa fa-tasks"></i> Details
+              </tab-heading>
+              <div style="word-wrap:break-word">
+                <br/>
+                <div ng-hide="clicked" style="text-align: center; vertical-align: middle;line-height: 90px; color:gray">
+                  Click on a project to show it's status
+                </div>
+                <div class="list-group" ng-if="clicked">
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Intrinsic camera definition</p>
+                    <h4 class="list-group-item-heading"> Using {{activeProject.intrinsic}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Value of Focal Length (if intrinsic=focal)</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.focal}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Calibration Matrix K (if intrinsic=kmatrix)</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.kmatrix}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Algorithm for Feature Detector</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.featDetector}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Feature Detection Aggressiveness</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.detPreset}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Camera orientation is consistent</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.isUpright}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Feature Search Distance Ratio</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.annRatio}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Scene Geometric Model</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.geomModel}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Define Sequential Matching</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.seqModel}}</h4>
+                  </div>
+                  <div class="list-group-item">
+                    <p class="list-group-item-text">Calculation Method for Nearest Matching</p>
+                    <h4 class="list-group-item-heading"> {{activeProject.nearMethod}}</h4>
+                  </div>
+                </div>
+              </div>
+            </tab>
+
+            <tab active="active.download">
+              <tab-heading>
+                <i class="fa fa-save"></i> Download
+              </tab-heading>
+              <div>
+                <div style="text-align: center; vertical-align: middle; line-height: 90px; color:gray">
+                  <i ng-show="activeProject.projectStatus != 'Finished'"> Nothing to download yet </i>
+                </div>
+
+                <div ng-show="activeProject.projectStatus == 'Finished'" class="row" style="padding:20px">
+                  <div class="list-group" ng-repeat="params in downloadParams">
+                    <a class="list-group-item list-group-item-warning"  ng-href="" target="_blank"
+                    ng-click="downloadItem(activeProject, params.value)" style="cursor:pointer">
+                    {{params.name}}
+                    </a>
+                  </div>
+
+                </div>
+            </tab>
+          </tabset>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!--
 
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<h4>Project Properties</h4>
 	</div>
 	<div class="panel-body">
-	
-	<div class=col-md-6>	
+
+	<div class=col-md-6>
 	<h4> Your last (active) project is:</h4><br/>
 	<table>
-		<tr> 
+		<tr>
 			<td> Owner </td>
 			<td> &nbsp;: </td>
 			<td> &nbsp; {{currentProject.author.name}} </td>
 		</tr>
-		<tr> 
+		<tr>
 			<td> Project Name </td>
 			<td> &nbsp;: </td>
 			<td> &nbsp; {{currentProject.projectName}} </td>
 		</tr>
-		<tr> 
+		<tr>
 			<td> Project Description </td>
 			<td> &nbsp;: </td>
 			<td> &nbsp; {{currentProject.projectDescription}} </td>
 		</tr>
-		<tr> 
+		<tr>
 			<td> Status </td>
 			<td> &nbsp;: </td>
-			<!--td> &nbsp; Processing... </td-->
+
 			<td> &nbsp; {{message}} </td>
 		</tr>
 	</table>
 	<br/>
 	<p> This project is recorded on {{currentProject.date}}</p>
-	
+
 	</div>
 	<div class=col-md-6>
-	<p> You can close this page as we process your data. You can always 
-	return to this page by signin in and select 'Manage' menu on the toolbar.  
-	Upon completion, download links will be available below. Choose which 
+	<p> You can close this page as we process your data. You can always
+	return to this page by signin in and select 'Manage' menu on the toolbar.
+	Upon completion, download links will be available below. Choose which
 	type of output that you want, then click on 'Download'</p>
 	<br/>
-	<button class="btn btn-lg btn-primary center-block" ng-disabled='downloadReady' data-loading-text="Loading..." ng-click="startsfm()"> 
+	<button class="btn btn-lg btn-primary center-block" ng-disabled='downloadReady' data-loading-text="Loading..." ng-click="startsfm()">
 		{{downloadReady? 'Download is Ready' : message}}
 	</button>
 	</div>
-	
- </div> <!-- panel body -->
-</div> <!-- panel -->
 
-	
+ </div>
+</div>
+
 <div class="panel panel-info" ng-show="downloadReady" >
 	<div class="panel-heading">
 		<h4>Download Output</h4>
@@ -65,22 +268,24 @@
 		<form name="selection" class="form-horizontal">
 		<fieldset>
 			<div class="form-group col-md-6">
-			  <label class="col-md-4 control-label" for="textinput">Select Output</label>  
+			  <label class="col-md-4 control-label" for="textinput">Select Output</label>
 			  <div class="col-md-8">
 				<select class="form-control" ng-model="parameter"  ng-change="changedVal(parameter)"
 					ng-options="param.value as param.name for param in paramsopt" ng-show="downloadReady" >
-				</select>			
+				</select>
 			  </div>
 		   </div>
-		   
+
 		   <div class="form-group">
 		    <button class="btn btn-lg btn-primary center-block" ng-click="getfile()" > Download this </button>
-		    </div> 
-		</fieldset> 
+		    </div>
+		</fieldset>
 		</form>
-		
-			
- </div> <!-- panel body -->
-</div> <!-- panel -->
 
-</div> <!-- main container -->
+
+ </div>
+</div>
+
+-->
+
+  <!-- main container -->

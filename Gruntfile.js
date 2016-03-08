@@ -1,4 +1,4 @@
-// Generated on 2015-03-19 using generator-angular-fullstack 2.0.13
+// Generated on 2015-08-06 using generator-angular-fullstack 2.0.13
 'use strict';
 
 module.exports = function (grunt) {
@@ -310,7 +310,7 @@ module.exports = function (grunt) {
     ngtemplates: {
       options: {
         // This should be the name of your apps angular module
-        module: 'sfmApp',
+        module: 'cloudsfmApp',
         htmlmin: {
           collapseBooleanAttributes: true,
           collapseWhitespace: true,

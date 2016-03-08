@@ -1,0 +1,74 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+
+<div class="container">
+	<!--div class="alert alert-info alert-dismissible" role="alert" ng-hide="hideme">
+	 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="hideme=true"><span aria-hidden="true">&times;</span></button>
+	  Welcome <strong> {{ getCurrentUser().name }}  </strong> !
+	</div-->
+
+	<div style="text-align:center">
+	<h1> CloudSfM </h1>
+	<h3> Open Source Photogrammetry Webservice</h3>
+	<br/>
+	</div>
+
+	<div class="row" style="text-align:center">
+
+		<div class="col-md-4 col-sm-4 bootcards-base">
+			<div class="panel panel-default" ng-click="alert('mbuh')">
+				<div class="panel-body dashboardpanel">
+					<i class="fa fa-cogs fa-5x big-icon"></i>
+					<br/>
+					<br/>
+					<p>
+					CloudSfM uses MEAN web framework (MongoDB, ExpressJS, AngularJS and NodeJS) for its
+					flexibility and continuous development. We save each of your project and their respective settings.
+					If this is not your first project, you can click the button below to manage your existing projects.
+					</p>
+
+				</div>
+				  <div class="panel-footer">
+					<a type="button" href="/manage" class="btn btn-lg btn-primary">Manage Project</a>
+				  </div>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-sm-4 bootcards-base">
+			<div class="panel panel-default">
+				<div class="panel-body dashboardpanel">
+					<i class="fa fa-camera fa-5x big-icon"></i>
+					<br/>
+					<br/>
+					<span>CloudSfM aim to demonstrate the use of SfM algorithm to reconstruct 3D structure and
+					camera motion. The focus is to provide an easy-to-use, user interface for 3D reconstruction.
+					Click on <strong>Start Upload </strong> to start a new project
+					</span>
+				</div>
+				<div class="panel-footer">
+					<a type="button" href="/upload" class="btn btn-lg btn-success"><strong>Start Project</strong></a>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="col-md-4 col-sm-4 bootcards-base">
+			<div class="panel panel-default">
+				<div class="panel-body dashboardpanel">
+					<i class="fa fa-question-circle fa-5x big-icon"></i>
+					<br/>
+					<br/>
+					<span>CloudSfM Online Photogrammetry Service use state-of-the-art Structure from Motion (SfM)
+					algorithm to produce 3D point clouds from images. Visit the documentation page to learn
+					more about the fundamental background of the technology used to make this
+					 project come to reality</span>
+				</div>
+				<div class="panel-footer">
+					<a type="button" href="/documentation" class="btn btn-lg btn-primary">Documentation</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> <!-- container -->

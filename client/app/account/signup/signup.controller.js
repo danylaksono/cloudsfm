@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('sfmApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location) {
+angular.module('cloudsfmApp')
+  .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -31,4 +31,7 @@ angular.module('sfmApp')
       }
     };
 
+    $scope.loginOauth = function(provider) {
+      $window.location.href = '/auth/' + provider;
+    };
   });

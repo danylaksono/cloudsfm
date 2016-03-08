@@ -1,55 +1,185 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<style>
+html {
+  margin:0;
+  padding:0;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  background-color: #1f232e;
+  background: url(/../assets/images/bg.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.animated {
+  @include fadeIn();
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /*color: #fff;  */
+  font-size: 12px; 
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
+  text-align:center;
+  background-color: transparent !important;
+}
 
 
-<header class="jumbotron" id="banner">
-  <div class="container">
-    <img width="200" height="200" src="assets/images/pops.png" alt="POPS!">
-    <h1>CloudSfM</h1>
-    <p class="lead">An Open Source Photogrammetry Webservice</p>
-  </div>
-</header>
+.wrapper {
+  max-width: 960px;
+  text-align: center;
+  margin: auto;
+}
+
+.logo-header {
+  margin: 30px auto 20px;
+  display: block;
+  height: 150px;
+  width: 156px;
+  text-align: center;
+  background: url("/../assets/images/Logo_CloudSfM.png") no-repeat;
+  background-size: contain;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+     .logo-header {
+          background: url(/../assets/images/Logo_CloudSfM.png) no-repeat;
+          background-size: 56px 50px;
+     }
+}
+
+
+.cta h1 {
+  color: #f2f6ff;
+  font-family: "AvenirNextLTPro-UltLt", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  font-weight: bold;
+  font-size: 56px;
+  letter-spacing: -0.01em;
+  margin-top: 20px;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#cta-a {
+  text-decoration: none;
+  color: #fff;
+  font-family: "AvenirNextLTPro-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  font-weight: bold;
+  border-bottom: 1px solid #FFF;
+}
+
+span {
+  color: #c4cad8;
+  font-family: "AvenirNextLTPro-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  font-weight: bold;
+}
+
+.cta p {
+  margin: 30px 0;
+  color: #a7aebd;
+  font-family: "AvenirNextLTPro-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;  
+  font-weight: normal;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  line-height: 30px;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #82adff;
+    font-family: "AvenirNextLTPro-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;  
+    font-weight: normal;
+    font-size: 20px;
+    background-color: transparent;
+    margin: 40px 0px;
+    padding: 20px 48px;
+    border: 2px solid #82adff;
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+    opacity: .8;
+    -webkit-transition: all .25s cubic-bezier(0.33,1.6,0.66,1);
+    -moz-transition: all .25s cubic-bezier(0.33,1.6,0.66,1);
+    -o-transition: all .25s cubic-bezier(0.33,1.6,0.66,1);
+    transition: all .25s cubic-bezier(0.33,1.6,0.66,1);
+}
+
+.btn:hover {
+    opacity: 1;
+    color: #82adff;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.btn:active {
+    opacity: .6;
+    color: #82adff;
+    -webkit-transform: scale(.95);
+    -moz-transform: scale(.95);
+    -o-transform: scale(.95);
+    transform: scale(.95);
+}
+
+.login-text {
+  color: #a7aebd;
+  font-family: "AvenirNextLTPro-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;  
+  font-weight: normal;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.login-text a {
+  color: #82adff;
+  opacity: .9;
+}
+
+.login-text a:hover {
+  color: #82adff;
+  opacity: 1;
+  text-decoration: none;
+}
+
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .logo-header {
+    margin-bottom: 60px;
+  }
+  .cta h1 {
+    font-size: 32px;
+  }
+}
+
+</style>
+
 
 <div class="container">
-   <div class="row row-full-height well" style="text-size:16">
-     <div class="col-md-4 col-xs-height">
-     <h3 class="text-center"> Comment </h3> <br>
-     <p> CloudSfM is an ongoing project, currently maintained in Department of Geodetic Engineering, Faculty of Engineering, Gadjah Mada University Yogyakarta. We would like to know about your opinion on the project. Your input is a valuable resource for us </p>
-     <br>
-     <br>
-     <p class="text-center">
-     <button id="whatever" class="btn btn-large btn-success" name="Continue" type="submit">
-     <i class="fa fa-comments-o fa-2x" style="font-size:30px; vertical-align: middle;"></i>
-        <span><strong>&nbsp; Leave Comment</strong></span>
-     </button>
-     </p>
-     </div>
-     
-     
-     <div class="col-md-4 col-xs-height">
-     <h3 class="text-center"> Upload </h3> <br>
-     <p> CloudSfM aim to demonstrate the use of SfM algorithm to reconstruct 3D structure and camera motion. The focus is to provide an easy-to-use interface for non-technical user with limited knowledge to photogrammetric processes. The algorithm are designed to be fully automatic. Just grab your handheld camera and start uploading!     
-     </p>
-     <form action="/upload" method="get">
-     <p class="text-center">
-     <button id="whatever2" class="btn btn-large btn-success" type="submit">
-     <i class="fa fa-camera fa-2x" style="font-size:30px; vertical-align: middle;"></i>
-        <span><strong>&nbsp; Upload Images</strong></span>
-     </button>
-     </form>
-     </p>
-     </div>
-    
-     <div class="col-md-4 col-xs-height">
-     <h3 class="text-center"> Get Help </h3> <br>
-     <p> CloudSfM Online Photogrammetry Service use state-of-the-art Structure from Motion (SfM) algorithm to produce 3D point clouds from images. Visit the help page to learn more about the fundamental background of the technology used to make this project come to reality</p>
-     <br>
-     <p class="text-center">
-     <button id="whatever3" class="btn btn-large btn-success" name="Continue" type="submit">
-     <i class="fa fa-question-circle fa-2x" style="font-size:30px; vertical-align: middle;"></i>
-        <span><strong>&nbsp; Get Help</strong></span>
-     </button>
-     </p>
-     </div>
-  </div>
-</div> 
+<div class="wrapper">
+	<div class="logo-header"></div>
+	<div class="animated fadeIn">
+		<div class="cta">
+			<h1>Open Source Photogrammetry Webservice</h1>
+			<p>
+			CloudSfM lets you build 3D model using Structure from Motion Algorithm easily. Just grab your camera and upload your images to our service. We create the 3D models for you!
+			</p>
+		</div>
+	</div>
 
+	<div class="animated fadeIn">
+		<a href="/dashboard" class="btn">Start a Project!</a>
+	</div>
+	
+	<p class="login-text">
+		CloudSfM is open source! <a href="https://github.com/danylaksono/cloudsfm">Grab the code</a>
+	</p>
+</div>
+</div>

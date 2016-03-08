@@ -1,0 +1,13 @@
+'use strict';
+
+angular.module('cloudsfmApp')
+  .controller('DashboardCtrl', function ($scope, $http) {
+    $scope.message = 'Hello';
+    
+    $http.get('/api/uploadImages').success(function(index) {
+	$scope.index = index;
+    });
+      
+      
+    
+  });

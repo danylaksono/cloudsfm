@@ -21,7 +21,7 @@
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="sfmApp">
+  <body ng-app="cloudsfmApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -57,6 +57,7 @@
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
       <script src="bower_components/ng-file-upload-shim/ng-file-upload-shim.js"></script>
+      <script src="bower_components/angular-uuid4/angular-uuid4.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
@@ -70,12 +71,23 @@
           <script src="app/account/signup/signup.controller.js"></script>
           <script src="app/admin/admin.controller.js"></script>
           <script src="app/admin/admin.js"></script>
+          <script src="app/dashboard/dashboard.controller.js"></script>
+          <script src="app/dashboard/dashboard.js"></script>
+          <script src="app/documentation/documentation.controller.js"></script>
+          <script src="app/documentation/documentation.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
+          <script src="app/mainpage/mainpage.controller.js"></script>
+          <script src="app/mainpage/mainpage.js"></script>
+          <script src="app/manage/deleteProject/deleteProject.controller.js"></script>
           <script src="app/manage/manage.controller.js"></script>
           <script src="app/manage/manage.js"></script>
+          <script src="app/upload/formData/formData.service.js"></script>
+          <script src="app/upload/modalInstanceCtrl/modalInstanceCtrl.controller.js"></script>
           <script src="app/upload/upload.controller.js"></script>
           <script src="app/upload/upload.js"></script>
+          <script src="app/user/user.controller.js"></script>
+          <script src="app/user/user.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>
           <script src="components/modal/modal.service.js"></script>

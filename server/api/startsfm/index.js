@@ -8,8 +8,9 @@ var router = express.Router();
 
 //var username = controller.usernameDir;
 
+
 router.get('/', auth.isAuthenticated(), controller.index);
-router.get('/:id', controller.download);
+router.get('/download/:id', controller.download);
 router.post('/', auth.isAuthenticated(), controller.startProcess);
 router.delete('/:id', controller.destroy);
 

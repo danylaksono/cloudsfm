@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sfmApp')
+angular.module('cloudsfmApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('main', {

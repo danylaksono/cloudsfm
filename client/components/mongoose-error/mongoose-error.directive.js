@@ -3,7 +3,7 @@
 /**
  * Removes server error when user updates input
  */
-angular.module('sfmApp')
+angular.module('cloudsfmApp')
   .directive('mongooseError', function () {
     return {
       restrict: 'A',

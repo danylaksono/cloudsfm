@@ -1,100 +1,90 @@
 'use strict';
 
-angular.module('sfmApp')
-  .controller('UploadCtrl', function ($scope, $window, Upload, $http) {
+angular.module('cloudsfmApp')
+  .controller('UploadCtrl', function($scope, $modal, $window, Upload, $http,
+    formData, Auth, uuid4) {
 
     $scope.showThumb = true;
     $scope.uploaded = false;
 
-    // for GET request
-    $http.get('/api/uploadImages').success(function(index) {
-	$scope.index = index;
-      });
-     
+    var userName = Auth.getCurrentUser().name;
+    var userID = Auth.getCurrentUser()._id
 
-/*
- Latest version of angular file upload support img thumbnail, so we dont need this
- * 
-    $scope.$watch('files', function(files) {
- 	$scope.formUpload = false;
-	if (files != null) {
-		for (var i = 0; i < files.length; i++) {
-			$scope.errorMsg = null;
-			(function(file) {
-				imgThumbnail(file);
-			})(files[i]);
-		}
-	}
-    });
+    // Default settings
+    $scope.form = {
+      userID: userID,
+      userName: userName,
+      projectID: uuid4.generate(),
+      projectName: '',
+      projectDescription: '',
+      projectPath: '',
+      projectStatus: '',
+      intrinsic: "focal",
+      focal: "2000",
+      kmatrix: "",
+      featDetector: "SIFT",
+      detPreset: "NORMAL",
+      isUpright: "1",
+      annRatio: "0.8",
+      geomModel: "e",
+      seqModel: "X",
+      nearMethod: "AUTO"
 
-*/  
-    $scope.upload = function(files) {
-		$scope.numUploaded = 0; 
-        $scope.uploaded = true;
-        if (files && files.length) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                Upload.upload({
-                    url: 'api/uploadImages',
-                    method: 'POST',
-                    fields: {projectName: $scope.projectName,
-							 projectDescription: $scope.projectDescription
-							},
-                    file: file,
-                    fileFormDataName: 'cloudsfm'
-                }).progress(function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    	console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-					$scope.progress = progressPercentage;
-					// bind progress bar style
-					$scope.progressStyle = {width: $scope.progress + '%'};
-			
-				}).success(function (data, status, headers, config) {
-					console.log(headers);
-                    console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
-                    $scope.numUploaded += 1;
-                    if ($scope.numUploaded == files.length) {
-						$window.location.href='/manage';
-					}
-                });
-            }
-        }
     };
 
-/*
-  $scope.uploadPic = function(files) {
-	$scope.formUpload = true;
- 		if (files != null) {
-			upload(files);
-			imgThumbnail(files[0]);
-			
-		}
-	};
+    // GET request
+    $http.get('/api/projects/' + userID).success(function(index) {
+      $scope.index = index;
+    });
+
+    // using advanced settings
+    $scope.useAdvanced = function() {
+      formData.setProperty($scope.form);
+      $scope.modalInstance = $modal.open({
+        templateUrl: 'myModalContent.html',
+        controller: 'ModalInstanceCtrl',
+        backdrop: 'static',
+        keyboard: false
+      });
+    };
+
+    $scope.saveProjectParameters = function() {
+      $scope.advancedParams = formData.getProperty();
+      angular.extend($scope.form, $scope.advancedParams);
+      console.log($scope.form);
+    }
 
 
-   var getReader = function(deferred, scope){
-	var reader = new FileReader();
-	return reader;
-   } */
-   
-   /*
-
-   var imgThumbnail = function(file, scope) {
-	//var deferred = $q.defer();
-	if (file != null) {
-		var reader = new FileReader(); //getReader(deferred,scope);
-		reader.onload = function(e) {
-			file.dataUrl = e.target.result;
-		};
-		
-		reader.readAsDataURL(file);
-
-		// call upload function
-		//$scope.upload($scope.files);
-	}
-
-	//return deferred.promise;
-  };
-*/
+    // for upload router
+    $scope.upload = function(files) {
+      $scope.uploaded = true;
+      if (files && files.length) {
+        //for (var i = 0; i < files.length; i++) {
+        //var file = files[i];
+        Upload.upload({
+          //fileFormDataName: 'imageupload',
+          url: '/api/projects/',
+          method: 'POST',
+          file: files,
+          fields: $scope.form
+        }).progress(function(evt) {
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ' + evt.config
+            .file.name);
+          $scope.progress = progressPercentage;
+          // bind progress bar style
+          $scope.progressStyle = {
+            width: $scope.progress + '%'
+          }
+        }).success(function(data, status, headers, config) {
+          console.log(headers);
+          console.log('Files uploaded. Response: ' + status);
+          if ($scope.progress == 100) {
+            $window.location.href = '/manage';
+          }
+        });
+        //}
+      }
+    };
 
   });
